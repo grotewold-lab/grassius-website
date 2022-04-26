@@ -1,0 +1,43 @@
+NOTE 
+    blast tool may have separate domain, subdomain, and/or server
+    blast tool url is referenced around line 200 in app/Views/proteininfor.php
+
+
+blast tool uses Sequenceserver docker container (http)
+
+https is required for hyperlinks to work without warnings
+
+wrap with apache2 or httpd daemon (https)
+
+1. make sure domain name -> ip address is assigned 
+    should work with apache test page (http)
+
+2. follow certbot instructions to setup SSL
+    should work with apache test page (https)
+    
+3. deploy sequence server locally with default port 
+    map to volume containing maize data (working backup on NAS: grassius_backup/blast_march_2022.tar.gz)
+    e.g. 
+    sudo docker run --name eglab-blast -d -ti -p 4567:4567 -v /home/ec2-user/sequence_serve_files/db:/db wurmlab/sequenceserver
+
+4. locate VirtualHost stanza created by certbot
+    e.g. 
+    /etc/httpd/conf/httpd-le-ssl.conf
+    
+5. Insert ProxyPass and ProzyPassReverse lines
+    related discussion: https://issuehunt.io/r/wurmlab/sequenceserver/issues/464
+    below is working example from lightsail
+    
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+    DocumentRoot "/var/www/html"
+
+    ProxyPass "/" "http://localhost:4567/"
+    ProxyPassReverse "/" "/"
+
+    ServerName "blast.eglab-dev.com"
+    SSLCertificateFile /etc/letsencrypt/live/blast.eglab-dev.com/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/blast.eglab-dev.com/privkey.pem
+    Include /etc/letsencrypt/options-ssl-apache.conf
+</VirtualHost>
+</IfModule>

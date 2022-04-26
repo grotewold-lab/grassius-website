@@ -1,0 +1,3 @@
+The Maize TFome - Development of a transcription factor open reading frame collection for functional genomics
+2014-07-23
+Burdo B, Gray J, Goetting-minesky MP, et al. <a href="http://onlinelibrary.wiley.com/doi/10.1111/tpj.12623/abstract">Plant J. 80(2):356-366</a>. <a href="tfomecollection.php">Grassius TFome Collection</a>.
