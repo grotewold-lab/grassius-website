@@ -1,0 +1,3 @@
+Establishing the Architecture of Plant Gene Regulatory NetworksS
+2016-03-04
+Yang F, Ouma WZ, Li W, Doseff AI, Grotewold E. <a href="https://www.sciencedirect.com/science/article/pii/S0076687916001154?via%3Dihub">Methods Enzymol. 576:251-304</a>.

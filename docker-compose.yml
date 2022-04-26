@@ -1,0 +1,18 @@
+version: '2'
+services:
+  grassius:
+    build: .
+    ports:
+      - '8080:443'
+    depends_on:
+      - db
+    container_name: grassius
+
+  db:
+    build: database
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    container_name: grassius-db

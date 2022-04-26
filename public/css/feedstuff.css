@@ -1,0 +1,13 @@
+.newsItem {
+  border-style:dotted;
+  border-width:1px;
+  border-radius:5px;
+  border-color:#535523;
+  margin-bottom:5px;
+  padding:5px;
+}
+
+.newsItem p {
+  border-bottom:none;
+  padding-bottom:0px;
+}

@@ -1,0 +1,3 @@
+A Maize Gene Regulatory Network for Phenolic Metabolism
+2017-03-06
+Yang F, Li W, Jiang N, Yu H, Morohashi K, Ouma WZ, Morales-Mantilla DE, Gomez-Cano FA, Mukundi E, Prada-Salcedo LD, Velazquez RA, Valentin J, Mejía-Guerra MK, Gray J, Doseff AI, Grotewold E. <a href="https://www.sciencedirect.com/science/article/pii/S1674205216302751?via%3Dihub">Mol Plant. 10(3):498-515</a>.

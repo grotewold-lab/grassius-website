@@ -1,0 +1,563 @@
+
+/**
+ * circular species buttons on home page
+ */
+
+.homepage-circle-button {
+    border-radius: 50%;
+    transition:all .15s ease-in-out;
+}
+
+.homepage-circle-button:focus, .homepage-circle-button:hover{
+    transform:scale(1.02) translate3d(0,0,0);
+    background-color:#faf6d5;
+    text-decoration: none;
+}
+
+.homepage-circle-button .homepage-species-icon {
+    margin-top: 25px;
+    margin-left: 50px;
+}
+
+.homepage-circle-button .homepage-species-label {
+    text-align: center;
+    text-decoration: none;
+}
+
+
+
+
+/**
+ * radio buttons to select maize genome version
+ */
+
+.mgvc_container {
+    color:black;
+    font-size: 13px;
+    margin: 10px 0px;
+    display: block;
+}
+
+
+/**
+ * table with family names on browsefamily page
+ */
+
+table.fam tr td {
+    width:180px;
+}
+
+
+
+/**
+ * top search bar
+ */
+
+
+.ui-helper-hidden-accessible{
+    display:none !important;
+}
+
+ul.ui-autocomplete {
+    list-style-type: none;
+    background-color: white;
+    padding: 10px;
+    width: 485px;
+    border: 1px solid gray;
+    border-radius:4px;
+}
+
+.btn, .term a{
+    display:inline-block;
+    margin-bottom:0;
+    font-weight:400;
+    text-align:center;
+    vertical-align:middle;
+    -ms-touch-action:manipulation;
+    touch-action:manipulation;
+    cursor:pointer;
+    background-image:none;
+    border:1px solid transparent;
+    white-space:nowrap;
+    padding:6px 12px;
+    font-size:14px;
+    line-height:1.42857143;
+    border-radius:4px;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+li.ui-autocomplete-category {
+    font-size: 20px; 
+    margin-top: 5px;
+}
+
+li.term {
+    display: inline;   
+}
+
+li.term a{
+    color:#173830;
+    border-color:#173830;
+    background-color:#f3f6f5;
+    margin:1px
+}
+
+li.term a.ui-state-active {
+    border: 1px solid #ffffff;
+    background: #173830;
+    font-weight: normal;
+    color: #ffffff;
+}
+
+
+/**
+ * color-coding of amino acid sequences
+ */
+.ss_BEND { background-color: #F88 }
+
+.ss_TURN_TY1_P { background-color: #0F0 }
+
+.ss_STRN { background-color: #FF0 }
+
+.ss_HELX_LH_PP_P { background-color: #8AF }
+.ss_HELX_RH_PI_P { background-color: #8CF }
+.ss_HELX_RH_3T_P { background-color: #C8F }
+.ss_HELX_RH_AL_P { background-color: #AAF }
+
+.ss_UNDETERMINED { background-color: #CCC }
+
+.do_UNDETERMINED { background-color: #CCC }
+
+
+.ss_legend_infobox {
+    border: 1px solid #a2a9b1;
+    border-spacing: 3px;
+    background-color: #f8f9fa;
+    color: black;
+    margin: 0.5em 0 0.5em 1em;
+    padding: 0.2em;
+    font-size: 88%;
+    line-height: 1.5em;
+    width:335px;
+    margin-top:20px;
+    margin-left:-8px;
+}
+
+
+/**
+ * button to copy text to the clipboard
+ */
+
+.copy-button {
+    cursor: pointer;   
+}
+
+.tooltip {
+    position: absolute;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    font-family: sans-serif;
+    font-size: 12px;
+    visibility: hidden;
+    width: 170px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 6px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -86px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space:nowrap;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/**
+ * Styles for tables that list genes
+ */
+
+table.dataTable thead .sorting_asc {
+    background-image: url(/images/sort_up.svg) !important;
+}
+
+table.dataTable thead .sorting_desc {
+    background-image: url(/images/sort_down.svg) !important;
+}
+
+table.dataTable thead .sorting {
+    background-image: url(/images/sort_both.svg);
+}
+
+table.dataTable tbody tr:nth-child(odd) {
+    background: #eee;
+}
+
+
+/**
+ * Color-coding for accepted vs suggested protein names
+ */
+
+div.accpt a {
+    color: #ce6301;
+}
+
+div.sugg a {
+    color: #808B96;
+}
+
+
+
+/**
+ * menu when hovering over the "all gene IDs" column in tables that list genes
+ */
+
+.agids_hover {
+    position: relative;
+    display: inline-block;
+    cursor: default;
+    color: #0645ad;
+    width: 100%;
+    height: 100%;
+}
+
+.agids_hover .agids_hovermenu {
+    position: absolute;
+    bottom: 20px;
+    left: 0px;
+    display: none;
+    font-family: sans-serif;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 4px 3px;
+    z-index: 100;
+    background-color: #000;
+    color: #000;
+}
+
+.agids_hover .agids_hovermenu::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.agids_hover:hover .agids_hovermenu {
+    display: block;
+}
+
+.agids_hovermenu table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-radius: 6px;
+}
+
+.agids_header {
+    font-size: 14px;
+    font-weight: bold;   
+}
+
+.agids_hovermenu table tbody tr.agids_v3 {
+    background-color: #FAA;
+}
+
+.agids_hovermenu table tbody tr.agids_v4 {
+    background-color: #FFA;
+}
+
+.agids_hovermenu table tbody tr.agids_v5 {
+    background-color: #AFA;
+}
+
+/**
+ * proteininfor page
+ */
+
+span.related_tfome_link {
+    background-color: #CCF;   
+    border-radius: 6px;
+    padding: 4px;
+}
+
+span.maize_version_label {
+    margin-left:20px; 
+    font-size:14px;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+span.maize_version_label.v3{
+    background-color: #FAA;
+}
+
+span.maize_version_label.v4 {
+    background-color: #FFA;
+}
+
+span.maize_version_label.v5 {
+    background-color: #AFA;
+}
+
+
+/**
+ * Menu when hovering over a highlighted segment of an amino acid sequence
+ */
+
+.ss_hover {
+    position: relative;
+    display: inline-block;
+}
+
+.ss_hover .ss_hovermenu {
+    position: absolute;
+    top: -75px;
+    left: -1px;
+    display: none;
+    font-family: sans-serif;
+    font-size: 12px;
+    width: 130px;
+    height: 75px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 6px;
+    position: absolute;
+    z-index: 100;
+}
+
+.ss_hover .ss_hovermenu ul {
+    list-style-type: None;
+    padding: 0px;
+}
+
+.ss_hover .ss_hovermenu ul lh {
+    font-weight: bold;
+}
+
+.ss_hover .ss_hovermenu ul li {
+    cursor: pointer;
+    background-color: #FFF;
+    color: #000;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+.ss_hover .ss_hovermenu ul li:hover {
+    cursor: pointer;
+    background-color: #000;
+    color: #FFF;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+.ss_hover_selected {
+    background-color: black;
+    color: white;
+}
+
+.ss_hover:hover .ss_hovermenu {
+    display: block;
+}
+
+
+/**
+ * Footer
+ */
+
+.grassius-footer-section h3 a {
+    font-size: 13px;
+    color: #6d6363;
+    font-weight: bold;
+}
+
+.grassius-footer-section ul {
+    padding-left: 0px;
+}
+
+.grassius-footer-section ul li {
+    list-style-type: none;
+    list-style-image: none;
+    padding-bottom: 12px;
+}
+
+
+.grassius-footer-section ul li a {
+    font-size: 12px;
+    color: #6B6262;
+}
+
+
+
+
+
+/**
+ *
+ * wikipedia-style formatting
+ *
+ */
+
+.wiki-top-header {
+    font-size: 1.8em;
+    font-family: 'Linux Libertine','Georgia','Times',serif;
+    color: black;
+    border-bottom: 1px solid #a2a9b1;
+    overflow: hidden;
+}
+
+.wiki-section-header {
+    font-family: 'Linux Libertine','Georgia','Times',serif;
+    color: black;
+    border-bottom: 1px solid #a2a9b1;
+    overflow: hidden;
+}
+
+/* radio buttons next to section header */
+.wiki-section-header label {
+    font-size: .65em;
+}
+
+/* allow line-wrapping without whitespace */
+.wrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
+}
+
+/* show sequence using small fixed-width font */
+.sequence {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+}
+
+
+.infobox {
+    border: 1px solid #a2a9b1;
+    border-spacing: 3px;
+    background-color: #f8f9fa;
+    color: black;
+    margin: 0.5em 0 0.5em 1em;
+    padding: 0.2em;
+    float: right;
+    clear: right;
+    font-size: 88%;
+    line-height: 1.5em;
+    width: 22em;
+}
+
+.infobox-above {
+    font-size: 125%;
+    font-weight: bold;
+    text-align: center;
+}
+
+.infobox-header {
+    text-align: center;
+    background-color: #ddd;
+    padding: 1;
+    border-collapse: separate;
+}
+
+.infobox-caption {
+    text-align: center;
+    font-size: 100%;
+    font-weight: normal;
+}
+
+.infobox-label {
+    font-weight: bold;
+    background-color: #e7dcc3;
+    padding: 1;
+    border-collapse: separate;
+}
+
+.infobox-data {
+    background-color: #eee;
+    padding: 1;
+    border-collapse: separate;
+}
+
+
+a.external {
+    background-image: url(/images/external-ltr.svg);
+    background-position: center right;
+    background-repeat: no-repeat;
+    padding-right: 13px;
+}
+
+.tfome-primer-label {
+    font-weight: bold;
+    width: 130px;
+}
+
+.wikitable {
+    background-color: #f8f9fa;
+    color: #202122;
+    margin: 1em 0;
+    border: 1px solid #a2a9b1;
+    border-collapse: collapse;
+}
+
+.wikitable > tr > th, .wikitable > * > tr > th {
+    background-color: #eaecf0;
+    text-align: center;
+}
+
+.wikitable > tr > th, .wikitable > tr > td, .wikitable > * > tr > th, .wikitable > * > tr > td {
+    border: 1px solid #a2a9b1;
+    padding: 0.2em 0.4em;
+}
+
+.wikitable tbody, .wikitable tbody tr, .wikitable tbody tr td {
+    border-collapse: collapse;
+}
+
+.wikitable * a {
+    text-decoration: none;
+    color: #0645ad;
+    background: none;
+}
+
+
+/**
+ * Traditional search bar on tfdb and grasscoregdb
+ */
+.tt-suggestions {
+    background-color: white;
+}
