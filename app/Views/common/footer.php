@@ -1,3 +1,7 @@
+<?php
+    # render navigation links in footer based on navigation_specs.php
+?>
+
 <div id="postscript-bottom-wrapper" class="postscript-bottom-wrapper full-width">
     <div id="postscript-bottom" class="postscript-bottom full-width">
         <div id="postscript-bottom-inner" class="postscript-bottom-inner inner clearfix">
@@ -21,129 +25,28 @@
       <div class="container">
         <div class="row">
 
-            <div class="col-md-2"></div>
-            <div class="col-md-2">
-                    <div class="grassius-footer-section">
-                        <h3><a href="/about" title="About Grassius">About Grassius</a></h3>
-                        <ul>
-                            <li>
-                                <a href="/about" title="about">About</a>
-                            </li>
-                            <li>
-                                <a href="/people" title="people">People</a>
-                            </li>
-                            <li>
-                                <a href="/links" title="links">Links</a>
-                            </li>
-                            <li>
-                                <a href="/info" title="information">Information</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            <div class="col-md-2">
-                    <div class="grassius-footer-section">
-                    <h3><a href="#" title="Analyze Data">About the Data</a></h3>
-                            <ul class="analyze-data-menu">
-                            <li><a href="/translation_tool" >Translation Tool</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                        </ul>
-                            </div>
-                </div>
-            <div class="col-md-2">
-                    <div class="grassius-footer-section">
-                    <h3><a href="#" title="Analyze Data">Analyze Data</a></h3>
-                            <ul class="analyze-data-menu">
-                            <li><a href="#" >Placeholder</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                        </ul>
-                            </div>
-                </div>
-            <div class="col-md-2">
-                    <div class="grassius-footer-section">
-                    <h3><a href="/" title="Access Data">Access Data</a></h3>
-                            <ul class="access-data-menu">
-
-
-                            <?php foreach( list_basic_species() as $species ){ 
-    
-                                // link back to old grassius for non-maize data
-                                if( $species == "Maize" ){
-                                    $href = "/species/$species";
-                                } else {
-                                    $href = "http://grassius.org";
-                                }
-                                
-                                ?>
-                                
-                            <li>
-                                <a href="<?php echo $href; ?>" title="<?php echo $species ?>"><?php echo $species ?></a>
-                            </li>
-                                
-                            <?php } ?>
-
-
-                            <li>
-                                <a href="/browsefamily/Maize/Coreg" title="CoregDB">CoregDB</a>
-                            </li>
-                            <li>
-                                <a href="/browsefamily/Maize/TF" title="TFDB">TFDB</a>
-                            </li>
-
-                        </ul>
-                            </div>
-                </div>
-        
-          </div>
-        <div class="row">
             
+            <div class="col-md-3"></div>
             
-            <div class="col-md-2"></div>
+        <?php foreach($specs as $id=>$sub_specs){ 
+            $header_label = $all_header_labels[$id];
+            ?>
+
             <div class="col-md-2">
-                    <div class="grassius-footer-section">
-                    <h3><a href="#" title="Submit Data">Submit Data</a></h3>
-                            <ul>
-                            <li><a href="#" >Placeholder</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                        </ul>
-                            </div>
-                </div>
-            <div class="col-md-2">
-            <div class="grassius-footer-section">
-            <h3><a href="#" title="For Developers">For Developers</a></h3>
+                <div class="grassius-footer-section">
+                    <h3><a href="/about" title="<?php echo $header_label; ?>"><?php echo $header_label; ?></a></h3>
                     <ul>
-                    <li><a href="#" >Placeholder</a></li>
-                    <li><a href="#" >Placeholder</a></li>
-                    <li><a target="_blank" href="https://github.com/grotewold-lab/new-grassius-no-tripal" >View on Github</a></li>
-                </ul>
-                    </div>
+                        <?php foreach($sub_specs as $sub_label=>$ss_specs) { 
+                            foreach($ss_specs as $link_text=>$link_url) {
+                                echo "<li><a href='$link_url' title='$link_text'>$link_text</a></li>";
+                            } 
+                        } ?>
+                    </ul>
+                </div>
             </div>
-            <div class="col-md-2">
-                    <div class="grassius-footer-section">
-                    <h3><a href="#" title="Contact Us">Support</a></h3>
-                            <ul>
-                            <li><a href="#" >Placeholder</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                        </ul>
-                        </div>
-                </div>
-            <div class="col-md-2">
-                    <div class="grassius-footer-section">
-                    <h3><a href="#">News</a></h3>
-                            <ul>
-                            <li><a href="#" >Placeholder</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                            <li><a href="#" >Placeholder</a></li>
-                        </ul>
-                        </div>
-                </div>
-
-
-        </div><!-- /.row --> 
+            
+        <?php } ?>
+          </div>
       </div><!-- /.container --> 
       </div>
 
