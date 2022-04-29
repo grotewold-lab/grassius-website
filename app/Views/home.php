@@ -90,7 +90,7 @@
             </div>
           </a>
           <a
-            href="#"
+            href="https://blast.eglab-dev.com"
             class="gramene-tool col-md-6 list-group-item"
           >
             <div class="media" >
@@ -99,67 +99,10 @@
               </div>
               <div class="media-middle gramene-tool-text media-body">
                 <h4 class="media-heading" >
-                  Placeholder
+                  BLAST
                 </h4>
                 <p class="gramene-tool-desc" >
-                  Placeholder
-                </p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <h2 >More versions of the Maize genome</h2>
-        <div class="row list-group" >
-          <a
-            href="/species/Maize_v3"
-            class="gramene-tool col-md-12 list-group-item"
-          >
-            <div class="media" >
-              <div class="media-middle media-left" >
-                  <?php show_species_icon("Maize") ?>
-              </div>
-              <div class="media-middle gramene-tool-text media-body">
-                <h4 class="media-heading" >
-                  Maize v3
-                </h4>
-                <p class="gramene-tool-desc" >
-                    (default)<br><small>B73 RefGen_v3</small>
-                </p>
-              </div>
-            </div>
-          </a>
-          <a
-            href="/species/Maize_v4"
-            class="gramene-tool col-md-12 list-group-item"
-          >
-            <div class="media" >
-              <div class="media-middle media-left" >
-                  <?php show_species_icon("Maize") ?>
-              </div>
-              <div class="media-middle gramene-tool-text media-body">
-                <h4 class="media-heading" >
-                  Maize v4
-                </h4>
-                <p class="gramene-tool-desc" >
-                    <small>Zm-B73-REFERENCE-GRAMENE-4.0</small>
-                </p>
-              </div>
-            </div>
-          </a>
-          <a
-            href="/species/Maize_v5"
-            class="gramene-tool col-md-12 list-group-item"
-          >
-            <div class="media" >
-              <div class="media-middle media-left" >
-                  <?php show_species_icon("Maize") ?>
-              </div>
-              <div class="media-middle gramene-tool-text media-body">
-                <h4 class="media-heading" >
-                  Maize v5
-                </h4>
-                <p class="gramene-tool-desc" >
-                    <small>Zm-B73-REFERENCE-NAM-5.0</small>
+                  Homology Search Tool
                 </p>
               </div>
             </div>
