@@ -1,21 +1,26 @@
 <?php
 
-    # specifications for links that will appear
+    # this file contains specifications for links that will appear
     #  - in the navigation bar at the top of the screen
     #  - in the footer at the bottom of the screen
     
 
+
     # display text for top-level menu headers
     # keys are used to relate with the other specs below
     # keys are also used as html element IDs for the headers
+
     $all_header_labels = array(
         "nav_about" => "About Grassius",
         "nav_access" => "Access Data",
         "nav_tools" => "Tools"
     );
 
+
+
     # target URLs for when the user clicks on a top-level menu header
     # keys must match $header_labels above
+
     $all_header_links = array(
         "nav_about" => "/about",
         "nav_access" => "/",
@@ -23,8 +28,10 @@
     );
 
 
+
     # list of sub-menus and links
     # top-level keys must match $header_labels above
+
     $specs = array(
         "nav_about" => array(
             
