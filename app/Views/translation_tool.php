@@ -80,7 +80,7 @@
     }
     
     $(document).ready(function(){
-        $('#nav_about_data').addClass("active");
+        $('#nav_tools').addClass("active");
     })
 </script>
 

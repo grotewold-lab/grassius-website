@@ -85,6 +85,12 @@
         
 <script src="/js/d3.min.js"></script>
 <script src="/js/grassius_cloud.min.js"></script>
-        
+
+<script>
+    var $ = jQuery.noConflict();
+    $(document).ready(function(){
+        $('#nav_access').addClass("active");
+    })
+</script>
 
 <?= $this->endSection() ?>
