@@ -77,7 +77,7 @@
           >
             <div class="media" >
               <div class="media-middle media-left" >
-                  <img src="/images/gramene/tools.png">
+                  <img src="/images/translate.svg">
               </div>
               <div class="media-middle gramene-tool-text media-body">
                 <h4 class="media-heading" >
@@ -95,7 +95,7 @@
           >
             <div class="media" >
               <div class="media-middle media-left" >
-                  <img src="/images/gramene/ExpressionAtlas.png">
+                  <img src="/images/search.svg">
               </div>
               <div class="media-middle gramene-tool-text media-body">
                 <h4 class="media-heading" >

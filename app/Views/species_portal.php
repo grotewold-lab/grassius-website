@@ -52,7 +52,7 @@
 <a href="/browsefamily/<?php echo $species; ?>/TF" >
     <h2 class="wiki-section-header" style="position:relative; height:50px;">
         <img
-          src="/images/gramene/ensemblgramene.png"
+          src="/images/diagram-3.svg"
           style="height:50px;"
         /> 
         <?php echo $species; ?> TFDB
@@ -65,7 +65,7 @@
 <a href="/browsefamily/<?php echo $species; ?>/Coreg" >
     <h2 class="wiki-section-header" style="position:relative; height:50px;">
         <img
-          src="/images/gramene/plantReactome.png"
+          src="/images/diagram-2-fill.svg"
           style="height:50px;"
         /> 
         <?php echo $species; ?> CoregDB
@@ -78,7 +78,7 @@
 <a href="#" >
     <h2 class="wiki-section-header" style="position:relative; height:50px;">
         <img
-          src="/images/gramene/tools.png"
+          src="/images/tools.svg"
           style="height:50px;"
         /> 
         <?php echo $species; ?> Tools
@@ -92,37 +92,37 @@
       <div class="tools-wrapper" >
         <div class="row list-group" >
           <a
-            href="#"
+            href="/translation_tool"
             class="gramene-tool col-md-6 list-group-item"
           >
             <div class="media" >
               <div class="media-middle media-left" >
-                  <img src="/images/gramene/tools.png">
+                  <img src="/images/translate.svg">
               </div>
               <div class="media-middle gramene-tool-text media-body">
                 <h4 class="media-heading" >
-                  Placeholder
+                  Translation Tool
                 </h4>
                 <p class="gramene-tool-desc" >
-                  Placeholder
+                  Translate Gene Model IDs
                 </p>
               </div>
             </div>
           </a>
           <a
-            href="#"
+            href="https://blast.eglab-dev.com"
             class="gramene-tool col-md-6 list-group-item"
           >
             <div class="media" >
               <div class="media-middle media-left" >
-                  <img src="/images/gramene/ExpressionAtlas.png">
+                  <img src="/images/search.svg">
               </div>
               <div class="media-middle gramene-tool-text media-body">
                 <h4 class="media-heading" >
-                  Placeholder
+                  BLAST
                 </h4>
                 <p class="gramene-tool-desc" >
-                  Placeholder
+                  Homology Search Tool
                 </p>
               </div>
             </div>
