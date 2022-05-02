@@ -1,15 +1,25 @@
 <?= $this->extend('common/layout') ?>
 <?= $this->section('content') ?>
 
-    <A name="nomenclature">
-    </A>
-    <A name="top">
-    </A>
-    LETTER TO THE EDITOR ( Original article is located 
+
+
+<br>
+<h2 class="wiki-top-header">
+    Information
+</h2>
+<br>
+
+    Below is the full text of the letter to the editor regarding GRASSIUS. ( Original article is located 
     <A HREF="http://www.plantphysiol.org/cgi/doi/10.1104/pp.108.128504">here
     </A>.)
-    <h3>A Recommendation for Naming Transcription Factor Proteins in the Grasses
-    </h3>
+
+
+<br>
+<br>
+<h2 class="wiki-section-header">
+    A Recommendation for Naming Transcription Factor Proteins in the Grasses
+</h2>  
+<br>
     <STRONG>
       </NOBR>
     <NOBR>John Gray
@@ -80,7 +90,8 @@
   <br>
   <br>* Corresponding author
   <br>
-  <hr>
+<h2 class="wiki-section-header"></h2>  
+  <br>
   <div style="text-indent: 30pt;" align=justify>
     Transcription factors are central for the exquisite temporal and spatial expression patterns of many genes. These proteins are characterized by their ability to be tethered to particular regulatory sequences in the genes that they control. While many other proteins participate in the regulation of gene expression, we limit our definition of transcription factors here to proteins that often contain a characteristic structural motif, the DNA-binding domain, which is involved in recognizing a short (usually 4&#8211;8bp) DNA sequence. Based on the structure of the DNA-binding domain, transcription factors are classified into 50 to 60 different families, and in plants, 5% to 7% of all the protein-encoding genes are transcription factors, making them, collectively, perhaps the largest functional class of proteins.
   </div>
@@ -168,8 +179,15 @@
                       <A NAME="SEC1">
                         <!-- null -->
                       </A>
-                      <h3>SOME PARTICULAR CASES
-                      </h3>
+                        
+                        
+
+<br>
+<h2 class="wiki-section-header">
+    SOME PARTICULAR CASES
+</h2>  
+<br>
+                        
                       <STRONG>Multiple Proteins from One Gene
                       </STRONG>
                       <br>
@@ -245,9 +263,13 @@
                                     <br>
                                     <A NAME="SEC2">
                                       <!-- null -->
-                                    </A>
-                                    <h3>GENE AND PROTEIN NOMENCLATURE
-                                    </h3>
+                                    </A>          
+
+<br>
+<h2 class="wiki-section-header">
+    GENE AND PROTEIN NOMENCLATURE
+</h2>  
+<br>
                                     <div style="text-indent: 30pt;" align=justify>
                                       The guidelines described here for naming transcription factors are expected to apply solely to proteins (or predicted open reading frames) and not necessarily to genes. Indeed, as the sequencing of various genomes progresses, nomenclature committees have been established to address the issue of how to name genes and gene products. It is therefore of paramount importance that the guidelines described here are in line with those being developed by the corresponding committees. Toward this objective, the criteria described here have already been discussed and accepted for the maize transcription factors by the Maize Genetics Nomenclature Committee (
                                       <A HREF="http://www.maizegdb.org/maize_nomenclature.php">http://www.maizegdb.org/maize_nomenclature.php
@@ -259,8 +281,11 @@
                                     <A NAME="BIBL">
                                       <!-- null -->
                                     </A>
-                                    <h3>LITERATURE CITED
-                                    </h3>
+<br>
+<h2 class="wiki-section-header">
+    LITERATURE CITED
+</h2>  
+<br>
                                     <A NAME="BIB1">
                                       <!-- null -->
                                     </A>

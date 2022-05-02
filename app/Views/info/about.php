@@ -1,9 +1,9 @@
 <?= $this->extend('common/layout') ?>
 <?= $this->section('content') ?>
 
-    <br>
-    <h2>About GRASSIUS
-    </h2>
+<br>
+<h2 class="wiki-top-header">About GRASSIUS</h2>
+
     <br>      
     <p align="justify">GRASSIUS provides a public web resource composed by a collection of databases, computational and experimental resources that relate to the control of gene expression in the grasses, and their relationship with agronomic traits. As knowledge on the interactions of transcription factors (TFs) and cis-regulatory elements in the promoters of the genes that they regulate continues to accumulate, the information is acquired by GRASSIUS, either through contributions by the community, or by literature analysis. The overarching objective of GRASSIUS is to provide a "one-stop" resource that will facilitate research and communication within the plant community with regards to genome-wide regulation of gene expression processes.
     </p>
@@ -31,8 +31,9 @@
     </p>
     <p align="justify">
       Gene models for existing transcription factors are updated. As of now, GRASSIUS contains
-      <li>Maize genome release 5b.60
-      </li> 
+      <li>Maize genome B73 RefGen_v3</li> 
+      <li>Maize genome B73 RefGen_v4</li> 
+      <li>Maize genome B73 RefGen_v5</li> 
       <li>Rice genome release 6.1 (
         <i>O. sativa japonica
         </i>)
@@ -41,6 +42,7 @@
       </li>
       <li>Brachypodium genome release 1.2
       </li>
+        <li>R570 Sugarcane genome</li>
     </p>    
 
 <script>
