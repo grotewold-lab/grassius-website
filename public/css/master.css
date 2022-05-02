@@ -1,5 +1,17 @@
 
 /**
+ * background colors for overall site
+ */
+
+.page {
+    background-color:#f5f5f5;
+}
+
+.header, .header .container {
+    background-color:#ffffff;
+}
+
+/**
  * circular species buttons on home page
  */
 
