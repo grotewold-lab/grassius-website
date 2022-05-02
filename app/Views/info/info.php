@@ -114,23 +114,23 @@
     </I>), shortly after the completion of the genome sequence, criteria were developed to provide unique names to all transcription factors, often in a family-by-family strategy (e.g. Stracke et al., 2001
     <A HREF="#BIB14">
       <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-           SRC="images/fig-down.gif">
+           SRC="images/old/fig-down.gif">
         </A>; Jakoby et al., 2002
       <A HREF="#BIB10">
         <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-             SRC="images/fig-down.gif">
+             SRC="images/old/fig-down.gif">
           </A>; Baileyet al., 2003
         <A HREF="#BIB1">
           <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-               SRC="images/fig-down.gif">
+               SRC="images/old/fig-down.gif">
             </A>). These identifiers are of the form AtXXXyyy, where <i>At</i> provides the species identifier At = Arabidopsis, important when describing transcription factors from multiple plants; <i>XXX</i> corresponds to a two to five or more letter code for the particular transcription factor family; and <i>yyy</i> corresponds to an arbitrary number between one and the total number of members in that particular family. These nomenclature conventions were rapidly embraced by the community, facilitating communication in publications and allowing the development of databases that compile information on Arabidopsis regulatory proteins (Davuluriet al., 2003
           <A HREF="#BIB4">
             <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                 SRC="images/fig-down.gif">
+                 SRC="images/old/fig-down.gif">
               </A>; Guo et al., 2005
             <A HREF="#BIB9">
               <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                   SRC="images/fig-down.gif">
+                   SRC="images/old/fig-down.gif">
                 </A>).
               </div>
             <div style="text-indent: 30pt;" align=justify>
@@ -146,28 +146,28 @@
               Numbers will be assigned arbitrarily, and whenever possible,the numbers should provide a historic perspective of the order in which transcription factors have been first identified. For example, since maize KN1 and C1 correspond to the founding members of their respective families (HD and MYB, respectively), they are assigned the number 1. When a transcription factor has already been numbered, every possible effort should be made to consider that number as part of the new name, e.g. maize Zm38 (Frankenet al., 1994
               <A HREF="#BIB6">
                 <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                     SRC="images/fig-down.gif">
+                     SRC="images/old/fig-down.gif">
                   </A>) should become ZmMYB38. Since it is realized that many transcription factors are known by their genetic names, this nomenclature will permit the use of various different synonyms. For example, KNOTTED1, which would be ZmHD1, where HD corresponds to the homeodomain family, could also be identified as ZmHD1(KN1) when in need to highlight the genetic locus, 
                 <I>KN1
                 </I>, for which the protein is also often known. Similarly C1, ZmMYB1, could be also identified as ZmMYB1(C1). Where the same name has already been used for different family members, then an alternative name(s) will be assigned to avoid further confusion in the literature. For example, ZmMYB8 (Fornale et al., 2006
                 <A HREF="#BIB5">
                   <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                       SRC="images/fig-down.gif">
+                       SRC="images/old/fig-down.gif">
                     </A>), which is supported by a complete cDNA will remain ZmMYB8, whereas the partial ESTs MYB8 (Jiang et al., 2004
                   <A HREF="#BIB11">
                     <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                         SRC="images/fig-down.gif">
+                         SRC="images/old/fig-down.gif">
                       </A>) and ZmMYB-IP20 (Rabinowicz et al.,1999
                     <A HREF="#BIB13">
                       <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                           SRC="images/fig-down.gif">
+                           SRC="images/old/fig-down.gif">
                         </A>), which both correspond to the same protein, will be assigneda new name (e.g. ZmMYB67).
                       </div>
                     <div style="text-indent: 30pt;" align=justify>
                       While it would be attractive for this new naming system to provide information about orthologous pairs across species, as for example ZmMYB32 being the closest relative to OsMYB32, this was considered impractical and perhaps misleading for several reasons. First, the genomes are not yet completely sequenced or fully annotated, hence new transcription factors are likely to be identified in the future, significantly affecting the reconstruction of protein phylogenies. Second, different tree-building methods are likely to yield slightly different results, which would create significant confusion. Third, while it has been tempting to assume that high similarity is likely to correspond to the control of similar cellular processes, this has often not been the case, particularly when considering regulators of metabolic pathways (Grotewold, 2008
                       <A HREF="#BIB7">
                         <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                             SRC="images/fig-down.gif">
+                             SRC="images/old/fig-down.gif">
                           </A>).
                         </div>
                       <div style="text-indent: 30pt;" align=justify>
@@ -195,15 +195,15 @@
                         Multiple transcripts derived from one gene are frequently present in plants, with more than 21% of the rice and Arabidopsis genes being alternatively spliced (Wang and Brendel, 2006
                         <A HREF="#BIB15">
                           <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                               SRC="images/fig-down.gif">
+                               SRC="images/old/fig-down.gif">
                             </A>). Several examples of transcription factors displaying alternate splice variants have also been described in maize (e.g. Grotewold etal., 1991
                           <A HREF="#BIB8">
                             <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                                 SRC="images/fig-down.gif">
+                                 SRC="images/old/fig-down.gif">
                               </A>; Burr et al., 1996
                             <A HREF="#BIB2">
                               <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                                   SRC="images/fig-down.gif">
+                                   SRC="images/old/fig-down.gif">
                                 </A>). We recommend that transcription factor proteins derived from alternate spliced mRNAs be named with the .1, .2, .3 suffixes after the number of the protein. For example, the new synonyms corresponding to the two proteins derived from the alternatively spliced variants of maize 
                               <I>PERICARPCOLOR1
                               </I> (
@@ -228,7 +228,7 @@
                                 </I> genome (cv 9311). Thus, the OsNAC6 factor, involved in biotic and abioticstress response in rice (Ohnishi et al., 2005
                                 <A HREF="#BIB12">
                                   <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                                       SRC="images/fig-down.gif">
+                                       SRC="images/old/fig-down.gif">
                                     </A>), could be OsNAC6
                                   <SUP>Nipp
                                   </SUP>(or OsNAC6
@@ -249,7 +249,7 @@
                                     </I> gene (Chopra et al., 1998
                                     <A HREF="#BIB3">
                                       <IMG BORDER=1 WIDTH=8 HEIGHT=7 ALT="Go"
-                                           SRC="images/fig-down.gif">
+                                           SRC="images/old/fig-down.gif">
                                         </A>), very similar (but not necessarily identical) proteins are encoded by individual members of a multigene array. In those instances, we recommend using letters (a, b, c) to indicate the proteins that come from each copy. For example, if three different copies of the 
                                       <I>p1
                                       </I> gene from B73 were shown to encode slightly different proteins, then those products would be identified as ZmMYB3
