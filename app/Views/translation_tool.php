@@ -2,8 +2,6 @@
 <?= $this->section('content') ?>
 
 
-<p style="color:red">NOTE this is a special version of this website that will only show this translation tool.<br/>This is a special version of the database which contains the same gene model associations as MaizeGDB. more info <a href="https://www.maizegdb.org/gene_center/gene#translate" target="_blank">here</a></p>
-<br>
 <h2 class="wiki-top-header">
     Translate Gene Model IDs
 </h2>
