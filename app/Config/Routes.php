@@ -20,7 +20,9 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('HomeController');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override(function() {
+	return view('404');
+});
 $routes->setAutoRoute(false);
 
 /*
@@ -116,7 +118,7 @@ $routes->get('/edit_family/(:any)', 'Admin\AdminController::edit_family/$1/$2');
 $routes->post('/post_edit_family/(:any)', 'Admin\AdminController::post_edit_family/$1/$2');
 
 // dev pages
-$routes->get('/test', 'TestController::test');
+//$routes->get('/test', 'TestController::test');
 
 
 /*
