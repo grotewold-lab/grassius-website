@@ -1,9 +1,11 @@
 <?php
 
+    require "subdomain_urls.php";
+
+
     # this file contains specifications for links that will appear
     #  - in the navigation bar at the top of the screen
     #  - in the footer at the bottom of the screen
-    
 
 
     # display text for top-level menu headers
@@ -52,10 +54,10 @@
             
             "Species" => array(
                 "Maize" => "/species/Maize",
-                "Rice" => "https://grassius.org/",
-                "Sorghum" => "https://grassius.org/",
-                "Sugarcane" => "https://grassius.org/",
-                "Brachypodium" => "https://grassius.org/"
+                "Rice" => $old_grassius_url,
+                "Sorghum" => $old_grassius_url,
+                "Sugarcane" => $old_grassius_url,
+                "Brachypodium" => $old_grassius_url
             ),
             
             "Databases" => array(
@@ -63,7 +65,7 @@
                 "TFDB" => "/browsefamily/Maize/TF",
                 "Protein-DNA Interactions" => "/pdicollection",
                 "Maize TFome Collection" => "/tfomecollection",
-                "Rice TFome Collection" => "https://grassius.org/RiceTfome.php",
+                "Rice TFome Collection" => $old_grassius_url."/RiceTfome.php",
             )
         ),
         
@@ -71,7 +73,7 @@
             
             "Tools" => array(
                 "Translation Tool" => "/translation_tool",
-                "BLAST" => "https://blast.eglab-dev.com/"
+                "BLAST" => $blast_tool_url
             )
         )
     );

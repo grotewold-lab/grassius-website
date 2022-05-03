@@ -1,6 +1,8 @@
 <?= $this->extend('common/layout') ?>
 <?= $this->section('content') ?>
 
+<?php require "common/subdomain_urls.php";?>
+
   <div class="row" >
     <div class="col-sm-12" ></div>
   </div>
@@ -30,7 +32,7 @@
                     if( $species == "Maize" ){
                         $href = "/species/$species";
                     } else {
-                        $href = "http://grassius.org";
+                        $href = $old_grassius_url;
                     }
             ?>
           <a
@@ -90,7 +92,7 @@
             </div>
           </a>
           <a
-            href="https://blast.eglab-dev.com"
+            href="<?php echo $blast_tool_url; ?>"
             class="gramene-tool col-md-6 list-group-item"
           >
             <div class="media" >

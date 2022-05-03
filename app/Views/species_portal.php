@@ -1,6 +1,8 @@
 <?= $this->extend('common/layout') ?>
 <?= $this->section('content') ?>
 
+<?php require "common/subdomain_urls.php";?>
+
 <table class="infobox" style="margin-top:20px;">
    <tbody>
       <tr>
@@ -108,7 +110,7 @@
             </div>
           </a>
           <a
-            href="https://blast.eglab-dev.com"
+            href="<?php echo $blast_tool_url; ?>"
             class="gramene-tool col-md-6 list-group-item"
           >
             <div class="media" >

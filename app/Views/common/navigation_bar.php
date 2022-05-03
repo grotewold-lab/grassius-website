@@ -1,8 +1,7 @@
 <?php
     # render navigation bar based on navigation_specs.php
+    require_once "navigation_specs.php";
 ?>
-
-<?php require_once "navigation_specs.php"; ?>
 
 <nav class="navbar navbar-static-top navbar-default">
       <div class="container"> 

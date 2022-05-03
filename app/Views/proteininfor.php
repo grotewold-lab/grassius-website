@@ -1,5 +1,7 @@
 <?= $this->extend('common/layout') ?>
 <?= $this->section('content') ?>
+
+<?php require "common/subdomain_urls.php";?>
         
 
 <?php 
@@ -199,7 +201,7 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
     }
 ?>
 
-<form hidden action="https://blast.eglab-dev.com" method="POST" target="_blank" id="blast_form">
+<form hidden action="<?php echo $blast_tool_url; ?>" method="POST" target="_blank" id="blast_form">
   <input type="hidden" name="input_sequence" id="blast_input_sequence"/>
   <input type="submit" value="Submit">
 </form>
