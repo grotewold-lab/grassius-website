@@ -3231,7 +3231,7 @@ button.close{
 .posts-wrapper .posts li{
     padding-bottom:10px
 }
-.posts-wrapper .posts li:not(:last-child){
+.posts-wrapper .posts li{
     font-size:12.6px
 }
 .tools-col{
