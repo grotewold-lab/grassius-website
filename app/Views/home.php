@@ -114,35 +114,9 @@
     </div>
     <div class="posts-col col-sm-3" >
       <div class="posts-wrapper" >
-          <h2 >Latest News <p style="font-size:10px;">(placeholder, showing publications)</p></h2>
+          <h2 >Recent News</h2><br>
         <ul class="posts list-unstyled" style="overflow: auto; height: 600px;">
-          <li>
-            <strong>Design of Knowledge Bases for Plant Gene Regulatory Networks</strong>
-            <br />
-            Mukundi E, Gomez-Cano F, Ouma WZ, Grotewold E. <a href="https://link.springer.com/protocol/10.1007%2F978-1-4939-7125-1_14">Methods Mol Biol. 1629:207-223</a>. 
-            <span>2017-06-17</span>
-          </li>
-          <li>
-            <strong>A Maize Gene Regulatory Network for Phenolic Metabolism</strong>
-            <br />
-            Yang F, Li W, Jiang N, Yu H, Morohashi K, Ouma WZ, Morales-Mantilla DE, Gomez-Cano FA, Mukundi E, Prada-Salcedo LD, Velazquez RA, Valentin J, Mejía-Guerra MK, Gray J, Doseff AI, Grotewold E. <a href="https://www.sciencedirect.com/science/article/pii/S1674205216302751?via%3Dihub">Mol Plant. 10(3):498-515</a>.
-            <br />
-            <span>2017-03-06</span>
-          </li>
-          <li>
-            <strong>Establishing the Architecture of Plant Gene Regulatory NetworksS</strong>
-            <br />
-            Yang F, Ouma WZ, Li W, Doseff AI, Grotewold E. <a href="https://www.sciencedirect.com/science/article/pii/S0076687916001154?via%3Dihub">Methods Enzymol. 576:251-304</a>.
-            <br />
-            <span>2016-03-04</span>
-          </li>
-          <li>
-            <strong>The Maize TFome - Development of a transcription factor open reading frame collection for functional genomics</strong>
-            <br />
-            Burdo B, Gray J, Goetting-minesky MP, et al. <a href="https://onlinelibrary.wiley.com/doi/10.1111/tpj.12623/abstract">Plant J. 80(2):356-366</a>. <a href="tfomecollection.php">Grassius TFome Collection</a>.
-            <br />
-            <span>2014-07-23</span>
-          </li>
+          <?php echo $news_html; ?>
         </ul>
       </div>
     </div>
