@@ -41,12 +41,8 @@
                 
                 # display text => url
                 "About" => "/about",
-                "People" => "/people"
-            ),
-            
-            "More About Grassius" => array(
-                "Links" => "/links",
-                "Information" => "/info"
+                "People" => "/people",
+                "Links" => "/links"
             ),
         ),
         
