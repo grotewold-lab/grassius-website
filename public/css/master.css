@@ -147,6 +147,7 @@ li.term a.ui-state-active {
 .ss_UNDETERMINED { background-color: #CCC }
 
 .do_UNDETERMINED { background-color: #CCC }
+.do_SOMETHING { background-color: #AAF }
 
 
 .ss_legend_infobox {
@@ -163,6 +164,36 @@ li.term a.ui-state-active {
     margin-left:-8px;
 }
 
+
+tr.dom_legend_hover_selected td  {
+    background-color: black;
+    color: white;
+}
+
+div.dom_legend_vis {
+    width: 200px;
+    height: 20px;
+    font-size: 0;
+}
+
+div.dom_legend_vis span {
+    display: inline-block;
+    background-color: #AAF;
+}
+
+div.dom_legend_vis span.vis_before_dom {
+    height: 2px;
+    margin-bottom: 8px;
+}
+
+div.dom_legend_vis span.vis_dom {
+    height: 100%;
+}
+
+div.dom_legend_vis span.vis_after_dom {
+    height: 2px;
+    margin-bottom: 8px;
+}
 
 /**
  * button to copy text to the clipboard

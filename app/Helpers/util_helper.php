@@ -35,20 +35,64 @@ function describe_maize_genome_version( $version )
  /**
   * get a string similar to the given amino acid sequence (string)
   * html tags will be added to limit the length of each line
+  *
+  * if $domain (json) is given, a section of the sequence will be highlighted.
   */
-function get_sequence_with_breaks($aa_seq)
+function get_sequence_with_breaks($aa_seq, $domain=NULL)
 {
     if( empty($aa_seq) ){
         return "";
     }
     
     $max_line_length = 80;
+    $i = 0;
     $result = "";
     
+    if( $domain !== NULL ){
+        $dstart = $domain->{'start'};
+        $dend = $domain->{'end'};
+        $dacc = $domain->{'accession'};
+        $dseq = substr( $aa_seq, $dstart, ($dend-$dstart) );
+        $dtag = '<span data-seq="'.$dseq.'" class="hl ssi_'.$dacc.' do_SOMETHING">';
+    }
+    
     while( strlen($aa_seq) > $max_line_length ){
+        
         $part = substr( $aa_seq, 0, $max_line_length );
-        $result .= "<span>".$part."</span><br>";
+        
+        // part contained in domain
+        if( ($domain !== NULL) and ($dstart < $i) and ($dend >= ($i+$max_line_length)) ){
+            $part = $dtag.$part.'</span>';
+        }
+        
+        // domain contained in part
+        if( ($domain !== NULL) and ($dstart >= $i) and ($dend < ($i+$max_line_length)) ){
+            $j = $dstart - $i;
+            $k = $dend - $i;
+            $part = '<span>'.substr($part, 0, $j).'</span>'.$dtag.substr($part, $j, ($k-$j)).'</span><span>'.substr($part, $k).'</span>';
+        }
+
+        // domain starts in part
+        elseif( ($domain !== NULL) and ($dstart >= $i) and ($dstart < ($i+$max_line_length)) ){
+            $j = $dstart - $i;
+            $part = '<span>'.substr($part, 0, $j).'</span>'.$dtag.substr($part, $j).'</span>';
+        }
+
+        // domain ends in part
+        elseif( ($domain !== NULL) and ($dend >= $i) and ($dend < ($i+$max_line_length)) ){
+            $k = $dend - $i;
+            $part = $dtag.substr($part, 0, $k).'</span><span>'.substr($part, $k).'</span>';
+        }
+        
+        // domain not involved in part
+        else {
+            $part = "<span>".$part."</span>";
+        }
+        
+        $result .= $part."<br>";
         $aa_seq = substr( $aa_seq, $max_line_length );
+        
+        $i += $max_line_length;
     }
     
     $result .= "<span>".$aa_seq."</span>";
@@ -79,6 +123,22 @@ function make_up_color_by_secondary_structure($aa_seq)
     return $result;
 }
 
+/**
+ * Get a color-coded version of the given amino acid sequence (string)
+ * 
+ * return a string containing html tags
+ */
+function build_color_by_domain( $aa_seq, $domains )
+{    
+    $result = '';
+    for($i =0; $i<count($domains);$i++)
+    {            
+        $highlighted_seq = get_sequence_with_breaks($aa_seq, $domains[$i]);
+        $result .= '<p class="sequence aa aa_dom dom_'.$i.'">'.$highlighted_seq.'</p>';
+    }
+    
+    return $result;
+}
 
 /**
  * PLACEHOLDER
@@ -101,7 +161,7 @@ function make_up_color_by_domain($aa_seq)
     }
     
     $result .= "<span class='do_UNDETERMINED'>".$aa_seq."</span>";
-    return $result;
+    return "<p class='sequence aa aa_dom dom_0'>".$result."</p>";
 }
 
 

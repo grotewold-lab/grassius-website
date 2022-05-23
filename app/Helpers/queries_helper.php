@@ -70,7 +70,8 @@ function get_proteininfor_query()
                 sf.secondary_structures as secondary_structures,
                 uniprot.uniprot_id as uniprot_id,
                 obi__organism.infraspecific_name as species_version,
-                clone.names as clone_names
+                clone.names as clone_names,
+                domain.json as domains
                 
             FROM feature base
             
@@ -112,6 +113,19 @@ function get_proteininfor_query()
                 GROUP BY clone_rel.object_id
             ) as clone
                 ON clone.base_id = base.feature_id
+
+            LEFT JOIN (
+                SELECT 
+                    domain.feature_id as feature_id,
+                    string_agg(domain.value, ',') as json
+                
+                FROM featureprop domain
+                    
+                WHERE (domain.type_id = 61467)
+                    
+                GROUP BY domain.feature_id
+            ) as domain
+                ON domain.feature_id = base.feature_id
                 
             LEFT JOIN public.seq_features sf
                 ON (sf.feature_id = aa_seq.feature_id)

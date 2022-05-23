@@ -64,6 +64,9 @@ class ProteininforController extends PdicollectionController
 
         $results=$query->getResultArray();
         
+        //debug
+        //return json_encode($results[13]['domains']);
+        
         $data['species'] = $species;
         $data['genename'] = $genename;
         
@@ -80,7 +83,8 @@ class ProteininforController extends PdicollectionController
                 "proteinsequence" => "",
                 "secondary_structures" => "",
                 "species_version" => "",
-                "clone_names" => ""
+                "clone_names" => "",
+                "domains" => ""
             ]];
         }
         
@@ -105,7 +109,22 @@ class ProteininforController extends PdicollectionController
             $results[$i]['proteinsequence_none'] = get_sequence_with_breaks($results[$i]['proteinsequence']);
         } 
         
-        // make sure the transcript with ss data is the first in the list
+        
+        // special case, if there is a transcript with domain data, 
+        // make it the first on the list
+        for($i =0; $i<count($results);$i++)
+        {            
+            if( $results[$i]['domains'] !== null ) {
+                $default_transcript_index = $i;   
+                $aa_seq = $results[$i]['proteinsequence'];
+                $domains = json_decode( '['.$results[$i]['domains'].']' );
+                $data['domains'] = $domains;
+                $data['seq_len'] = strlen($aa_seq);
+                $results[$i]['proteinsequence_dom'] = build_color_by_domain($aa_seq, $domains  );
+            }
+        } 
+        
+        // move the transcript of interest to the top of the list
         if( $default_transcript_index > 0 ){
             $results = array_merge( 
                 [$results[$default_transcript_index]],

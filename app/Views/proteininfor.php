@@ -99,10 +99,11 @@
                     <div class="col-lg-8">
             <p class="sequence aa aa_none"><?php echo $results[$i]["proteinsequence_none"]; ?></p>
             <p class="sequence aa aa_ss"><?php echo $results[$i]["proteinsequence_ss"]; ?></p>
-            <p class="sequence aa aa_dom"><?php echo $results[$i]["proteinsequence_dom"]; ?></p>
+            <?php echo $results[$i]["proteinsequence_dom"]; ?>
                     </div>
                     <div class="col-lg-4">
             <?php require "common/aa_colorcode_legend.php"; ?>
+            <?php require "common/dom_colorcode_legend.php"; ?>
                     </div>
                 </div>
             </div>
@@ -245,6 +246,15 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
         $("p.aa_ss span").each(function(i){
             var flavor = $(this).attr('class').split(" ")[1].substring(3);
             var seq = all_ssi_seqs[get_ssi_class($(this))]
+            $(this).addClass('ss_hover');
+            $(this).append('<div class="ss_hovermenu"><ul><lh>'+flavor+'</lh><li class="ss_blast" data-seq="'+seq+'">BLAST</li><li class="ss_copy" data-seq="'+seq+'">Copy</li></ul></div>');
+        })
+        
+        // add hover menu for each domain segment
+    
+        $("p.aa_dom span.hl").each(function(i){
+            var flavor = get_ssi_class($(this)).substring(4);
+            var seq = $(this).data('seq');
             $(this).addClass('ss_hover');
             $(this).append('<div class="ss_hovermenu"><ul><lh>'+flavor+'</lh><li class="ss_blast" data-seq="'+seq+'">BLAST</li><li class="ss_copy" data-seq="'+seq+'">Copy</li></ul></div>');
         })
