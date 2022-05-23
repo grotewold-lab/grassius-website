@@ -53,6 +53,8 @@ The contents of the repo clone on the production system should be copied to the 
 $ sudo cp -r app/Config/. /var/www/html/codeigniter4/app/Config/
 $ sudo cp -r app/Views/. /var/www/html/codeigniter4/app/Views/
 $ sudo cp -r app/Controllers/. /var/www/html/codeigniter4/app/Controllers/
+$ sudo cp -r app/Helpers/. /var/www/html/codeigniter4/app/Helpers/
+$ sudo cp -r vendor/. /var/www/html/codeigniter4/vendor/
 $ sudo cp -r public/. /var/www/html/codeigniter4/public/
 $ sudo cp -r writable/. /var/www/html/codeigniter4/writable/
 ```
