@@ -111,7 +111,6 @@
             <p class="sequence"><?php echo $results[$i]["proteinsequence_none"]; ?></p>
         <?php } ?>
 
-
         <?php
             $full_dna_seq = $results[$i]['nucleotidesequence'];
             if( strlen($full_dna_seq) > 25 ) {
@@ -120,7 +119,6 @@
                 $short_dna_seq = $full_dna_seq;
             }
         ?>
-
         <h2 class="wiki-section-header">Nucleotide Sequence <?php echo get_copy_button($results[$i]['nucleotidesequence']); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo get_expand_button("dna_".$i); ?></h2>
         <p class="wrap sequence short dna_<?php echo $i;?>"><?php echo $short_dna_seq; ?></p>
         <p hidden class="wrap sequence long dna_<?php echo $i;?>"><?php echo $full_dna_seq; ?></p>

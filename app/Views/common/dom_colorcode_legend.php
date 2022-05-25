@@ -4,7 +4,7 @@
     <table class="ss_legend_infobox">
         <tbody>
             <tr>
-                <th class="infobox-header" colspan="2">Domains Present (hover below)</th>
+                <th class="infobox-header" colspan="2">Domains Present</th>
             </tr>
             <?php 
             
@@ -23,6 +23,8 @@
                 $during_pct = 100*($dend-$dstart)/$seq_len;
                 $after_pct = 100-$before_pct-$during_pct;
                 
+                $dcolor_class = 'do_'.($dlhi % 6);
+                
                 $dlhi_class = "dlhi_".$dlhi;
                 if( $dlhi == 0 ){
                     $dlhi_class .= " dom_legend_hover_selected";
@@ -31,12 +33,12 @@
                 
                 
                 <tr class="dom_legend_hover <?php echo $dlhi_class; ?>">
-                    <td class="do_UNDETERMINED" style="font-weight:bold"><?php echo $acc; ?></td>
+                    <td class="<?php echo $dcolor_class; ?>"><?php echo $acc; ?></td>
                     <td class="infobox-data">
                         <div class="dom_legend_vis">
-                            <span class="vis_before_dom" style="width:<?php echo $before_pct;?>%"></span>
-                            <span class="vis_dom" style="width:<?php echo $during_pct;?>%"></span>
-                            <span class="vis_after_dom" style="width:<?php echo $after_pct;?>%"></span>
+                            <span class="vis_before_dom <?php echo $dcolor_class; ?>" style="width:<?php echo $before_pct;?>%"></span>
+                            <span class="vis_dom <?php echo $dcolor_class; ?>" style="width:<?php echo $during_pct;?>%"></span>
+                            <span class="vis_after_dom <?php echo $dcolor_class; ?>" style="width:<?php echo $after_pct;?>%"></span>
                         </div>
                     </td>
                 </tr>    
@@ -46,6 +48,12 @@
                 $dlhi += 1;
             } 
             ?>
+            
+            <tr class="dom_legend_hover dlhi_all">
+                <td colspan="2">
+                    Hover here to show all domains
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -56,8 +64,14 @@
         
     // update display
     function update_dlh(dlhi){
-        $(".sequence.aa.aa_dom").hide();
-        $(".sequence.aa.aa_dom.dom_"+dlhi).show();
+        
+        if( dlhi == "all" ){
+            $(".sequence.aa.aa_dom").addClass('blend').show();
+            $(".sequence.aa.aa_dom.dom_foreground").removeClass('blend').show();
+        } else {
+            $(".sequence.aa.aa_dom").hide();
+            $(".sequence.aa.aa_dom.dom_"+dlhi).removeClass('blend').show();
+        }
     }
     
     $(document).ready(function(){  

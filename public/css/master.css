@@ -149,6 +149,27 @@ li.term a.ui-state-active {
 .do_UNDETERMINED { background-color: #CCC }
 .do_SOMETHING { background-color: #AAF }
 
+p.aa_dom span.do_0:not(.ss_hover_selected), td.do_0 { background-color: #AAF }
+p.aa_dom span.do_1:not(.ss_hover_selected), td.do_1 { background-color: #AFA }
+p.aa_dom span.do_2:not(.ss_hover_selected), td.do_2 { background-color: #FAA }
+p.aa_dom span.do_3:not(.ss_hover_selected), td.do_3 { background-color: #FFA }
+p.aa_dom span.do_4:not(.ss_hover_selected), td.do_4 { background-color: #FAF }
+p.aa_dom span.do_5:not(.ss_hover_selected), td.do_5 { background-color: #AFF }
+
+p.aa_dom.blend span { color: #FFF; opacity: 0.5 }
+p.aa_dom.blend span.do_0 { color: #AAF }
+p.aa_dom.blend span.do_1 { color: #AFA }
+p.aa_dom.blend span.do_2 { color: #FAA }
+p.aa_dom.blend span.do_3 { color: #FFA }
+p.aa_dom.blend span.do_4 { color: #FAF }
+p.aa_dom.blend span.do_5 { color: #AFF }
+
+div.dom_legend_vis span.do_0 { background-color: #AAF }
+div.dom_legend_vis span.do_1 { background-color: #AFA }
+div.dom_legend_vis span.do_2 { background-color: #FAA }
+div.dom_legend_vis span.do_3 { background-color: #FFA }
+div.dom_legend_vis span.do_4 { background-color: #FAF }
+div.dom_legend_vis span.do_5 { background-color: #AFF }
 
 .ss_legend_infobox {
     border: 1px solid #a2a9b1;
@@ -164,6 +185,32 @@ li.term a.ui-state-active {
     margin-left:-8px;
 }
 
+
+/**
+ * Overlapping p tags with domain highlighting
+ */
+
+p.aa_dom {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+
+/**
+ * interactive legend for highlighting domains
+ * in protein sequence
+ */
+
+
+
+tr.dom_legend_hover {
+    font-weight: bold;   
+}
+
+tr.dlhi_all td {
+    text-align: center;   
+}
 
 tr.dom_legend_hover_selected td  {
     background-color: black;
@@ -194,6 +241,7 @@ div.dom_legend_vis span.vis_after_dom {
     height: 2px;
     margin-bottom: 8px;
 }
+
 
 /**
  * button to copy text to the clipboard
@@ -401,6 +449,7 @@ span.maize_version_label.v5 {
     padding: 8px 6px;
     position: absolute;
     z-index: 100;
+    opacity: 1.0;
 }
 
 .ss_hover .ss_hovermenu ul {
