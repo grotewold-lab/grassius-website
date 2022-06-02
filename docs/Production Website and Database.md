@@ -65,27 +65,6 @@ $ sudo chmod 777 -R /var/www/html/codeigniter4/writable/
 
 
 
-## Applying updates
-
-Updates to the website may be applied instantly by repeating the `cp` commands above.
-
-```
-$ git pull
-$ sudo cp -r app/Views/. /var/www/html/codeigniter4/app/Views/
-...
-```
-
-Updates to the database should be applied using the psql command. Note that this process works regardless of how or where the database is deployed. The host, port, and username used in the commands below just need to match the settings in `app/Config/Database.php`.
-
-```
-$ git pull
-$ tar -xzvf database/build_db.sql.tar.gz
-$ psql -h localhost -p 8642 -U postgres -f build_db.sql
-```
-
-
-
-
 
 
 ## Configuration details and examples
