@@ -57,30 +57,31 @@ function get_sequence_with_breaks($aa_seq, $domain=NULL, $domain_index=0)
         $dtag = '<span data-seq="'.$dseq.'" class="hl ssi_'.$dacc.' '.$dcolor_class.'">';
     }
     
-    while( strlen($aa_seq) > $max_line_length ){
+    while( strlen($aa_seq) > 0 ){
         
         $part = substr( $aa_seq, 0, $max_line_length );
+        $part_end = $i + min( $max_line_length, strlen($part) );
         
         // part contained in domain
-        if( ($domain !== NULL) and ($dstart < $i) and ($dend >= ($i+$max_line_length)) ){
+        if( ($domain !== NULL) and ($dstart < $i) and ($dend >= $part_end) ){
             $part = $dtag.$part.'</span>';
         }
         
         // domain contained in part
-        if( ($domain !== NULL) and ($dstart >= $i) and ($dend < ($i+$max_line_length)) ){
+        if( ($domain !== NULL) and ($dstart >= $i) and ($dend < $part_end) ){
             $j = $dstart - $i;
             $k = $dend - $i;
             $part = '<span>'.substr($part, 0, $j).'</span>'.$dtag.substr($part, $j, ($k-$j)).'</span><span>'.substr($part, $k).'</span>';
         }
 
         // domain starts in part
-        elseif( ($domain !== NULL) and ($dstart >= $i) and ($dstart < ($i+$max_line_length)) ){
+        elseif( ($domain !== NULL) and ($dstart >= $i) and ($dstart < $part_end) ){
             $j = $dstart - $i;
             $part = '<span>'.substr($part, 0, $j).'</span>'.$dtag.substr($part, $j).'</span>';
         }
 
         // domain ends in part
-        elseif( ($domain !== NULL) and ($dend >= $i) and ($dend < ($i+$max_line_length)) ){
+        elseif( ($domain !== NULL) and ($dend >= $i) and ($dend < $part_end) ){
             $k = $dend - $i;
             $part = $dtag.substr($part, 0, $k).'</span><span>'.substr($part, $k).'</span>';
         }
