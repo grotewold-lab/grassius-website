@@ -164,12 +164,12 @@ function make_up_color_by_domain($aa_seq)
     
     while( strlen($aa_seq) > $max_line_length ){
         $part = substr( $aa_seq, 0, $max_line_length );
-        $result .= "<span class='do_UNDETERMINED'>".$part."</span><br>";
+        $result .= "<span class='do_UNDETERMINED ss_hover'>".$part."</span><br>";
         $aa_seq = substr( $aa_seq, $max_line_length );
     }
     
-    $result .= "<span class='do_UNDETERMINED'>".$aa_seq."</span>";
-    return "<p class='sequence aa aa_dom dom_0'>".$result."</p>";
+    $result .= "<span class='do_UNDETERMINED ss_hover'>".$aa_seq."</span>";
+    return "<p class='sequence aa aa_dom simple'>".$result."</p>";
 }
 
 
