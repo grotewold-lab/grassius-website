@@ -190,7 +190,7 @@ div.dom_legend_vis span.do_5 { background-color: #AFF }
  * Overlapping p tags with domain highlighting
  */
 
-p.aa_dom {
+p.aa_dom:not(.simple) {
     position: absolute;
     top: 0px;
     left: 0px;

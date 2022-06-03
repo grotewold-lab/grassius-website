@@ -96,14 +96,18 @@
         <?php if($i == 0) { ?>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
             <p class="sequence aa aa_none"><?php echo $results[$i]["proteinsequence_none"]; ?></p>
             <p class="sequence aa aa_ss"><?php echo $results[$i]["proteinsequence_ss"]; ?></p>
             <?php echo $results[$i]["proteinsequence_dom"]; ?>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
             <?php require "common/aa_colorcode_legend.php"; ?>
-            <?php require "common/dom_colorcode_legend.php"; ?>
+            <?php 
+                if( isset($domains) and (count($domains)>0) ){
+                    require "common/dom_colorcode_legend.php";
+                }
+            ?>
                     </div>
                 </div>
             </div>
