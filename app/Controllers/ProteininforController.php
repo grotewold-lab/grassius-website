@@ -112,12 +112,28 @@ class ProteininforController extends PdicollectionController
         
         // special case, if there is a transcript with domain data, 
         // make it the first on the list
+        $best_seq_len = 0;
         for($i =0; $i<count($results);$i++)
         {            
             if( $results[$i]['domains'] !== null ) {
-                $default_transcript_index = $i;   
                 $aa_seq = $results[$i]['proteinsequence'];
+                
+                if( strlen($aa_seq) < $best_seq_len ){
+                    continue;
+                }
+                
+                $best_seq_len = strlen($aa_seq);
+                $default_transcript_index = $i;   
                 $domains = json_decode( '['.$results[$i]['domains'].']' );
+                
+                //lookup domain descriptions
+                foreach( $domains as $dom ) { 
+                    $acc = $dom->{'accession'};
+                    $dom_info = $this->lookup_dom_info( $acc );
+                    $dom->{'title'} = $dom_info[0];
+                    $dom->{'desc'} = $dom_info[1];
+                }
+                
                 $data['domains'] = $domains;
                 $data['seq_len'] = strlen($aa_seq);
                 $results[$i]['proteinsequence_dom'] = build_color_by_domain($aa_seq, $domains  );
@@ -159,6 +175,19 @@ class ProteininforController extends PdicollectionController
     }
     
     
+    private function lookup_dom_info( $acc )
+    {
+        $result = $this->db->table('domain_descriptions dd')
+            ->select("dd.dom_title as dom_title,
+                dd.dom_desc AS dom_desc")
+            ->where( 'dd.accession', $acc )
+            ->get()->getResultArray(); 
+        
+        if( count($result) > 0 ){
+            return [ $result[0]["dom_title"], $result[0]["dom_desc"] ];
+        }
+        return [$acc,"No description available"];
+    }
     
     // serve an excel sheet containining interactions
     // depends on member variables "regulator_name" and "target_name"
