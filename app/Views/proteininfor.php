@@ -216,6 +216,15 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
         $("#icn3d-structure").attr("src","https://www.ncbi.nlm.nih.gov/Structure/icn3d/full.html?afid=<?php echo $uniprot_id; ?>&width=300&height=300&showcommand=0&shownote=0&mobilemenu=1&showmenu=0&showtitle=0");
         
         
+        // add hover menu for each domain legend entry
+        $(".dom_legend_hover:not(.dlhi_all)").each(function(i){
+            var title = $(this).data('title');
+            var desc = $(this).data('desc');
+            $(this).addClass('ss_hover');
+            $(this).append('<div class="dom_legend_hovermenu"><ul><lh>'+title+'</lh></ul><p>'+desc+'</p></div>');
+        })
+        
+        
         // start logic for highlighted sequence hover-menu
         
         // get sequence for each segment
@@ -253,7 +262,6 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
         })
         
         // add hover menu for each domain segment
-    
         $("p.aa_dom span.hl").each(function(i){
             var flavor = get_ssi_class($(this)).substring(4);
             var seq = $(this).data('seq');

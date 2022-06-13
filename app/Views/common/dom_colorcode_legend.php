@@ -32,7 +32,7 @@
             ?>
                 
                 
-                <tr class="dom_legend_hover <?php echo $dlhi_class; ?>">
+                <tr class="dom_legend_hover <?php echo $dlhi_class; ?>" data-title="<?php echo $dom->{'title'} ?>" data-desc="<?php echo $dom->{'desc'} ?>">
                     <td class="<?php echo $dcolor_class; ?>"><?php echo $acc; ?></td>
                     <td class="infobox-data">
                         <div class="dom_legend_vis">
