@@ -184,7 +184,7 @@ class ProteininforController extends PdicollectionController
             ->get()->getResultArray(); 
         
         if( count($result) > 0 ){
-            return [ $result[0]["dom_title"], $result[0]["dom_desc"] ];
+            return [ $result[0]["dom_title"], strip_tags($result[0]["dom_desc"]) ];
         }
         return [$acc,"No description available"];
     }

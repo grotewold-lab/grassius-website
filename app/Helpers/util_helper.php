@@ -54,7 +54,7 @@ function get_sequence_with_breaks($aa_seq, $domain=NULL, $domain_index=0)
         $dacc = $domain->{'accession'};
         $dseq = substr( $aa_seq, $dstart, ($dend-$dstart) );
         $dcolor_class = 'do_'.($domain_index % 6);
-        $dtag = '<span data-seq="'.$dseq.'" class="hl ssi_'.$dacc.' '.$dcolor_class.'">';
+        $dtag = '<span data-seq="'.$dseq.'" data-acc="'.$dacc.'" class="hl ssi_'.str_replace('.','_',$dacc).' '.$dcolor_class.'">';
     }
     
     while( strlen($aa_seq) > 0 ){
