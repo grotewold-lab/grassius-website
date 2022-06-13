@@ -263,10 +263,10 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
         
         // add hover menu for each domain segment
         $("p.aa_dom span.hl").each(function(i){
-            var flavor = get_ssi_class($(this)).substring(4);
+            var acc = $(this).data('acc');
             var seq = $(this).data('seq');
             $(this).addClass('ss_hover');
-            $(this).append('<div class="ss_hovermenu"><ul><lh>'+flavor+'</lh><li class="ss_blast" data-seq="'+seq+'">BLAST</li><li class="ss_copy" data-seq="'+seq+'">Copy</li></ul></div>');
+            $(this).append('<div class="ss_hovermenu"><ul><lh>'+acc+'</lh><li class="ss_blast" data-seq="'+seq+'">BLAST</li><li class="ss_copy" data-seq="'+seq+'">Copy</li></ul></div>');
         })
         
         // highlight hovered segment
