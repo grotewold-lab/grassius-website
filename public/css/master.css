@@ -211,13 +211,17 @@ tr.dlhi_all td {
     text-align: center;   
 }
 
+tr.dom_legend_hover td {
+    width:80px;   
+}
+
 tr.dom_legend_hover_selected td  {
     background-color: black;
     color: white;
 }
 
 div.dom_legend_vis {
-    width: 200px;
+    width: 240px;
     height: 20px;
     font-size: 0;
 }
@@ -239,6 +243,10 @@ div.dom_legend_vis span.vis_dom {
 div.dom_legend_vis span.vis_after_dom {
     height: 2px;
     margin-bottom: 8px;
+}
+
+div.dom_legend_hovermenu a {
+    color: #DDF;
 }
 
 

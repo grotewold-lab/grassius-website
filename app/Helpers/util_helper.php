@@ -48,6 +48,7 @@ function get_sequence_with_breaks($aa_seq, $domain=NULL, $domain_index=0)
     $i = 0;
     $result = "";
     
+    // if necessary, prepare to insert extra tags to annotate one domain
     if( $domain !== NULL ){
         $dstart = $domain->{'start'};
         $dend = $domain->{'end'};
@@ -57,6 +58,7 @@ function get_sequence_with_breaks($aa_seq, $domain=NULL, $domain_index=0)
         $dtag = '<span data-seq="'.$dseq.'" data-acc="'.$dacc.'" class="hl ssi_'.str_replace('.','_',$dacc).' '.$dcolor_class.'">';
     }
     
+    // start building $result line-by-line
     while( strlen($aa_seq) > 0 ){
         
         $part = substr( $aa_seq, 0, $max_line_length );
