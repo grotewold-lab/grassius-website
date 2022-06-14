@@ -12,6 +12,11 @@
                 $domains = [];
             }
             
+            // sort domains based on start position
+            usort($domains, function ($a, $b) {
+                return $a->{'start'} - $b->{'start'};
+            });
+
             $dlhi = 0;
             foreach( $domains as $dom ) { 
                 $acc = $dom->{'accession'};
