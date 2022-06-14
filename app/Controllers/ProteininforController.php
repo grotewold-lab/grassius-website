@@ -123,6 +123,7 @@ class ProteininforController extends PdicollectionController
                 }
                 
                 $best_seq_len = strlen($aa_seq);
+                $data['seq_len'] = $best_seq_len;
                 $default_transcript_index = $i;   
                 $domains = json_decode( '['.$results[$i]['domains'].']' );
                 
@@ -134,8 +135,12 @@ class ProteininforController extends PdicollectionController
                     $dom->{'desc'} = $dom_info[1];
                 }
                 
+            
+                // sort domains based on start position
+                usort($domains, function ($a, $b) {
+                    return $a->{'start'} - $b->{'start'};
+                });
                 $data['domains'] = $domains;
-                $data['seq_len'] = strlen($aa_seq);
                 $results[$i]['proteinsequence_dom'] = build_color_by_domain($aa_seq, $domains  );
             }
         } 
