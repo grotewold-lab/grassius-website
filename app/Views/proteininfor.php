@@ -220,8 +220,9 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
         $(".dom_legend_hover:not(.dlhi_all)").each(function(i){
             var title = $(this).data('title');
             var desc = $(this).data('desc');
+            var acc = $(this).data('acc');
             $(this).addClass('ss_hover');
-            $(this).append('<div class="dom_legend_hovermenu"><ul><lh>'+title+'</lh></ul><p>'+desc+'</p></div>');
+            $(this).append('<div class="dom_legend_hovermenu"><ul><lh>'+title+'</lh></ul><p>'+desc+'</p><a target="_blank" href="https://pfam.xfam.org/family/'+acc+'">view on pfam.org</a></div>');
         })
         
         
