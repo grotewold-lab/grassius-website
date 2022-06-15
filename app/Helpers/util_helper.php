@@ -38,7 +38,7 @@ function describe_maize_genome_version( $version )
   *
   * if $domain (json) is given, a section of the sequence will be highlighted.
   */
-function get_sequence_with_breaks($aa_seq, $domain=NULL, $domain_index=0)
+function get_sequence_with_breaks($aa_seq, $domain=NULL, $color_index=0)
 {
     if( empty($aa_seq) ){
         return "";
@@ -54,7 +54,7 @@ function get_sequence_with_breaks($aa_seq, $domain=NULL, $domain_index=0)
         $dend = $domain->{'end'};
         $dacc = $domain->{'accession'};
         $dseq = substr( $aa_seq, $dstart, ($dend-$dstart) );
-        $dcolor_class = 'do_'.($domain_index % 6);
+        $dcolor_class = 'do_'.($color_index % 6);
         $dtag = '<span data-seq="'.$dseq.'" data-acc="'.$dacc.'" class="hl ssi_'.str_replace('.','_',$dacc).' '.$dcolor_class.'">';
     }
     
@@ -132,16 +132,23 @@ function make_up_color_by_secondary_structure($aa_seq)
  * 
  * return a string containing html tags
  */
-function build_color_by_domain( $aa_seq, $domains )
+function build_color_by_domain( $aa_seq, $domains, $acc_color_indices=NULL )
 {    
+    
     $result = '';
     
     $regular_seq = get_sequence_with_breaks($aa_seq);
-    //$result .= '<p class="sequence aa aa_dom dom_background">'.$regular_seq.'</p>';
+    $result .= '<p class="sequence aa aa_dom dom_background">'.$regular_seq.'</p>';
     
     for($i =0; $i<count($domains);$i++)
     {            
-        $highlighted_seq = get_sequence_with_breaks($aa_seq, $domains[$i], $i);
+        $acc = $domains[$i]->{'accession'};
+        if( is_null($acc_color_indices) ){
+            $color_index = $i;
+        } else {
+            $color_index = $acc_color_indices[$acc];
+        }
+        $highlighted_seq = get_sequence_with_breaks($aa_seq, $domains[$i], $color_index);
         $result .= '<p class="sequence aa aa_dom dom_'.$i.'">'.$highlighted_seq.'</p>';
     }
     

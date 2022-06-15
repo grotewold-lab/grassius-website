@@ -140,8 +140,24 @@ class ProteininforController extends PdicollectionController
                 usort($domains, function ($a, $b) {
                     return $a->{'start'} - $b->{'start'};
                 });
+                    
+                // pick numbers to use for applying colors to domains
+                // make sure domains with the same accession have the same color
+                $acc_color_indices = [];
+                $j = 0;
+                foreach( $domains as $dom )
+                {
+                    $acc = $dom->{'accession'};
+                    if( !array_key_exists( $acc, $acc_color_indices ) )
+                    {
+                        $acc_color_indices[$acc] = $j;
+                        $j += 1;
+                    }
+                }
+                
                 $data['domains'] = $domains;
-                $results[$i]['proteinsequence_dom'] = build_color_by_domain($aa_seq, $domains  );
+                $data['acc_color_indices'] = $acc_color_indices;
+                $results[$i]['proteinsequence_dom'] = build_color_by_domain($aa_seq, $domains, $acc_color_indices );
             }
         } 
         
@@ -175,7 +191,7 @@ class ProteininforController extends PdicollectionController
         
         
         $data['results'] = $results;
-        $data['title'] ="Protein Information";        
+        $data['title'] ="Protein Information";  
         return view('proteininfor', $data);
     }
     
