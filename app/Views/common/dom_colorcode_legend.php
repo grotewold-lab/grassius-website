@@ -23,7 +23,8 @@
                 $during_pct = 100*($dend-$dstart)/$seq_len;
                 $after_pct = 100-$before_pct-$during_pct;
                 
-                $dcolor_class = 'do_'.($dlhi % 6);
+                $color_index = $acc_color_indices[$acc];
+                $dcolor_class = 'do_'.($color_index % 6);
                 
                 $dlhi_class = "dlhi_".$dlhi;
                 if( $dlhi == 0 ){
@@ -68,8 +69,10 @@
         if( dlhi == "all" ){
             $(".sequence.aa.aa_dom").addClass('blend').show();
             $(".sequence.aa.aa_dom.dom_foreground").removeClass('blend').show();
+            $(".sequence.aa.aa_dom.dom_background").removeClass('blend').show();
         } else {
             $(".sequence.aa.aa_dom").hide();
+            $(".sequence.aa.aa_dom.dom_background").removeClass('blend').show();
             $(".sequence.aa.aa_dom.dom_"+dlhi).removeClass('blend').show();
         }
     }
