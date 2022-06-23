@@ -255,6 +255,22 @@ div.dom_legend_hovermenu a {
 
 
 /**
+ * Domain overview table on proteininfor page
+ */
+
+.domain_table tr td {
+    text-align: center;
+}
+
+.domain_table tr td.checked {
+    background-color: #0F0;   
+}
+
+.domain_table tr td.unchecked {
+    background-color: #F00;   
+}
+
+/**
  * button to copy text to the clipboard
  */
 
