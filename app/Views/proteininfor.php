@@ -69,6 +69,42 @@
 
 </p>
 
+
+<?php 
+if( ($domain_table !== NULL) ){
+    
+    $ncols = count($domain_table[0]);
+    
+    echo "<table class='domain_table wikitable'>";
+    echo "<th class='infobox-header' colspan='$ncols'>Overview of domains present in v5 transcripts</th>";
+    echo "<tr>";
+    foreach( $domain_table[0] as $col ){
+        echo "<th>$col</th>";
+    }
+    echo "</tr>";
+    
+    for($i =1; $i<count($domain_table);$i++){
+    
+        $tid = $domain_table[$i][0];
+        echo "<tr><td>$tid</td>";
+        
+        for($j =1; $j<count($domain_table[$i]);$j++){
+            if($domain_table[$i][$j]) {
+                echo "<td class='checked'><img src='/images/check.svg'></img></td>";
+            } else {
+                echo "<td class='unchecked'><img src='/images/x.svg'></img></td>";
+            }
+        }
+    
+        echo "</tr>";
+    
+    }  
+    
+    echo "</table>";
+} 
+?>
+
+
 <?php for($i =0; $i<count($results);$i++){ ?>
     
     <div class="at at_<?php echo $results[$i]["species_version"]; ?>">

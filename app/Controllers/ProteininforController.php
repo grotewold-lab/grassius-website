@@ -110,12 +110,15 @@ class ProteininforController extends PdicollectionController
         } 
         
         
-        // special case, if there is a transcript with domain data, 
-        // make it the first on the list
+        // parse all relevant domain annotations.
+        // find the longest transcript with domain annotations, 
+        // extract annotations and mark it as the transcript of interest
         $best_seq_len = 0;
         for($i =0; $i<count($results);$i++)
         {            
             if( $results[$i]['domains'] !== null ) {
+                $domains = json_decode( '['.$results[$i]['domains'].']' );
+                $results[$i]['domains'] = $domains;
                 $aa_seq = $results[$i]['proteinsequence'];
                 
                 if( strlen($aa_seq) < $best_seq_len ){
@@ -125,7 +128,6 @@ class ProteininforController extends PdicollectionController
                 $best_seq_len = strlen($aa_seq);
                 $data['seq_len'] = $best_seq_len;
                 $default_transcript_index = $i;   
-                $domains = json_decode( '['.$results[$i]['domains'].']' );
                 
                 //lookup domain descriptions
                 foreach( $domains as $dom ) { 
@@ -170,6 +172,33 @@ class ProteininforController extends PdicollectionController
             );
         }
         
+        // build a table showing the differences between transcripts,
+        // in terms of their domain annotations
+        $all_accessions = [];
+        foreach( $results as $r ){
+            if( $r['domains'] !== null ) {
+                foreach( $r['domains'] as $dom ){
+                    $acc = $dom->{'accession'};
+                    if( !in_array( $acc, $all_accessions ) ){
+                        $all_accessions[] = $acc;   
+                    }
+                }
+            }
+        }
+        sort($all_accessions);
+        $domain_table = [array_merge( [''], $all_accessions )];
+        foreach( $results as $r ){
+            if( $r['domains'] !== null ) {
+                $row_data  = [ $r['id_name'] ];
+                foreach( $all_accessions as $target_acc ){
+                    $row_data[] = $this->accession_present( $target_acc, $r['domains'] );
+                }
+                $domain_table[] = $row_data;
+            }
+        }
+        $all_accessions[] = $acc;
+        $data['domain_table'] = $domain_table;
+        
         
         // get statistics about interactions
         $this->regulator_name = $genename;
@@ -195,6 +224,22 @@ class ProteininforController extends PdicollectionController
         return view('proteininfor', $data);
     }
     
+    # return True if the given accession is present in 
+    # the given domain annotations
+    private function accession_present( $target_acc, $domains )
+    {
+        if( $domains == NULL ){
+            return false;
+        }
+        
+        foreach( $domains as $dom ){
+            if( $dom->{'accession'} == $target_acc ){
+                return true;   
+            }
+        }
+        
+        return false;
+    }
     
     private function lookup_dom_info( $acc )
     {
