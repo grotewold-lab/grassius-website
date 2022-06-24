@@ -196,7 +196,6 @@ class ProteininforController extends PdicollectionController
                 $domain_table[] = $row_data;
             }
         }
-        $all_accessions[] = $acc;
         $data['domain_table'] = $domain_table;
         
         
