@@ -17,12 +17,28 @@
 
 
 <?php
+    if( count($domain_colors) > 0 ){
+        echo "Required domains for $familyname family:";
+        foreach( $domain_colors as $dc ){
+            $name = $dc['domain'];
+            $color = get_real_color_for_domain_image($dc['color']);
+            echo "<span class='required_domain_label' style='background-color:$color'>$name</span>";
+        }
+    }
+?>
+
+
+<?php
 if (user_is_admin()) 
 {
     echo '<br><a href="/edit_family/'.$familyname.'">edit description for '.$familyname.' family</a><br>';    
 }          
+?>
 
-echo '<br>';
+<br>
+<br>
+
+<?php
 
 require_once "common/maize_version_controls.php";
 
