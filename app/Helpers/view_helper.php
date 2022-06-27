@@ -5,6 +5,96 @@
  */
 
 
+/**
+ * given a color name like "red",
+ * get a specific rgb code with tweaks for visibility
+ */
+function get_real_color_for_domain_image( $color_name )
+{
+    switch($color_name){
+        case "red":
+            return "#F55";
+        case "green":
+            return "#0F0";
+        case "blue":
+            return "#88F";
+        case "gray":
+            return "#AAA";
+    }
+    return "#FFF";
+}
+
+
+/**
+ * Create a small canvas element showing an overview 
+ * of domain annotations, given as json string
+ *
+ * example: 
+ * https://pfam.xfam.org/family/PF15963.8#tabview=tab1
+ */
+function get_domain_image( $protein_name, $sanno )
+{
+    $domains = json_decode( $sanno );
+    if( is_null($domains) ){
+        $domains = [];
+    }
+    $dom_id = "canvas_$protein_name";
+    $width = 300;
+    $height = 20;
+    
+    $result = "<canvas width='$width' height='$height' id='$dom_id'></canvas>";
+    $result .= "<script>";
+    $result .= "var c = document.getElementById('$dom_id');";
+    $result .= "var ctx = c.getContext('2d');";
+    $result .= "ctx.font = '12px monospaced';";
+
+    # draw horizontal line through the center
+    $y = $height/2;
+    $result .= "ctx.beginPath();";
+    $result .= "ctx.moveTo(0, $y);";
+    $result .= "ctx.lineTo($width, $y);";
+    $result .= "ctx.stroke();";
+    
+    # draw domains
+    foreach( [FALSE,TRUE] as $do_colors ){
+        foreach( $domains as $dom ){
+
+            $acc = $dom->{'accession'};
+            $acc = explode( '.', $acc )[0];
+            $dstart = $dom->{'start'};
+            $dend = $dom->{'end'};
+            $seq_len = $dom->{'seqlen'};
+            $color = $dom->{'color'};
+            if( $color == 'none' ){
+                if( $do_colors ){
+                    continue;   
+                }
+                $color = 'gray';
+            } else {
+                if( !$do_colors ){
+                    continue;
+                }
+            }
+            $color = get_real_color_for_domain_image( $color );
+
+            $rx = $width*$dstart/$seq_len;
+            $rw = $width*($dend-$dstart)/$seq_len;
+            $tx = $rx + 2;
+            $ty = $height*.7;
+            $nchars = $rw/7;
+            $label = substr($acc, 0, $nchars );
+
+            $result .= "ctx.fillStyle = '$color';";
+            $result .= "ctx.fillRect($rx, 0, $rw, $height);";
+            $result .= "ctx.fillStyle = 'black';";
+            $result .= "ctx.fillText('$label', $tx, $ty);";
+        }
+    }
+    
+    $result .= "</script>";
+    
+    return $result;
+}
 
 
 /**
