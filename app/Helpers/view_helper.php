@@ -79,15 +79,14 @@ function get_domain_image( $protein_name, $sanno )
 
             $rx = $width*$dstart/$seq_len;
             $rw = $width*($dend-$dstart)/$seq_len;
+            $ry = 1;
+            $rh = $height-2;
             $tx = $rx + 2;
             $ty = $height*.7;
             $nchars = $rw/7;
             $label = substr($acc, 0, $nchars );
 
-            $result .= "ctx.fillStyle = '$color';";
-            $result .= "ctx.fillRect($rx, 0, $rw, $height);";
-            $result .= "ctx.fillStyle = 'black';";
-            $result .= "ctx.fillText('$label', $tx, $ty);";
+            $result .= "draw_domain_on_canvas( ctx, $rx,$ry,$rw,$rh, '$color', '$label' );";
         }
     }
     

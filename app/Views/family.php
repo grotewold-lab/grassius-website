@@ -3,6 +3,8 @@
 
 <?php require_once "common/species_banner.php"; ?>
 
+<script src="/js/domain_canvas.js"></script>
+
 <h2 class="wiki-top-header"><?php echo $familyname ?> Family from <?php echo $species ?></h2>
 
 <p>
