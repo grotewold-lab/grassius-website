@@ -132,7 +132,7 @@ class ProteininforController extends PdicollectionController
                 //lookup domain descriptions
                 foreach( $domains as $dom ) { 
                     $acc = $dom->{'accession'};
-                    $dom_info = $this->lookup_dom_info( $acc );
+                    $dom_info = lookup_dom_info( $acc );
                     $dom->{'title'} = $dom_info[0];
                     $dom->{'desc'} = $dom_info[1];
                 }
@@ -238,20 +238,6 @@ class ProteininforController extends PdicollectionController
         }
         
         return false;
-    }
-    
-    private function lookup_dom_info( $acc )
-    {
-        $result = $this->db->table('domain_descriptions dd')
-            ->select("dd.dom_title as dom_title,
-                dd.dom_desc AS dom_desc")
-            ->where( 'dd.accession', $acc )
-            ->get()->getResultArray(); 
-        
-        if( count($result) > 0 ){
-            return [ $result[0]["dom_title"], strip_tags($result[0]["dom_desc"]) ];
-        }
-        return [$acc,"No description available"];
     }
     
     // serve an excel sheet containining interactions

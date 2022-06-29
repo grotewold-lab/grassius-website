@@ -60,11 +60,19 @@ function get_domain_image( $protein_name, $sanno )
         foreach( $domains as $dom ){
 
             $acc = $dom->{'accession'};
+            $dom_info = lookup_dom_info( $acc );
             $acc = explode( '.', $acc )[0];
             $dstart = $dom->{'start'};
             $dend = $dom->{'end'};
             $seq_len = $dom->{'seqlen'};
             $color = $dom->{'color'};
+
+            //$title = $acc.': '.$dom_info[0];
+            //$desc = $dom_info[1].'<br/>coordinates: '.$dstart.' - '.$dend;
+
+            $title = $acc;
+            $desc = $dom_info[0].'<br>coordinates: '.$dstart.' - '.$dend;
+
             if( $color == 'none' ){
                 if( $do_colors ){
                     continue;   
@@ -86,10 +94,11 @@ function get_domain_image( $protein_name, $sanno )
             $nchars = $rw/7;
             $label = substr($acc, 0, $nchars );
 
-            $result .= "draw_domain_on_canvas( ctx, $rx,$ry,$rw,$rh, '$color', '$label' );";
+            $result .= "add_domain_to_canvas( ctx, $rx,$ry,$rw,$rh, '$color', '$label', '$title', '$desc' );";
         }
     }
-    
+
+    $result .= "add_mouse_listener_to_canvas(c,ctx);";
     $result .= "</script>";
     
     return $result;
