@@ -11,6 +11,24 @@ function get_maize_genome_versions()
     return ["v3","v4","v5"];
 }
 
+
+/**
+ * Get the title and description of the given domain/accession
+ */
+function lookup_dom_info( $acc )
+{
+    $result = \Config\Database::connect()->table('domain_descriptions dd')
+        ->select("dd.dom_title as dom_title,
+            dd.dom_desc AS dom_desc")
+        ->where( 'dd.accession', $acc )
+        ->get()->getResultArray(); 
+    
+    if( count($result) > 0 ){
+        return [ $result[0]["dom_title"], strip_tags($result[0]["dom_desc"]) ];
+    }
+    return [$acc,"No description available"];
+}
+
 /**
  * get a long name for the given maize genome version
  * 

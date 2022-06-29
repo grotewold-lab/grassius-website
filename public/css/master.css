@@ -521,7 +521,51 @@ span.maize_version_label.v5 {
 }
 
 /**
- * Menu when hovering over an entry in the domain annotation legend
+ * Menu when hovering over domain canvas on family page
+ */
+
+.familypage_dom_hovermenu {
+    position: absolute;
+    top: 0px;
+    left: -300px;
+    display: none;
+    font-family: sans-serif;
+    font-size: 12px;
+    width: 200px;
+    height: auto;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 6px;
+    position: absolute;
+    z-index: 100;
+    opacity: 1.0;
+}
+
+.familypage_dom_hovermenu ul {
+    list-style-type: None;
+    padding: 0px;
+}
+
+.familypage_dom_hovermenu ul lh {
+    font-weight: bold;
+}
+
+.familypage_dom_hovermenu ul li {
+    cursor: pointer;
+    background-color: #FFF;
+    color: #000;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+.familypage_dom_hovermenu.visible {
+    display: block;
+}
+
+/**
+ * Menu when hovering over an entry in the domain annotation legend on proteininfor page
  */
 
 

@@ -60,6 +60,8 @@ else {
 }
 ?>
 
+<div class="familypage_dom_hovermenu"><ul><lh id="familypage_dom_hovermenu_title">title</lh></ul><p id="familypage_dom_hovermenu_desc">description</p></div>
+
 <script>
     var $ = jQuery.noConflict();
     $(document).ready(function(){
