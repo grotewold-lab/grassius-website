@@ -42,7 +42,6 @@ function add_mouse_listener_to_canvas(canvas,ctx){
 		i = 0, r;
 
 		var hovermenu = $('.familypage_dom_hovermenu');
-		var hit = false;
 		while(d = ctx.domains[i++]) {
 			build_path_for_domain_on_canvas( ctx, d[0], d[1], d[2], d[3] );
 			if( ctx.isPointInPath(x, y) ){
@@ -52,9 +51,6 @@ function add_mouse_listener_to_canvas(canvas,ctx){
 				$('#familypage_dom_hovermenu_title').html( d[4] )
 				$('#familypage_dom_hovermenu_desc').html( d[5] )
 			}
-		}
-		if (!hit) {
-			
 		}
 
 	};
