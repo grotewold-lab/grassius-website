@@ -94,6 +94,25 @@ class ProteininforController extends PdicollectionController
             $data[$key] = $results[0][$key];
         }
         
+        
+        // lookup default colors for domain annotations
+        $sql=  "
+            SELECT domain,color
+            FROM family_domain_colors 
+            WHERE family = :familyname:
+        ";
+        $query=$this->db->query($sql,[
+            'familyname'   => $data['family']
+        ]);          
+        $domain_colors = [];
+        foreach( $query->getResultArray() as $dc ){
+            $name = $dc['domain'];
+            $color = get_real_color_for_domain_image($dc['color']);
+            $domain_colors[$name] = $color;
+        }
+        $data['domain_colors'] = $domain_colors;
+        
+        
         // prepare amino acid sequences for display
         // there should be one transcript with secondary structure data
         $default_transcript_index = 0;
@@ -125,43 +144,48 @@ class ProteininforController extends PdicollectionController
                     continue;
                 }
                 
+                
                 $best_seq_len = strlen($aa_seq);
                 $data['seq_len'] = $best_seq_len;
                 $default_transcript_index = $i;   
-                
-                //lookup domain descriptions
-                foreach( $domains as $dom ) { 
-                    $acc = $dom->{'accession'};
-                    $dom_info = lookup_dom_info( $acc );
-                    $dom->{'title'} = $dom_info[0];
-                    $dom->{'desc'} = $dom_info[1];
-                }
-                
-            
-                // sort domains based on start position
-                usort($domains, function ($a, $b) {
-                    return $a->{'start'} - $b->{'start'};
-                });
-                    
-                // pick numbers to use for applying colors to domains
-                // make sure domains with the same accession have the same color
-                $acc_color_indices = [];
-                $j = 0;
-                foreach( $domains as $dom )
-                {
-                    $acc = $dom->{'accession'};
-                    if( !array_key_exists( $acc, $acc_color_indices ) )
-                    {
-                        $acc_color_indices[$acc] = $j;
-                        $j += 1;
-                    }
-                }
-                
-                $data['domains'] = $domains;
-                $data['acc_color_indices'] = $acc_color_indices;
-                $results[$i]['proteinsequence_dom'] = build_color_by_domain($aa_seq, $domains, $acc_color_indices );
+                $default_transcript_domains = $domains;
+                $default_transcript_aa_seq = $aa_seq;
             }
-        } 
+        }
+        
+        $domains = $default_transcript_domains;
+        $aa_seq = $default_transcript_aa_seq;
+        
+        //lookup domain descriptions
+        foreach( $domains as $dom ) { 
+            $acc = $dom->{'accession'};
+            $dom_info = lookup_dom_info( $acc );
+            $dom->{'title'} = $dom_info[0];
+            $dom->{'desc'} = $dom_info[1];
+        }
+
+
+        // sort domains based on start position
+        usort($domains, function ($a, $b) {
+            return $a->{'start'} - $b->{'start'};
+        });
+
+        // pick colors for accession names
+        // make sure colors are consistent with family page
+        $acc_color_indices = [];
+        $j = 0;
+        foreach( $domains as $dom )
+        {
+            $acc = $dom->{'accession'};
+            if( !array_key_exists( $acc, $acc_color_indices ) )
+            {
+                $acc_color_indices[$acc] = $j;
+                $j += 1;
+            }
+        }
+
+        $data['domains'] = $domains;
+        $results[$default_transcript_index]['proteinsequence_dom'] = build_color_by_domain($aa_seq, $domains, $domain_colors );
         
         // move the transcript of interest to the top of the list
         if( $default_transcript_index > 0 ){
@@ -197,7 +221,6 @@ class ProteininforController extends PdicollectionController
             }
         }
         $data['domain_table'] = $domain_table;
-        
         
         // get statistics about interactions
         $this->regulator_name = $genename;

@@ -150,27 +150,8 @@ li.term a.ui-state-active {
 .do_SOMETHING { background-color: #AAF }
 
 p.aa_dom { margin-bottom:100px }
-p.aa_dom span.do_0:not(.ss_hover_selected), td.do_0 { background-color: #AAF }
-p.aa_dom span.do_1:not(.ss_hover_selected), td.do_1 { background-color: #AFA }
-p.aa_dom span.do_2:not(.ss_hover_selected), td.do_2 { background-color: #FAA }
-p.aa_dom span.do_3:not(.ss_hover_selected), td.do_3 { background-color: #FFA }
-p.aa_dom span.do_4:not(.ss_hover_selected), td.do_4 { background-color: #FAF }
-p.aa_dom span.do_5:not(.ss_hover_selected), td.do_5 { background-color: #AFF }
 
 p.aa_dom.blend span { color: #FFF; opacity: 0.5 }
-p.aa_dom.blend span.do_0 { color: #AAF }
-p.aa_dom.blend span.do_1 { color: #AFA }
-p.aa_dom.blend span.do_2 { color: #FAA }
-p.aa_dom.blend span.do_3 { color: #FFA }
-p.aa_dom.blend span.do_4 { color: #FAF }
-p.aa_dom.blend span.do_5 { color: #AFF }
-
-div.dom_legend_vis span.do_0 { background-color: #AAF }
-div.dom_legend_vis span.do_1 { background-color: #AFA }
-div.dom_legend_vis span.do_2 { background-color: #FAA }
-div.dom_legend_vis span.do_3 { background-color: #FFA }
-div.dom_legend_vis span.do_4 { background-color: #FAF }
-div.dom_legend_vis span.do_5 { background-color: #AFF }
 
 .ss_legend_infobox {
     border: 1px solid #a2a9b1;
@@ -231,7 +212,7 @@ tr.dom_legend_hover td {
 }
 
 tr.dom_legend_hover_selected td  {
-    background-color: black;
+    background-color: black !important;
     color: white;
 }
 
@@ -618,7 +599,7 @@ span.maize_version_label.v5 {
 }
 
 .ss_hover_selected {
-    background-color: black;
+    background-color: black !important;
     color: white;
 }
 
