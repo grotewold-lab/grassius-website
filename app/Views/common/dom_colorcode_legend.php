@@ -11,10 +11,20 @@
             if( !isset($domains) ){
                 $domains = [];
             }
+            
+            if( !isset($domain_colors) ){
+                $domain_colors = [];
+            }
+            
+            $default_colors = [
+                '#FFA','#FAF','#AFF'
+            ];
+            $dc_index = 0;
 
             $dlhi = 0;
             foreach( $domains as $dom ) { 
                 $acc = $dom->{'accession'};
+                $acc = explode('.',$acc)[0];
                 $name = $dom->{'name'};
                 $dstart = $dom->{'start'};
                 $dend = $dom->{'end'};
@@ -26,8 +36,13 @@
                 $during_pct = 100*($dend-$dstart)/$seq_len;
                 $after_pct = 100-$before_pct-$during_pct;
                 
-                $color_index = $acc_color_indices[$acc];
-                $dcolor_class = 'do_'.($color_index % 6);
+                if( array_key_exists( $acc, $domain_colors ) ){
+                    $color = $domain_colors[$acc];
+                } else {
+                    $color = $default_colors[ $dc_index % count($default_colors) ];
+                    $domain_colors[$acc] = $color;
+                    $dc_index += 1;
+                }
                 
                 $dlhi_class = "dlhi_".$dlhi;
                 if( $dlhi == 0 ){
@@ -37,12 +52,12 @@
                 
                 
                 <tr class="dom_legend_hover <?php echo $dlhi_class; ?>" data-title="<?php echo $title; ?>" data-desc="<?php echo $desc; ?>" data-acc="<?php echo $acc; ?>">
-                    <td class="<?php echo $dcolor_class; ?>"><?php echo $acc; ?></td>
+                    <td style="background-color:<?php echo $color;?>"><?php echo $acc; ?></td>
                     <td class="infobox-data">
                         <div class="dom_legend_vis">
-                            <span class="vis_before_dom <?php echo $dcolor_class; ?>" style="width:<?php echo $before_pct;?>%"></span>
-                            <span class="vis_dom <?php echo $dcolor_class; ?>" style="width:<?php echo $during_pct;?>%"></span>
-                            <span class="vis_after_dom <?php echo $dcolor_class; ?>" style="width:<?php echo $after_pct;?>%"></span>
+                            <span class="vis_before_dom" style="background-color:<?php echo $color;?>; width:<?php echo $before_pct;?>%"></span>
+                            <span class="vis_dom" style="background-color:<?php echo $color;?>; width:<?php echo $during_pct;?>%"></span>
+                            <span class="vis_after_dom" style="background-color:<?php echo $color;?>; width:<?php echo $after_pct;?>%"></span>
                         </div>
                     </td>
                 </tr>    

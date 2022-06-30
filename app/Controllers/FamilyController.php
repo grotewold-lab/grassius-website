@@ -168,7 +168,7 @@ class FamilyController extends DatatableController
         ";
         $query=$this->db->query($sql,[
             'familyname'   => $family
-        ]);          
+        ]);
         $data['domain_colors'] = $query->getResultArray();
         
         

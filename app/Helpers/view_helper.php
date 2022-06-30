@@ -7,7 +7,7 @@
 
 /**
  * given a color name like "red",
- * get a specific rgb code with tweaks for visibility
+ * get a specific rgb code with tweaks for readability
  */
 function get_real_color_for_domain_image( $color_name )
 {
