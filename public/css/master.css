@@ -339,10 +339,12 @@ table.dataTable tbody tr:nth-child(odd) {
 
 div.accpt a {
     color: #ce6301;
+    text-decoration: underline;
 }
 
 div.sugg a {
     color: #808B96;
+    text-decoration: underline;
 }
 
 
