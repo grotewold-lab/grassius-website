@@ -194,6 +194,10 @@ span.required_domain_label {
     margin: 0px 10px;
 }
 
+span.required_domain_label a {
+    color: black;
+}
+
 /**
  * Overlapping p tags with domain highlighting
  */

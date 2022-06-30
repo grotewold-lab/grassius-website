@@ -41,6 +41,7 @@ function get_domain_image( $protein_name, $sanno )
     $dom_id = "canvas_$protein_name";
     $width = 300;
     $height = 20;
+    $padding = 10;
     
     $result = "<canvas width='$width' height='$height' id='$dom_id'></canvas>";
     $result .= "<script>";
@@ -85,8 +86,8 @@ function get_domain_image( $protein_name, $sanno )
             }
             $color = get_real_color_for_domain_image( $color );
 
-            $rx = $width*$dstart/$seq_len;
-            $rw = $width*($dend-$dstart)/$seq_len;
+            $rx = $padding+($width-2*$padding)*$dstart/$seq_len;
+            $rw = ($width-2*$padding)*($dend-$dstart)/$seq_len;
             $ry = 1;
             $rh = $height-2;
             $tx = $rx + 2;
