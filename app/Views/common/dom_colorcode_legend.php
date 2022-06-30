@@ -19,6 +19,9 @@
                 $dstart = $dom->{'start'};
                 $dend = $dom->{'end'};
                 
+                $title = $dom->{'title'}.'<br>coordinates: '.$dstart.' - '.$dend;
+                $desc = $dom->{'desc'};
+                
                 $before_pct = 100*$dstart/$seq_len;
                 $during_pct = 100*($dend-$dstart)/$seq_len;
                 $after_pct = 100-$before_pct-$during_pct;
@@ -33,7 +36,7 @@
             ?>
                 
                 
-                <tr class="dom_legend_hover <?php echo $dlhi_class; ?>" data-title="<?php echo $dom->{'title'}; ?>" data-desc="<?php echo $dom->{'desc'}; ?>" data-acc="<?php echo $acc; ?>">
+                <tr class="dom_legend_hover <?php echo $dlhi_class; ?>" data-title="<?php echo $title; ?>" data-desc="<?php echo $desc; ?>" data-acc="<?php echo $acc; ?>">
                     <td class="<?php echo $dcolor_class; ?>"><?php echo $acc; ?></td>
                     <td class="infobox-data">
                         <div class="dom_legend_vis">
