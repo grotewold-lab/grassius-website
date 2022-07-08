@@ -24,7 +24,7 @@
         foreach( $domain_colors as $dc ){
             $name = $dc['domain'];
             $color = get_real_color_for_domain_image($dc['color']);
-            echo "<span class='required_domain_label' style='background-color:$color'><a href='https://pfam.xfam.org/family/$name' target='_blank'>$name</a></span>";
+            echo "<span class='required_domain_label' style='background-color:$color'><a href='/download/hmm/$name.hmm' target='_blank'>$name</a></span>";
         }
     }
 ?>

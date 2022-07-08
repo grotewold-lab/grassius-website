@@ -79,7 +79,8 @@ if( ($domain_table !== NULL) ){
     echo "<th class='infobox-header' colspan='$ncols'>Overview of domains present in v5 transcripts</th>";
     echo "<tr>";
     foreach( $domain_table[0] as $col ){
-        echo "<th>$col</th>";
+        $col = explode('.',$col)[0];
+        echo "<th><a target='_blank' href='/download/hmm/$col.hmm'>$col</a></th>";
     }
     echo "</tr>";
     
