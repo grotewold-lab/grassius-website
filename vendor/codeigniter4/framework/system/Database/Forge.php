@@ -135,7 +135,7 @@ class Forge
      *
      * @var false|string
      */
-    protected $renameTableStr = 'ALTER TABLE %s RENAME TO %s;';
+    protected $renameTableStr = 'ALTER TABLE %s RENAME TO %s';
 
     /**
      * UNSIGNED support
@@ -179,7 +179,7 @@ class Forge
      */
     public function __construct(BaseConnection $db)
     {
-        $this->db = &$db;
+        $this->db = $db;
     }
 
     /**
@@ -462,7 +462,7 @@ class Forge
     public function dropForeignKey(string $table, string $foreignName)
     {
         $sql = sprintf(
-            $this->dropConstraintStr,
+            (string) $this->dropConstraintStr,
             $this->db->escapeIdentifiers($this->db->DBPrefix . $table),
             $this->db->escapeIdentifiers($this->db->DBPrefix . $foreignName)
         );
@@ -804,9 +804,7 @@ class Forge
                 $fields = explode(',', $fields);
             }
 
-            $fields = array_map(function ($field) {
-                return 'DROP COLUMN ' . $this->db->escapeIdentifiers(trim($field));
-            }, $fields);
+            $fields = array_map(fn ($field) => 'DROP COLUMN ' . $this->db->escapeIdentifiers(trim($field)), $fields);
 
             return $sql . implode(', ', $fields);
         }
@@ -982,6 +980,8 @@ class Forge
                 // Override the NULL attribute if that's our default
                 $attributes['NULL'] = true;
                 $field['null']      = empty($this->null) ? '' : ' ' . $this->null;
+            } elseif ($attributes['DEFAULT'] instanceof RawSql) {
+                $field['default'] = $this->default . $attributes['DEFAULT'];
             } else {
                 $field['default'] = $this->default . $this->db->escape($attributes['DEFAULT']);
             }
@@ -1042,14 +1042,14 @@ class Forge
             if (in_array($i, $this->uniqueKeys, true)) {
                 $sqls[] = 'ALTER TABLE ' . $this->db->escapeIdentifiers($table)
                     . ' ADD CONSTRAINT ' . $this->db->escapeIdentifiers($table . '_' . implode('_', $this->keys[$i]))
-                    . ' UNIQUE (' . implode(', ', $this->db->escapeIdentifiers($this->keys[$i])) . ');';
+                    . ' UNIQUE (' . implode(', ', $this->db->escapeIdentifiers($this->keys[$i])) . ')';
 
                 continue;
             }
 
             $sqls[] = 'CREATE INDEX ' . $this->db->escapeIdentifiers($table . '_' . implode('_', $this->keys[$i]))
                 . ' ON ' . $this->db->escapeIdentifiers($table)
-                . ' (' . implode(', ', $this->db->escapeIdentifiers($this->keys[$i])) . ');';
+                . ' (' . implode(', ', $this->db->escapeIdentifiers($this->keys[$i])) . ')';
         }
 
         return $sqls;

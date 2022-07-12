@@ -115,8 +115,6 @@ class MemcachedHandler extends BaseHandler
             } else {
                 throw new CriticalError('Cache: Not support Memcache(d) extension.');
             }
-        } catch (CriticalError $e) {
-            throw $e;
         } catch (Exception $e) {
             throw new CriticalError('Cache: Memcache(d) connection refused (' . $e->getMessage() . ').');
         }
@@ -146,7 +144,7 @@ class MemcachedHandler extends BaseHandler
             }
         }
 
-        return is_array($data) ? $data[0] : $data; // @phpstan-ignore-line
+        return is_array($data) ? $data[0] : $data;
     }
 
     /**
@@ -172,7 +170,6 @@ class MemcachedHandler extends BaseHandler
             return $this->memcached->set($key, $value, 0, $ttl);
         }
 
-        // @phpstan-ignore-next-line
         return false;
     }
 
@@ -205,7 +202,6 @@ class MemcachedHandler extends BaseHandler
 
         $key = static::validateKey($key, $this->prefix);
 
-        // @phpstan-ignore-next-line
         return $this->memcached->increment($key, $offset, $offset, 60);
     }
 
@@ -221,7 +217,7 @@ class MemcachedHandler extends BaseHandler
         $key = static::validateKey($key, $this->prefix);
 
         // FIXME: third parameter isn't other handler actions.
-        // @phpstan-ignore-next-line
+
         return $this->memcached->decrement($key, $offset, $offset, 60);
     }
 
