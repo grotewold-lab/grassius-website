@@ -12,13 +12,16 @@
 namespace CodeIgniter\Security;
 
 use CodeIgniter\Cookie\Cookie;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\Response;
 use CodeIgniter\Security\Exceptions\SecurityException;
 use CodeIgniter\Session\Session;
 use Config\App;
 use Config\Cookie as CookieConfig;
 use Config\Security as SecurityConfig;
 use Config\Services;
+use LogicException;
 
 /**
  * Class Security
@@ -30,6 +33,7 @@ class Security implements SecurityInterface
 {
     public const CSRF_PROTECTION_COOKIE  = 'cookie';
     public const CSRF_PROTECTION_SESSION = 'session';
+    protected const CSRF_HASH_BYTES      = 16;
 
     /**
      * CSRF Protection Method
@@ -39,6 +43,13 @@ class Security implements SecurityInterface
      * @var string 'cookie' or 'session'
      */
     protected $csrfProtection = self::CSRF_PROTECTION_COOKIE;
+
+    /**
+     * CSRF Token Randomization
+     *
+     * @var bool
+     */
+    protected $tokenRandomize = false;
 
     /**
      * CSRF Hash
@@ -125,28 +136,21 @@ class Security implements SecurityInterface
      *
      * @var string
      *
-     * @deprecated
+     * @deprecated `Config\Cookie` $samesite property is used.
      */
     protected $samesite = Cookie::SAMESITE_LAX;
 
-    /**
-     * @var RequestInterface
-     */
-    private $request;
+    private IncomingRequest $request;
 
     /**
      * CSRF Cookie Name without Prefix
-     *
-     * @var string
      */
-    private $rawCookieName;
+    private ?string $rawCookieName = null;
 
     /**
      * Session instance.
-     *
-     * @var Session
      */
-    private $session;
+    private ?Session $session = null;
 
     /**
      * Constructor.
@@ -165,8 +169,10 @@ class Security implements SecurityInterface
             $this->tokenName      = $security->tokenName ?? $this->tokenName;
             $this->headerName     = $security->headerName ?? $this->headerName;
             $this->regenerate     = $security->regenerate ?? $this->regenerate;
+            $this->redirect       = $security->redirect ?? $this->redirect;
             $this->rawCookieName  = $security->cookieName ?? $this->rawCookieName;
             $this->expires        = $security->expires ?? $this->expires;
+            $this->tokenRandomize = $security->tokenRandomize ?? $this->tokenRandomize;
         } else {
             // `Config/Security.php` is absence
             $this->tokenName     = $config->CSRFTokenName ?? $this->tokenName;
@@ -174,6 +180,7 @@ class Security implements SecurityInterface
             $this->regenerate    = $config->CSRFRegenerate ?? $this->regenerate;
             $this->rawCookieName = $config->CSRFCookieName ?? $this->rawCookieName;
             $this->expires       = $config->CSRFExpire ?? $this->expires;
+            $this->redirect      = $config->CSRFRedirect ?? $this->redirect;
         }
 
         if ($this->isCSRFCookie()) {
@@ -270,14 +277,16 @@ class Security implements SecurityInterface
             return $this;
         }
 
-        $token = $this->getPostedToken($request);
+        $postedToken = $this->getPostedToken($request);
+        $token       = ($postedToken !== null && $this->tokenRandomize)
+            ? $this->derandomize($postedToken) : $postedToken;
 
         // Do the tokens match?
         if (! isset($token, $this->hash) || ! hash_equals($this->hash, $token)) {
             throw SecurityException::forDisallowedAction();
         }
 
-        $json = json_decode($request->getBody());
+        $json = json_decode($request->getBody() ?? '');
 
         if (isset($_POST[$this->tokenName])) {
             // We kill this since we're done and we don't want to pollute the POST array.
@@ -312,9 +321,10 @@ class Security implements SecurityInterface
         if ($request->hasHeader($this->headerName) && ! empty($request->header($this->headerName)->getValue())) {
             $tokenName = $request->header($this->headerName)->getValue();
         } else {
-            $json = json_decode($request->getBody());
+            $body = (string) $request->getBody();
+            $json = json_decode($body);
 
-            if (! empty($request->getBody()) && ! empty($json) && json_last_error() === JSON_ERROR_NONE) {
+            if ($body !== '' && ! empty($json) && json_last_error() === JSON_ERROR_NONE) {
                 $tokenName = $json->{$this->tokenName} ?? null;
             } else {
                 $tokenName = null;
@@ -329,7 +339,33 @@ class Security implements SecurityInterface
      */
     public function getHash(): ?string
     {
-        return $this->hash;
+        return $this->tokenRandomize ? $this->randomize($this->hash) : $this->hash;
+    }
+
+    /**
+     * Randomize hash to avoid BREACH attacks.
+     */
+    protected function randomize(string $hash): string
+    {
+        $keyBinary  = random_bytes(static::CSRF_HASH_BYTES);
+        $hashBinary = hex2bin($hash);
+
+        if ($hashBinary === false) {
+            throw new LogicException('$hash is invalid: ' . $hash);
+        }
+
+        return bin2hex(($hashBinary ^ $keyBinary) . $keyBinary);
+    }
+
+    /**
+     * Derandomize the token.
+     */
+    protected function derandomize(string $token): string
+    {
+        $key   = substr($token, -static::CSRF_HASH_BYTES * 2);
+        $value = substr($token, 0, static::CSRF_HASH_BYTES * 2);
+
+        return bin2hex(hex2bin($value) ^ hex2bin($key));
     }
 
     /**
@@ -461,7 +497,7 @@ class Security implements SecurityInterface
                 return $this->hash = $this->session->get($this->tokenName);
             }
 
-            $this->hash = bin2hex(random_bytes(16));
+            $this->hash = bin2hex(random_bytes(static::CSRF_HASH_BYTES));
 
             if ($this->isCSRFCookie()) {
                 $this->saveHashInCookie();
@@ -490,13 +526,18 @@ class Security implements SecurityInterface
                 'expires' => $this->expires === 0 ? 0 : time() + $this->expires,
             ]
         );
-        $this->sendCookie($this->request);
+
+        /** @var Response $response */
+        $response = Services::response();
+        $response->setCookie($this->cookie);
     }
 
     /**
      * CSRF Send Cookie
      *
      * @return false|Security
+     *
+     * @deprecated Set cookies to Response object instead.
      */
     protected function sendCookie(RequestInterface $request)
     {
@@ -515,6 +556,8 @@ class Security implements SecurityInterface
      * Extracted for this to be unit tested.
      *
      * @codeCoverageIgnore
+     *
+     * @deprecated Set cookies to Response object instead.
      */
     protected function doSendCookie(): void
     {
