@@ -151,7 +151,9 @@ function make_up_color_by_secondary_structure($aa_seq)
  * return a string containing html tags
  */
 function build_color_by_domain( $aa_seq, $domains, $domain_colors=[] )
-{    
+{   
+    // CUSTOM FAMILIES
+    return '';
     
     $result = '';
     
