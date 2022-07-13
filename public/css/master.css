@@ -167,6 +167,38 @@ p.aa_dom.blend span { color: #FFF; opacity: 0.5 }
     margin-left:-8px;
 }
 
+
+/**
+ * Customfamily page
+ */
+
+li.ui-menu-item {
+    cursor:pointer;   
+}
+
+div#req_container div, div#forb_container div {
+    margin: 10px;
+}
+
+div#req_container div:nth-child(3n+2) {
+    background-color: #AFA;
+}
+div#req_container div:nth-child(3n+3) {
+    background-color: #AAF;
+}
+div#req_container div:nth-child(3n+4) {
+    background-color: #FF0;
+}
+
+div#req_container div p, div#forb_container div p {
+    display:inline;
+    margin: 10px;
+}
+
+p#cf_table_placeholder {
+    color:red   
+}
+
 /**
  * Color-coded labels for required domains on family page
  */

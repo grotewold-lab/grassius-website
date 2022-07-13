@@ -18,12 +18,13 @@ function get_real_color_for_domain_image( $color_name )
             return "#0F0";
         case "blue":
             return "#88F";
+        case "yellow":
+            return "#FF0";
         case "gray":
             return "#AAA";
     }
     return "#FFF";
 }
-
 
 /**
  * Create a small canvas element showing an overview 
@@ -32,8 +33,9 @@ function get_real_color_for_domain_image( $color_name )
  * example: 
  * https://pfam.xfam.org/family/PF15963.8#tabview=tab1
  */
-function get_domain_image( $protein_name, $sanno )
+function get_domain_image( $protein_name, $sanno, $cf_req_doms=NULL )
 {
+    
     $domains = json_decode( $sanno );
     if( is_null($domains) ){
         $domains = [];
@@ -74,6 +76,14 @@ function get_domain_image( $protein_name, $sanno )
             $title = $acc;
             $desc = $dom_info[0].'<br>coordinates: '.$dstart.' - '.$dend;
 
+            if( $do_colors and isset($cf_req_doms) ){
+                $ci = array_search( $acc, $cf_req_doms );
+                if( $ci === false ){
+                    $color = 'gray'; 
+                }else {  
+                    $color = ['green','blue','yellow'][$ci % 3];
+                }
+            }
             if( $color == 'none' ){
                 if( $do_colors ){
                     continue;   

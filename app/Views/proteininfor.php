@@ -17,7 +17,6 @@
 
 
 
-
 <table class="infobox">
    <tbody>
       <tr>
@@ -60,6 +59,7 @@
 
 
 
+<h2 style='color:red'>WARNING some sequences have been removed to save memory</h2>
 <h2 class="wiki-top-header">Protein <?php echo $genename; ?></h2>
 <p><?php echo $genename; ?> is a protein in the <?php echo $family; ?> family. 
     

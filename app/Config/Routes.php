@@ -53,6 +53,15 @@ $routes->get('/pdicollection/datatable', 'PdicollectionController::datatable');
 
 $routes->get('/browsefamily/(:segment)/(:segment)', 'BrowsefamilyController::index/$1/$2');
 
+$routes->get('/transcripts', 'TranscriptsController::index');
+$routes->get('/transcripts_datatable', 'TranscriptsController::datatable');
+
+
+$routes->get('/customfamily_autocomplete', 'CustomfamilyController::customfamily_autocomplete');
+$routes->get('/customfamily/Maize', 'CustomfamilyController::index/Maize');
+$routes->get('/customfamily_datatable/Maize/(:segment)/(:segment)', 'CustomfamilyController::customfamily_datatable/Maize/$1/$2');
+
+
 $routes->get('/family/(:segment)/(:any)', 'FamilyController::index/$1/$2');
 $routes->get('/family_datatable/(:segment)/(:any)', 'FamilyController::family_datatable/$1/$2');
 $routes->get('/family_datatable_debug/(:segment)/(:any)', 'FamilyController::family_datatable_debug/$1/$2');

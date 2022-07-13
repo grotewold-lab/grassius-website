@@ -8,6 +8,10 @@
             </tr>
             <?php 
             
+            // CUSTOM FAMILIES
+            $domains = [];
+            $domain_colors = [];
+            
             if( !isset($domains) ){
                 $domains = [];
             }
