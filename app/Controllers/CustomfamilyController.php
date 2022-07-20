@@ -8,11 +8,19 @@ class CustomfamilyController extends DatatableController
     // implement DatatableController
     protected function get_column_config()
     {
+        // WARNING
+        // the view customfamily.php must 
+        // have matching config (around line 128)
+        
         return [
             
            // [ query-key, result-key, view-label ]
            ["f.uniquename", "tid", "Transcript ID"],
-           ["td.domains", "domains", "Domains"]
+           ["fp_gene.value", "gid", "Gene ID"],
+           ["td.domains", "domains", "Domains"],
+           ["f.name", "protein_name", "Protein Name"],
+           ["fp_family.value", "family", "Family"],
+           ["fp_class.value", "class", "Class"]
         ];
     }
     
@@ -26,9 +34,14 @@ class CustomfamilyController extends DatatableController
     protected function get_base_query_builder()
     {        
         $result = $this->db->table('feature f')
-            ->select("f.uniquename AS tid, td.domains AS domains")
+            ->select("f.uniquename AS tid, fp_gene.value AS gid, td.domains AS domains, f.name as protein_name, fp_class.value as class, fp_family.value as family")
             ->join('organism o','o.organism_id = f.organism_id')
             ->join('transcript_domains td', 'td.tid = f.uniquename')
+            ->join('feature_relationship fr', 'fr.subject_id = f.feature_id', 'LEFT')
+            ->join('feature f_dna', 'fr.object_id = f_dna.feature_id', 'LEFT')
+            ->join('featureprop fp_class', 'fp_class.feature_id = f_dna.feature_id AND fp_class.type_id = 13', 'LEFT')
+            ->join('featureprop fp_family', 'fp_family.feature_id = f_dna.feature_id AND fp_family.type_id = 1362','LEFT')
+            ->join('featureprop fp_gene', 'fp_gene.feature_id = f.feature_id AND fp_gene.type_id = 496', 'LEFT')
             ->where("f.type_id", 534 )
             ->where("o.infraspecific_name", "v5");
         
@@ -45,9 +58,18 @@ class CustomfamilyController extends DatatableController
     
     // implement DatatableController
     protected function prepare_results( $row ) {
+        
+        $species = 'Maize';
+        $fam = $row['family'];
+        $pname = ($row['tid'] == $row['protein_name']) ? '' : $row['protein_name'];
+        
         return [
            "tid" => $row['tid'],
-           "domains" => get_domain_image($row['tid'],$row['domains'],$this->required_doms)
+           "gid" => get_external_db_link($species,$row['gid']),
+           "domains" => get_domain_image($row['tid'],$row['domains'],$this->required_doms),
+            "protein_name" => get_proteininfor_link($species,$pname),
+            "family" => "<a href='/family/$species/$fam'>$fam</a>",
+            "class" => $row['class'],
         ];
     }
         
