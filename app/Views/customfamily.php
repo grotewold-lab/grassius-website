@@ -125,7 +125,14 @@
                 destroy: true,
                 serverSide: true,
                 ajax: url,
-                columns: [{"data":"tid","title":"Transcript ID"},{"data":"domains","title":"Domains"}],
+                columns: [
+                    {"data":"tid","title":"Transcript ID"},
+                    {"data":"gid","title":"Gene ID"},
+                    {"data":"domains","title":"Domains"},
+                    {"data":'protein_name', "title":'Protein Name'},
+                    {"data":'family', "title":'Family'},
+                    {"data":'class', "title":'Class'}
+                ],
             } );
             return data;
         }
