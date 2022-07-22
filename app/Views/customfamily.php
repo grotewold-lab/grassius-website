@@ -202,7 +202,7 @@
 <script>
     var $ = jQuery.noConflict();
     $(document).ready(function(){
-        $("#nav_access").addClass("active");
+        $("#nav_tools").addClass("active");
     })
 </script>
 
