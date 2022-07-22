@@ -69,7 +69,8 @@
             
             "Tools" => array(
                 "Translation Tool" => "/translation_tool",
-                "BLAST" => $blast_tool_url
+                "BLAST" => $blast_tool_url,
+                "Custom Family" => "/customfamily/Maize"
             )
         )
     );
