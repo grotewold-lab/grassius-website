@@ -199,6 +199,12 @@ p#cf_table_placeholder {
     color:red   
 }
 
+div.ui-menu-item-wrapper:hover {
+    background-color: black;
+    color: white;
+}
+
+
 /**
  * Color-coded labels for required domains on family page
  */
