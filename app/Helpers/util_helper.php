@@ -250,7 +250,11 @@ function get_pubmed_link($pubmed_id, $visible_id=FALSE)
 function get_tfomeinfor_link($clone)
 {
     $result = "";
-    
+
+    if( is_null($clone) ){
+        return $result;
+    }
+
     $splitclone = explode(" ", $clone);
     foreach ($splitclone as $tfome) {
         if (!empty($tfome)) {

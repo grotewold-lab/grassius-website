@@ -102,7 +102,7 @@ function get_domain_image( $protein_name, $sanno, $cf_req_doms=NULL )
             $rh = $height-2;
             $tx = $rx + 2;
             $ty = $height*.7;
-            $nchars = $rw/7;
+            $nchars = floor($rw/7);
             $label = substr($acc, 0, $nchars );
 
             $result .= "add_domain_to_canvas( ctx, $rx,$ry,$rw,$rh, '$color', '$label', '$title', '$desc' );";
