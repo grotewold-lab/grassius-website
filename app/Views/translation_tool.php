@@ -1,7 +1,7 @@
 <?= $this->extend('common/layout') ?>
 <?= $this->section('content') ?>
 
-
+<br>
 <h2 class="wiki-top-header">
     Translate Gene Model IDs
 </h2>
@@ -80,7 +80,7 @@
     }
     
     $(document).ready(function(){
-        $('#nav_about_data').addClass("active");
+        $('#nav_tools').addClass("active");
     })
 </script>
 

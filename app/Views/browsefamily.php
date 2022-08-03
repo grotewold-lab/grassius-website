@@ -3,6 +3,8 @@
 
 <?php require_once "common/species_banner.php"; ?>
 
+<a href='/customfamily/<?php echo $species ?>'>build custom family...</a>
+
 <br>
 <h2 class="wiki-top-header"><?php echo $species." ".$class." Families" ?></h2>
 <p>The number next to each family name indicates the number of proteins in that family</p>
@@ -85,6 +87,12 @@
         
 <script src="/js/d3.min.js"></script>
 <script src="/js/grassius_cloud.min.js"></script>
-        
+
+<script>
+    var $ = jQuery.noConflict();
+    $(document).ready(function(){
+        $('#nav_access').addClass("active");
+    })
+</script>
 
 <?= $this->endSection() ?>

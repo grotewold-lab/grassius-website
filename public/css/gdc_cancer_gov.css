@@ -565,14 +565,18 @@ h3 a{
         background-color:#173830;
     }
     .region-navigation .block .wfui-hover-fat-menu .submenu-inner{
+        /*
         background-image:url(/images/gdc_bootstrap/bg-wfui-hover-fat-menu.png);
         background-color:#3c3737;
         background-repeat:no-repeat;
         background-position:right 0.696em;
+        */
     }
     .region-navigation .block .wfui-hover-fat-menu .submenu li{
         border:none;
     }
+    
+    /*
     .region-navigation .block .wfui-hover-fat-menu .access-data .submenu-inner{
         background-image:url(/images/gdc_bootstrap/bg-wfui-hover-fat-menu-access.png);
     }
@@ -585,6 +589,8 @@ h3 a{
     .region-navigation .block .wfui-hover-fat-menu .support .submenu-inner{
         background-image:url(/images/gdc_bootstrap/bg-wfui-hover-fat-menu-support.png);
     }
+    */
+    
     .region-navigation .block .wfui-hover-fat-menu .submenu-main-desc{
         background-color:#173830;
     }
@@ -1100,14 +1106,17 @@ body{
         background-color:#173830;
     }
     .region-navigation .block .wfui-hover-fat-menu .submenu-inner{
+        /*
         background-image:url(/images/gdc_bootstrap/bg-wfui-hover-fat-menu.png);
         background-color:#3c3737;
         background-repeat:no-repeat;
         background-position:right 0.696em;
+        */
     }
     .region-navigation .block .wfui-hover-fat-menu .submenu li{
         border:none;
     }
+    /*
     .region-navigation .block .wfui-hover-fat-menu .access-data .submenu-inner{
         background-image:url(/images/gdc_bootstrap/bg-wfui-hover-fat-menu-access.png);
     }
@@ -1120,6 +1129,7 @@ body{
     .region-navigation .block .wfui-hover-fat-menu .support .submenu-inner{
         background-image:url(/images/gdc_bootstrap/bg-wfui-hover-fat-menu-support.png);
     }
+    */
     .region-navigation .block .wfui-hover-fat-menu .submenu-main-desc{
         background-color:#173830;
     }
@@ -1291,13 +1301,6 @@ body{
     .region-navigation .block .wfui-hover-fat-menu li.news .submenu div.submenu-main div{
         width:45%;
     }
-}
- html{
-    background-color:#f5f5f5;
-}
-body{
-    background-color:#f5f5f5;
-    color:#3a3a3a;
 }
 h1,h2,h3,h4,h5,h6{
     color:#18453b;

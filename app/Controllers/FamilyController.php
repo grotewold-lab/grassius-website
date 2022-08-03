@@ -16,6 +16,7 @@ class FamilyController extends DatatableController
            ["dmn.v3_id", "v3_id", "Maize v3 ID"],
            ["dmn.v4_id", "v4_id", "Maize v4 ID"],
            ["dmn.v5_id", "v5_id", "Maize v5 ID"],
+           ["default_domains.domains","domains","Domains"],
            ["gene_name.synonym", "othername", "Synonym/<br>Gene Name"],
            ["searchable_clones.clone_list", "clones", "Clone in TFome"],
            ["dmn.all_ids", "all_ids", "All Gene IDs"],
@@ -26,8 +27,8 @@ class FamilyController extends DatatableController
     // implement DatatableController
     protected function is_column_searchable( $query_key )
     {
-        // disable searching of the numerical values used for sorting by name
-        if( $query_key == "dmn.name_sort_order" ){
+        // disable searching of certain columns
+        if( in_array( $query_key, ["dmn.name_sort_order"]) ){
             return false;
         }
         
@@ -45,6 +46,7 @@ class FamilyController extends DatatableController
                 dmn.v3_id AS v3_id,
                 dmn.v4_id AS v4_id,
                 dmn.v5_id AS v5_id,
+                default_domains.domains AS domains,
                 dmn.all_ids AS all_ids,
                 dmn.all_ids AS raw_ids,
                 searchable_clones.clone_list AS clones,
@@ -52,6 +54,7 @@ class FamilyController extends DatatableController
                 'Zea mays' AS speciesname")
             ->join('public.searchable_clones', 'searchable_clones.name = dmn.name', 'left')
             ->join('public.gene_name', 'gene_name.grassius_name = dmn.name', 'left')
+            ->join('default_domains', 'default_domains.protein_name = dmn.name', 'left')
             ->where('dmn.family', $this->family);
             
         return $result;
@@ -79,6 +82,7 @@ class FamilyController extends DatatableController
            "v3_id" => get_external_db_link($row['speciesname'], $row['v3_id']),
            "v4_id" => get_external_db_link($row['speciesname'], $row['v4_id']),
            "v5_id" => get_external_db_link($row['speciesname'], $row['v5_id']),
+           "domains" => get_domain_image($row['grassius_name'],$row['domains']),
            "othername" => $row['othername'],
            "clones" => get_tfomeinfor_link($row['clones']),
            "all_ids" => get_agids_hover_element($row['all_ids']), #visible column
@@ -93,9 +97,10 @@ class FamilyController extends DatatableController
     protected function get_extra_datatable_options(){
         return '
               "columnDefs": [ 
-                { "targets": [7],"orderable": false },
-                { "targets": [1,8],"visible": false },
-                { "targets": [0,2,3,4,5,6,7],"width": "20%" },
+                { "targets": [5,8],"orderable": false },
+                { "targets": [1,9],"visible": false },
+                { "targets": [0,2,3,4,7],"width": "10%" },
+                { "targets": [6,8],"width": "15%" },
               ],
             ';   
     }
@@ -153,6 +158,18 @@ class FamilyController extends DatatableController
         $data['familyname'] = $family;
         $data['comments_url'] = $famresult['comments_url'];
         $data['title'] = "GrassTFDB :: Browse Family::$species";
+        
+        
+        # prepare "required domains" info with color coding
+        $sql=  "
+            SELECT domain,color
+            FROM family_domain_colors 
+            WHERE family = :familyname:
+        ";
+        $query=$this->db->query($sql,[
+            'familyname'   => $family
+        ]);
+        $data['domain_colors'] = $query->getResultArray();
         
         
         # set the initial state of the maize version radio buttons

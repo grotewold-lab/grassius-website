@@ -1,5 +1,17 @@
 
 /**
+ * background colors for overall site
+ */
+
+.page {
+    background-color:#f5f5f5;
+}
+
+.header, .header .container {
+    background-color:#ffffff;
+}
+
+/**
  * circular species buttons on home page
  */
 
@@ -135,7 +147,11 @@ li.term a.ui-state-active {
 .ss_UNDETERMINED { background-color: #CCC }
 
 .do_UNDETERMINED { background-color: #CCC }
+.do_SOMETHING { background-color: #AAF }
 
+p.aa_dom { margin-bottom:100px }
+
+p.aa_dom.blend span { color: #FFF; opacity: 0.5 }
 
 .ss_legend_infobox {
     border: 1px solid #a2a9b1;
@@ -151,6 +167,138 @@ li.term a.ui-state-active {
     margin-left:-8px;
 }
 
+
+/**
+ * Customfamily page
+ */
+
+li.ui-menu-item {
+    cursor:pointer;   
+}
+
+div#req_container div, div#forb_container div {
+    margin: 10px;
+}
+
+div#req_container div:nth-child(3n+2) {
+    background-color: #AFA;
+}
+div#req_container div:nth-child(3n+3) {
+    background-color: #AAF;
+}
+div#req_container div:nth-child(3n+4) {
+    background-color: #FF0;
+}
+
+div#req_container div p, div#forb_container div p {
+    display:inline;
+    margin: 10px;
+}
+
+p#cf_table_placeholder {
+    color:red   
+}
+
+div.ui-menu-item-wrapper:hover {
+    background-color: black;
+    color: white;
+}
+
+
+/**
+ * Color-coded labels for required domains on family page
+ */
+span.required_domain_label {
+    padding: 2px 10px;
+    margin: 0px 10px;
+}
+
+span.required_domain_label a {
+    color: black;
+}
+
+/**
+ * Overlapping p tags with domain highlighting
+ */
+
+p.aa_dom.dom_background {
+    color:white;   
+}
+
+p.aa_dom:not(.simple, .dom_background) {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+
+/**
+ * interactive legend for highlighting domains
+ * in protein sequence
+ */
+
+tr.dom_legend_hover {
+    font-weight: bold;   
+}
+
+tr.dlhi_all td {
+    text-align: center;   
+}
+
+tr.dom_legend_hover td {
+    width:80px;   
+}
+
+tr.dom_legend_hover_selected td  {
+    background-color: black !important;
+    color: white;
+}
+
+div.dom_legend_vis {
+    width: 240px;
+    height: 20px;
+    font-size: 0;
+}
+
+div.dom_legend_vis span {
+    display: inline-block;
+    background-color: #AAF;
+}
+
+div.dom_legend_vis span.vis_before_dom {
+    height: 2px;
+    margin-bottom: 8px;
+}
+
+div.dom_legend_vis span.vis_dom {
+    height: 100%;
+}
+
+div.dom_legend_vis span.vis_after_dom {
+    height: 2px;
+    margin-bottom: 8px;
+}
+
+div.dom_legend_hovermenu a {
+    color: #DDF;
+}
+
+
+/**
+ * Domain overview table on proteininfor page
+ */
+
+.domain_table tr td {
+    text-align: center;
+}
+
+.domain_table tr td.checked {
+    background-color: #0F0;   
+}
+
+.domain_table tr td.unchecked {
+    background-color: #F00;   
+}
 
 /**
  * button to copy text to the clipboard
@@ -229,10 +377,12 @@ table.dataTable tbody tr:nth-child(odd) {
 
 div.accpt a {
     color: #ce6301;
+    text-decoration: underline;
 }
 
 div.sugg a {
     color: #808B96;
+    text-decoration: underline;
 }
 
 
@@ -358,6 +508,7 @@ span.maize_version_label.v5 {
     padding: 8px 6px;
     position: absolute;
     z-index: 100;
+    opacity: 1.0;
 }
 
 .ss_hover .ss_hovermenu ul {
@@ -391,6 +542,108 @@ span.maize_version_label.v5 {
 }
 
 .ss_hover:hover .ss_hovermenu {
+    display: block;
+}
+
+/**
+ * Menu when hovering over domain canvas on family page
+ */
+
+.familypage_dom_hovermenu {
+    position: absolute;
+    top: 0px;
+    left: -300px;
+    display: none;
+    font-family: sans-serif;
+    font-size: 12px;
+    width: 200px;
+    height: auto;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 6px;
+    position: absolute;
+    z-index: 100;
+    opacity: 1.0;
+}
+
+.familypage_dom_hovermenu ul {
+    list-style-type: None;
+    padding: 0px;
+}
+
+.familypage_dom_hovermenu ul lh {
+    font-weight: bold;
+}
+
+.familypage_dom_hovermenu ul li {
+    cursor: pointer;
+    background-color: #FFF;
+    color: #000;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+.familypage_dom_hovermenu.visible {
+    display: block;
+}
+
+/**
+ * Menu when hovering over an entry in the domain annotation legend on proteininfor page
+ */
+
+
+.ss_hover .dom_legend_hovermenu {
+    position: absolute;
+    top: 0px;
+    left: -300px;
+    display: none;
+    font-family: sans-serif;
+    font-size: 12px;
+    width: 300px;
+    height: auto;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 6px;
+    position: absolute;
+    z-index: 100;
+    opacity: 1.0;
+}
+
+.ss_hover .dom_legend_hovermenu ul {
+    list-style-type: None;
+    padding: 0px;
+}
+
+.ss_hover .dom_legend_hovermenu ul lh {
+    font-weight: bold;
+}
+
+.ss_hover .dom_legend_hovermenu ul li {
+    cursor: pointer;
+    background-color: #FFF;
+    color: #000;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+.ss_hover .dom_legend_hovermenu ul li:hover {
+    cursor: pointer;
+    background-color: #000;
+    color: #FFF;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+.ss_hover_selected {
+    background-color: black !important;
+    color: white;
+}
+
+.ss_hover:hover .dom_legend_hovermenu {
     display: block;
 }
 

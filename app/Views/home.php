@@ -1,6 +1,8 @@
 <?= $this->extend('common/layout') ?>
 <?= $this->section('content') ?>
 
+<?php require "common/subdomain_urls.php";?>
+
   <div class="row" >
     <div class="col-sm-12" ></div>
   </div>
@@ -30,7 +32,7 @@
                     if( $species == "Maize" ){
                         $href = "/species/$species";
                     } else {
-                        $href = "http://grassius.org";
+                        $href = $old_grassius_url;
                     }
             ?>
           <a
@@ -77,7 +79,7 @@
           >
             <div class="media" >
               <div class="media-middle media-left" >
-                  <img src="/images/gramene/tools.png">
+                  <img src="/images/translate.svg">
               </div>
               <div class="media-middle gramene-tool-text media-body">
                 <h4 class="media-heading" >
@@ -90,76 +92,19 @@
             </div>
           </a>
           <a
-            href="#"
+            href="<?php echo $blast_tool_url; ?>"
             class="gramene-tool col-md-6 list-group-item"
           >
             <div class="media" >
               <div class="media-middle media-left" >
-                  <img src="/images/gramene/ExpressionAtlas.png">
+                  <img src="/images/search.svg">
               </div>
               <div class="media-middle gramene-tool-text media-body">
                 <h4 class="media-heading" >
-                  Placeholder
+                  BLAST
                 </h4>
                 <p class="gramene-tool-desc" >
-                  Placeholder
-                </p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <h2 >More versions of the Maize genome</h2>
-        <div class="row list-group" >
-          <a
-            href="/species/Maize_v3"
-            class="gramene-tool col-md-12 list-group-item"
-          >
-            <div class="media" >
-              <div class="media-middle media-left" >
-                  <?php show_species_icon("Maize") ?>
-              </div>
-              <div class="media-middle gramene-tool-text media-body">
-                <h4 class="media-heading" >
-                  Maize v3
-                </h4>
-                <p class="gramene-tool-desc" >
-                    (default)<br><small>B73 RefGen_v3</small>
-                </p>
-              </div>
-            </div>
-          </a>
-          <a
-            href="/species/Maize_v4"
-            class="gramene-tool col-md-12 list-group-item"
-          >
-            <div class="media" >
-              <div class="media-middle media-left" >
-                  <?php show_species_icon("Maize") ?>
-              </div>
-              <div class="media-middle gramene-tool-text media-body">
-                <h4 class="media-heading" >
-                  Maize v4
-                </h4>
-                <p class="gramene-tool-desc" >
-                    <small>Zm-B73-REFERENCE-GRAMENE-4.0</small>
-                </p>
-              </div>
-            </div>
-          </a>
-          <a
-            href="/species/Maize_v5"
-            class="gramene-tool col-md-12 list-group-item"
-          >
-            <div class="media" >
-              <div class="media-middle media-left" >
-                  <?php show_species_icon("Maize") ?>
-              </div>
-              <div class="media-middle gramene-tool-text media-body">
-                <h4 class="media-heading" >
-                  Maize v5
-                </h4>
-                <p class="gramene-tool-desc" >
-                    <small>Zm-B73-REFERENCE-NAM-5.0</small>
+                  Homology Search Tool
                 </p>
               </div>
             </div>
@@ -169,35 +114,9 @@
     </div>
     <div class="posts-col col-sm-3" >
       <div class="posts-wrapper" >
-          <h2 >Latest News <p style="font-size:10px;">(placeholder, showing publications)</p></h2>
+          <h2 >Recent News</h2><br>
         <ul class="posts list-unstyled" style="overflow: auto; height: 600px;">
-          <li>
-            <strong>Design of Knowledge Bases for Plant Gene Regulatory Networks</strong>
-            <br />
-            Mukundi E, Gomez-Cano F, Ouma WZ, Grotewold E. <a href="https://link.springer.com/protocol/10.1007%2F978-1-4939-7125-1_14">Methods Mol Biol. 1629:207-223</a>. 
-            <span>2017-06-17</span>
-          </li>
-          <li>
-            <strong>A Maize Gene Regulatory Network for Phenolic Metabolism</strong>
-            <br />
-            Yang F, Li W, Jiang N, Yu H, Morohashi K, Ouma WZ, Morales-Mantilla DE, Gomez-Cano FA, Mukundi E, Prada-Salcedo LD, Velazquez RA, Valentin J, Mejía-Guerra MK, Gray J, Doseff AI, Grotewold E. <a href="https://www.sciencedirect.com/science/article/pii/S1674205216302751?via%3Dihub">Mol Plant. 10(3):498-515</a>.
-            <br />
-            <span>2017-03-06</span>
-          </li>
-          <li>
-            <strong>Establishing the Architecture of Plant Gene Regulatory NetworksS</strong>
-            <br />
-            Yang F, Ouma WZ, Li W, Doseff AI, Grotewold E. <a href="https://www.sciencedirect.com/science/article/pii/S0076687916001154?via%3Dihub">Methods Enzymol. 576:251-304</a>.
-            <br />
-            <span>2016-03-04</span>
-          </li>
-          <li>
-            <strong>The Maize TFome - Development of a transcription factor open reading frame collection for functional genomics</strong>
-            <br />
-            Burdo B, Gray J, Goetting-minesky MP, et al. <a href="https://onlinelibrary.wiley.com/doi/10.1111/tpj.12623/abstract">Plant J. 80(2):356-366</a>. <a href="tfomecollection.php">Grassius TFome Collection</a>.
-            <br />
-            <span>2014-07-23</span>
-          </li>
+          <?php echo $news_html; ?>
         </ul>
       </div>
     </div>

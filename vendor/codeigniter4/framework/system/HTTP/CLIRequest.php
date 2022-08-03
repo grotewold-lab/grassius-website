@@ -42,6 +42,13 @@ class CLIRequest extends Request
     protected $options = [];
 
     /**
+     * Command line arguments (segments and options).
+     *
+     * @var array
+     */
+    protected $args = [];
+
+    /**
      * Set the expected HTTP verb
      *
      * @var string
@@ -95,6 +102,14 @@ class CLIRequest extends Request
     }
 
     /**
+     * Returns an array of all CLI arguments (segments and options).
+     */
+    public function getArgs(): array
+    {
+        return $this->args;
+    }
+
+    /**
      * Returns the path segments.
      */
     public function getSegments(): array
@@ -139,11 +154,13 @@ class CLIRequest extends Request
                 $out .= "-{$name} ";
             }
 
-            // If there's a space, we need to group
-            // so it will pass correctly.
+            if ($value === null) {
+                continue;
+            }
+
             if (mb_strpos($value, ' ') !== false) {
                 $out .= '"' . $value . '" ';
-            } elseif ($value !== null) {
+            } else {
                 $out .= "{$value} ";
             }
         }
@@ -170,21 +187,23 @@ class CLIRequest extends Request
                 if ($optionValue) {
                     $optionValue = false;
                 } else {
-                    $this->segments[] = esc(strip_tags($arg));
+                    $this->segments[] = $arg;
+                    $this->args[]     = $arg;
                 }
 
                 continue;
             }
 
-            $arg   = esc(strip_tags(ltrim($arg, '-')));
+            $arg   = ltrim($arg, '-');
             $value = null;
 
             if (isset($args[$i + 1]) && mb_strpos($args[$i + 1], '-') !== 0) {
-                $value       = esc(strip_tags($args[$i + 1]));
+                $value       = $args[$i + 1];
                 $optionValue = true;
             }
 
             $this->options[$arg] = $value;
+            $this->args[$arg]    = $value;
         }
     }
 

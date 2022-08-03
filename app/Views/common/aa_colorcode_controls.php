@@ -17,6 +17,9 @@
     function update_aa( val ){
         $('.aa').hide();
         $('.aa_' + val).show();
+        if( val == 'dom' ){
+            update_dlh("0");
+        }
         
         var match = $('input[type=radio].aa_radio').filter('[value="'+val+'"]')
         if( match.length ) {

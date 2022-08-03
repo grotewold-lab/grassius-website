@@ -3,6 +3,8 @@
 
 <?php require_once "common/species_banner.php"; ?>
 
+<script src="/js/domain_canvas.js"></script>
+
 <h2 class="wiki-top-header"><?php echo $familyname ?> Family from <?php echo $species ?></h2>
 
 <p>
@@ -17,12 +19,28 @@
 
 
 <?php
+    if( count($domain_colors) > 0 ){
+        echo "Required domains for $familyname family:";
+        foreach( $domain_colors as $dc ){
+            $name = $dc['domain'];
+            $color = get_real_color_for_domain_image($dc['color']);
+            echo "<span class='required_domain_label' style='background-color:$color'><a href='/download/hmm/$name.hmm' target='_blank'>$name</a></span>";
+        }
+    }
+?>
+
+
+<?php
 if (user_is_admin()) 
 {
     echo '<br><a href="/edit_family/'.$familyname.'">edit description for '.$familyname.' family</a><br>';    
 }          
+?>
 
-echo '<br>';
+<br>
+<br>
+
+<?php
 
 require_once "common/maize_version_controls.php";
 
@@ -41,6 +59,8 @@ else {
     $nav_id_suffix = 'grasstfdb';
 }
 ?>
+
+<div class="familypage_dom_hovermenu"><ul><lh id="familypage_dom_hovermenu_title">title</lh></ul><p id="familypage_dom_hovermenu_desc">description</p></div>
 
 <script>
     var $ = jQuery.noConflict();

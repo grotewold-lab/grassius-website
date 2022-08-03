@@ -149,7 +149,7 @@ $(document).ready(function(){
 });
 </script>
 
-<?php require_once "navigation.php"; ?>
+<?php require_once "navigation_bar.php"; ?>
 
 <?php require_once "message_alert.php"; ?>
 

@@ -1,6 +1,6 @@
 NOTE 
     blast tool may have separate domain, subdomain, and/or server
-    blast tool url is referenced around line 200 in app/Views/proteininfor.php
+    blast tool url is specified in app/Views/common/subdomain_urls.php
 
 
 blast tool uses Sequenceserver docker container (http)

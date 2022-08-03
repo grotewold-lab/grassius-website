@@ -5,6 +5,115 @@
  */
 
 
+/**
+ * given a color name like "red",
+ * get a specific rgb code with tweaks for readability
+ */
+function get_real_color_for_domain_image( $color_name )
+{
+    switch($color_name){
+        case "red":
+            return "#F55";
+        case "green":
+            return "#0F0";
+        case "blue":
+            return "#88F";
+        case "yellow":
+            return "#FF0";
+        case "gray":
+            return "#AAA";
+    }
+    return "#FFF";
+}
+
+/**
+ * Create a small canvas element showing an overview 
+ * of domain annotations, given as json string
+ *
+ * example: 
+ * https://pfam.xfam.org/family/PF15963.8#tabview=tab1
+ */
+function get_domain_image( $protein_name, $sanno, $cf_req_doms=NULL )
+{
+    
+    $domains = json_decode( $sanno );
+    if( is_null($domains) ){
+        $domains = [];
+    }
+    $dom_id = "canvas_$protein_name";
+    $width = 300;
+    $height = 20;
+    $padding = 10;
+    
+    $result = "<canvas width='$width' height='$height' id='$dom_id'></canvas>";
+    $result .= "<script>";
+    $result .= "var c = document.getElementById('$dom_id');";
+    $result .= "var ctx = c.getContext('2d');";
+    $result .= "ctx.font = '12px monospaced';";
+
+    # draw horizontal line through the center
+    $y = $height/2;
+    $result .= "ctx.beginPath();";
+    $result .= "ctx.moveTo(0, $y);";
+    $result .= "ctx.lineTo($width, $y);";
+    $result .= "ctx.stroke();";
+    
+    # draw domains
+    foreach( [FALSE,TRUE] as $do_colors ){
+        foreach( $domains as $dom ){
+
+            $acc = $dom->{'accession'};
+            $dom_info = lookup_dom_info( $acc );
+            $acc = explode( '.', $acc )[0];
+            $dstart = $dom->{'start'};
+            $dend = $dom->{'end'};
+            $seq_len = $dom->{'seqlen'};
+            $color = $dom->{'color'};
+
+            //$title = $acc.': '.$dom_info[0];
+            //$desc = $dom_info[1].'<br/>coordinates: '.$dstart.' - '.$dend;
+
+            $title = $acc;
+            $desc = $dom_info[0].'<br>coordinates: '.$dstart.' - '.$dend;
+
+            if( $do_colors and isset($cf_req_doms) ){
+                $ci = array_search( $acc, $cf_req_doms );
+                if( $ci === false ){
+                    $color = 'gray'; 
+                }else {  
+                    $color = ['green','blue','yellow'][$ci % 3];
+                }
+            }
+            if( $color == 'none' ){
+                if( $do_colors ){
+                    continue;   
+                }
+                $color = 'gray';
+            } else {
+                if( !$do_colors ){
+                    continue;
+                }
+            }
+            $color = get_real_color_for_domain_image( $color );
+
+            $rx = $padding+($width-2*$padding)*$dstart/$seq_len;
+            $rw = ($width-2*$padding)*($dend-$dstart)/$seq_len;
+            $ry = 1;
+            $rh = $height-2;
+            $tx = $rx + 2;
+            $ty = $height*.7;
+            $nchars = floor($rw/7);
+            $label = substr($acc, 0, $nchars );
+
+            $result .= "add_domain_to_canvas( ctx, $rx,$ry,$rw,$rh, '$color', '$label', '$title', '$desc' );";
+        }
+    }
+
+    $result .= "add_mouse_listener_to_canvas(c,ctx);";
+    $result .= "</script>";
+    
+    return $result;
+}
 
 
 /**

@@ -20,7 +20,9 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('HomeController');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override(function() {
+	return view('404');
+});
 $routes->setAutoRoute(false);
 
 /*
@@ -50,6 +52,15 @@ $routes->get('/pdicollection', 'PdicollectionController::pdicollection_page');
 $routes->get('/pdicollection/datatable', 'PdicollectionController::datatable');
 
 $routes->get('/browsefamily/(:segment)/(:segment)', 'BrowsefamilyController::index/$1/$2');
+
+$routes->get('/transcripts', 'TranscriptsController::index');
+$routes->get('/transcripts_datatable', 'TranscriptsController::datatable');
+
+
+$routes->get('/customfamily_autocomplete', 'CustomfamilyController::customfamily_autocomplete');
+$routes->get('/customfamily/Maize', 'CustomfamilyController::index/Maize');
+$routes->get('/customfamily_datatable/Maize/(:segment)/(:segment)', 'CustomfamilyController::customfamily_datatable/Maize/$1/$2');
+
 
 $routes->get('/family/(:segment)/(:any)', 'FamilyController::index/$1/$2');
 $routes->get('/family_datatable/(:segment)/(:any)', 'FamilyController::family_datatable/$1/$2');
@@ -116,7 +127,7 @@ $routes->get('/edit_family/(:any)', 'Admin\AdminController::edit_family/$1/$2');
 $routes->post('/post_edit_family/(:any)', 'Admin\AdminController::post_edit_family/$1/$2');
 
 // dev pages
-$routes->get('/test', 'TestController::test');
+//$routes->get('/test', 'TestController::test');
 
 
 /*

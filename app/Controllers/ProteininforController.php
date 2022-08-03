@@ -64,6 +64,9 @@ class ProteininforController extends PdicollectionController
 
         $results=$query->getResultArray();
         
+        //debug
+        //return json_encode($results[13]['domains']);
+        
         $data['species'] = $species;
         $data['genename'] = $genename;
         
@@ -80,7 +83,8 @@ class ProteininforController extends PdicollectionController
                 "proteinsequence" => "",
                 "secondary_structures" => "",
                 "species_version" => "",
-                "clone_names" => ""
+                "clone_names" => "",
+                "domains" => ""
             ]];
         }
         
@@ -89,6 +93,25 @@ class ProteininforController extends PdicollectionController
         foreach( ["uniprot_id", "class", "family", "synonym"] as $key ) {
             $data[$key] = $results[0][$key];
         }
+        
+        
+        // lookup default colors for domain annotations
+        $sql=  "
+            SELECT domain,color
+            FROM family_domain_colors 
+            WHERE family = :familyname:
+        ";
+        $query=$this->db->query($sql,[
+            'familyname'   => $data['family']
+        ]);          
+        $domain_colors = [];
+        foreach( $query->getResultArray() as $dc ){
+            $name = $dc['domain'];
+            $color = get_real_color_for_domain_image($dc['color']);
+            $domain_colors[$name] = $color;
+        }
+        $data['domain_colors'] = $domain_colors;
+        
         
         // prepare amino acid sequences for display
         // there should be one transcript with secondary structure data
@@ -105,7 +128,66 @@ class ProteininforController extends PdicollectionController
             $results[$i]['proteinsequence_none'] = get_sequence_with_breaks($results[$i]['proteinsequence']);
         } 
         
-        // make sure the transcript with ss data is the first in the list
+        
+        // parse all relevant domain annotations.
+        // find the longest transcript with domain annotations, 
+        // extract annotations and mark it as the transcript of interest
+        $best_seq_len = 0;
+        for($i =0; $i<count($results);$i++)
+        {            
+            if( $results[$i]['domains'] !== null ) {
+                $domains = json_decode( '['.$results[$i]['domains'].']' );
+                $results[$i]['domains'] = $domains;
+                $aa_seq = $results[$i]['proteinsequence'];
+                
+                if( strlen($aa_seq) < $best_seq_len ){
+                    continue;
+                }
+                
+                
+                $best_seq_len = strlen($aa_seq);
+                $data['seq_len'] = $best_seq_len;
+                $default_transcript_index = $i;   
+                $default_transcript_domains = $domains;
+                $default_transcript_aa_seq = $aa_seq;
+            }
+        }
+        
+        $domains = $default_transcript_domains;
+        $aa_seq = $default_transcript_aa_seq;
+        
+        //lookup domain descriptions
+        foreach( $domains as $dom ) { 
+            $acc = $dom->{'accession'};
+            $dom_info = lookup_dom_info( $acc );
+            $dom->{'title'} = $dom_info[0];
+            $dom->{'desc'} = $dom_info[1];
+        }
+
+
+        // sort domains based on start position
+        usort($domains, function ($a, $b) {
+            return $a->{'start'} - $b->{'start'};
+        });
+
+        // pick colors for accession names
+        // make sure colors are consistent with family page
+        $acc_color_indices = [];
+        $j = 0;
+        foreach( $domains as $dom )
+        {
+            $acc = $dom->{'accession'};
+            if( !array_key_exists( $acc, $acc_color_indices ) )
+            {
+                $acc_color_indices[$acc] = $j;
+                $j += 1;
+            }
+        }
+
+        $data['domains'] = $domains;
+        $results[$default_transcript_index]['proteinsequence_dom'] = build_color_by_domain($aa_seq, $domains, $domain_colors );
+        
+        // move the transcript of interest to the top of the list
         if( $default_transcript_index > 0 ){
             $results = array_merge( 
                 [$results[$default_transcript_index]],
@@ -114,6 +196,31 @@ class ProteininforController extends PdicollectionController
             );
         }
         
+        // build a table showing the differences between transcripts,
+        // in terms of their domain annotations
+        $all_accessions = [];
+        foreach( $results as $r ){
+            if( $r['domains'] !== null ) {
+                foreach( $r['domains'] as $dom ){
+                    $acc = $dom->{'accession'};
+                    if( !in_array( $acc, $all_accessions ) ){
+                        $all_accessions[] = $acc;   
+                    }
+                }
+            }
+        }
+        sort($all_accessions);
+        $domain_table = [array_merge( [''], $all_accessions )];
+        foreach( $results as $r ){
+            if( $r['domains'] !== null ) {
+                $row_data  = [ $r['id_name'] ];
+                foreach( $all_accessions as $target_acc ){
+                    $row_data[] = $this->accession_present( $target_acc, $r['domains'] );
+                }
+                $domain_table[] = $row_data;
+            }
+        }
+        $data['domain_table'] = $domain_table;
         
         // get statistics about interactions
         $this->regulator_name = $genename;
@@ -135,11 +242,26 @@ class ProteininforController extends PdicollectionController
         
         
         $data['results'] = $results;
-        $data['title'] ="Protein Information";        
+        $data['title'] ="Protein Information";  
         return view('proteininfor', $data);
     }
     
-    
+    # return True if the given accession is present in 
+    # the given domain annotations
+    private function accession_present( $target_acc, $domains )
+    {
+        if( $domains == NULL ){
+            return false;
+        }
+        
+        foreach( $domains as $dom ){
+            if( $dom->{'accession'} == $target_acc ){
+                return true;   
+            }
+        }
+        
+        return false;
+    }
     
     // serve an excel sheet containining interactions
     // depends on member variables "regulator_name" and "target_name"

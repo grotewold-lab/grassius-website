@@ -11,6 +11,24 @@ function get_maize_genome_versions()
     return ["v3","v4","v5"];
 }
 
+
+/**
+ * Get the title and description of the given domain/accession
+ */
+function lookup_dom_info( $acc )
+{
+    $result = \Config\Database::connect()->table('domain_descriptions dd')
+        ->select("dd.dom_title as dom_title,
+            dd.dom_desc AS dom_desc")
+        ->where( 'dd.accession', $acc )
+        ->get()->getResultArray(); 
+    
+    if( count($result) > 0 ){
+        return [ $result[0]["dom_title"], strip_tags($result[0]["dom_desc"]) ];
+    }
+    return [$acc,"No description available"];
+}
+
 /**
  * get a long name for the given maize genome version
  * 
@@ -35,20 +53,68 @@ function describe_maize_genome_version( $version )
  /**
   * get a string similar to the given amino acid sequence (string)
   * html tags will be added to limit the length of each line
+  *
+  * if $domain (json) is given, a section of the sequence will be highlighted.
   */
-function get_sequence_with_breaks($aa_seq)
+function get_sequence_with_breaks($aa_seq, $domain=NULL, $color='black')
 {
     if( empty($aa_seq) ){
         return "";
     }
     
     $max_line_length = 80;
+    $i = 0;
     $result = "";
     
-    while( strlen($aa_seq) > $max_line_length ){
+    // if necessary, prepare to insert extra tags to annotate one domain
+    if( $domain !== NULL ){
+        $dstart = $domain->{'start'};
+        $dend = $domain->{'end'};
+        $dacc = $domain->{'accession'};
+        $dseq = substr( $aa_seq, $dstart, ($dend-$dstart) );
+        $ssi_suffix = str_replace('.','_',$dacc);
+        $dtag = "<span data-seq='$dseq' data-acc='$dacc' class='hl ssi_$ssi_suffix' style='background-color:$color'>";
+    }
+    
+    // start building $result line-by-line
+    while( strlen($aa_seq) > 0 ){
+        
         $part = substr( $aa_seq, 0, $max_line_length );
-        $result .= "<span>".$part."</span><br>";
+        $part_end = $i + min( $max_line_length, strlen($part) );
+        
+        // part contained in domain
+        if( ($domain !== NULL) and ($dstart < $i) and ($dend >= $part_end) ){
+            $part = $dtag.$part.'</span>';
+        }
+        
+        // domain contained in part
+        if( ($domain !== NULL) and ($dstart >= $i) and ($dend < $part_end) ){
+            $j = $dstart - $i;
+            $k = $dend - $i;
+            $part = '<span>'.substr($part, 0, $j).'</span>'.$dtag.substr($part, $j, ($k-$j)).'</span><span>'.substr($part, $k).'</span>';
+        }
+
+        // domain starts in part
+        elseif( ($domain !== NULL) and ($dstart >= $i) and ($dstart < $part_end) ){
+            $j = $dstart - $i;
+            $part = '<span>'.substr($part, 0, $j).'</span>'.$dtag.substr($part, $j).'</span>';
+        }
+
+        // domain ends in part
+        elseif( ($domain !== NULL) and ($dend >= $i) and ($dend < $part_end) ){
+            $k = $dend - $i;
+            $part = $dtag.substr($part, 0, $k).'</span><span>'.substr($part, $k).'</span>';
+        }
+        
+        // domain not involved in part
+        else {
+            $part = "<span>".$part."</span>";
+        }
+        
+        $result .= $part."<br>";
         $aa_seq = substr( $aa_seq, $max_line_length );
+        
+        $i += $max_line_length;
     }
     
     $result .= "<span>".$aa_seq."</span>";
@@ -79,6 +145,48 @@ function make_up_color_by_secondary_structure($aa_seq)
     return $result;
 }
 
+/**
+ * Get a color-coded version of the given amino acid sequence (string)
+ * 
+ * return a string containing html tags
+ */
+function build_color_by_domain( $aa_seq, $domains, $domain_colors=[] )
+{   
+    // CUSTOM FAMILIES
+    return '';
+    
+    $result = '';
+    
+    $regular_seq = get_sequence_with_breaks($aa_seq);
+    $result .= '<p class="sequence aa aa_dom dom_background">'.$regular_seq.'</p>';
+    
+            
+    $default_colors = [
+        '#FFA','#FAF','#AFF'
+    ];
+    $dc_index = 0;
+    
+    for($i =0; $i<count($domains);$i++)
+    {            
+        $acc = $domains[$i]->{'accession'};
+        $acc = explode('.',$acc)[0];
+                
+        if( array_key_exists( $acc, $domain_colors ) ){
+            $color = $domain_colors[$acc];
+        } else {
+            $color = $default_colors[ $dc_index % count($default_colors) ];
+            $domain_colors[$acc] = $color;
+            $dc_index += 1;
+        }
+        
+        $highlighted_seq = get_sequence_with_breaks($aa_seq, $domains[$i], $color);
+        $result .= '<p class="sequence aa aa_dom dom_'.$i.'">'.$highlighted_seq.'</p>';
+    }
+    
+    $result .= '<p class="sequence aa aa_dom dom_foreground">'.$regular_seq.'</p>';
+    
+    return $result;
+}
 
 /**
  * PLACEHOLDER
@@ -96,12 +204,12 @@ function make_up_color_by_domain($aa_seq)
     
     while( strlen($aa_seq) > $max_line_length ){
         $part = substr( $aa_seq, 0, $max_line_length );
-        $result .= "<span class='do_UNDETERMINED'>".$part."</span><br>";
+        $result .= "<span class='do_UNDETERMINED ss_hover'>".$part."</span><br>";
         $aa_seq = substr( $aa_seq, $max_line_length );
     }
     
-    $result .= "<span class='do_UNDETERMINED'>".$aa_seq."</span>";
-    return $result;
+    $result .= "<span class='do_UNDETERMINED ss_hover'>".$aa_seq."</span>";
+    return "<p class='sequence aa aa_dom simple'>".$result."</p>";
 }
 
 
@@ -142,7 +250,11 @@ function get_pubmed_link($pubmed_id, $visible_id=FALSE)
 function get_tfomeinfor_link($clone)
 {
     $result = "";
-    
+
+    if( is_null($clone) ){
+        return $result;
+    }
+
     $splitclone = explode(" ", $clone);
     foreach ($splitclone as $tfome) {
         if (!empty($tfome)) {

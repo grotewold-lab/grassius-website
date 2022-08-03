@@ -1,5 +1,7 @@
 <?= $this->extend('common/layout') ?>
 <?= $this->section('content') ?>
+
+<?php require "common/subdomain_urls.php";?>
         
 
 <?php 
@@ -12,7 +14,6 @@
 ?>
 
 <?php require_once "common/species_banner.php"; ?>
-
 
 
 
@@ -58,6 +59,7 @@
 
 
 
+<h2 style='color:red'>WARNING some sequences have been removed to save memory</h2>
 <h2 class="wiki-top-header">Protein <?php echo $genename; ?></h2>
 <p><?php echo $genename; ?> is a protein in the <?php echo $family; ?> family. 
     
@@ -66,6 +68,43 @@
 <?php } ?>
 
 </p>
+
+
+<?php 
+if( ($domain_table !== NULL) ){
+    
+    $ncols = count($domain_table[0]);
+    
+    echo "<table class='domain_table wikitable'>";
+    echo "<th class='infobox-header' colspan='$ncols'>Overview of domains present in v5 transcripts</th>";
+    echo "<tr>";
+    foreach( $domain_table[0] as $col ){
+        $col = explode('.',$col)[0];
+        echo "<th><a target='_blank' href='/download/hmm/$col.hmm'>$col</a></th>";
+    }
+    echo "</tr>";
+    
+    for($i =1; $i<count($domain_table);$i++){
+    
+        $tid = $domain_table[$i][0];
+        echo "<tr><td>$tid</td>";
+        
+        for($j =1; $j<count($domain_table[$i]);$j++){
+            if($domain_table[$i][$j]) {
+                echo "<td class='checked'><img src='/images/check.svg'></img></td>";
+            } else {
+                echo "<td class='unchecked'><img src='/images/x.svg'></img></td>";
+            }
+        }
+    
+        echo "</tr>";
+    
+    }  
+    
+    echo "</table>";
+} 
+?>
+
 
 <?php for($i =0; $i<count($results);$i++){ ?>
     
@@ -94,20 +133,24 @@
         <?php if($i == 0) { ?>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
             <p class="sequence aa aa_none"><?php echo $results[$i]["proteinsequence_none"]; ?></p>
             <p class="sequence aa aa_ss"><?php echo $results[$i]["proteinsequence_ss"]; ?></p>
-            <p class="sequence aa aa_dom"><?php echo $results[$i]["proteinsequence_dom"]; ?></p>
+            <?php echo $results[$i]["proteinsequence_dom"]; ?>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
             <?php require "common/aa_colorcode_legend.php"; ?>
+            <?php 
+                if( isset($domains) and (count($domains)>0) ){
+                    require "common/dom_colorcode_legend.php";
+                }
+            ?>
                     </div>
                 </div>
             </div>
         <?php } else { ?>
             <p class="sequence"><?php echo $results[$i]["proteinsequence_none"]; ?></p>
         <?php } ?>
-
 
         <?php
             $full_dna_seq = $results[$i]['nucleotidesequence'];
@@ -117,7 +160,6 @@
                 $short_dna_seq = $full_dna_seq;
             }
         ?>
-
         <h2 class="wiki-section-header">Nucleotide Sequence <?php echo get_copy_button($results[$i]['nucleotidesequence']); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo get_expand_button("dna_".$i); ?></h2>
         <p class="wrap sequence short dna_<?php echo $i;?>"><?php echo $short_dna_seq; ?></p>
         <p hidden class="wrap sequence long dna_<?php echo $i;?>"><?php echo $full_dna_seq; ?></p>
@@ -199,7 +241,7 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
     }
 ?>
 
-<form hidden action="https://blast.eglab-dev.com" method="POST" target="_blank" id="blast_form">
+<form hidden action="<?php echo $blast_tool_url; ?>" method="POST" target="_blank" id="blast_form">
   <input type="hidden" name="input_sequence" id="blast_input_sequence"/>
   <input type="submit" value="Submit">
 </form>
@@ -209,6 +251,16 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
     $(document).ready(function(){     
         $("#nav_access").addClass("active");
         $("#icn3d-structure").attr("src","https://www.ncbi.nlm.nih.gov/Structure/icn3d/full.html?afid=<?php echo $uniprot_id; ?>&width=300&height=300&showcommand=0&shownote=0&mobilemenu=1&showmenu=0&showtitle=0");
+        
+        
+        // add hover menu for each domain legend entry
+        $(".dom_legend_hover:not(.dlhi_all)").each(function(i){
+            var title = $(this).data('title');
+            var desc = $(this).data('desc');
+            var acc = $(this).data('acc');
+            $(this).addClass('ss_hover');
+            $(this).append('<div class="dom_legend_hovermenu"><ul><lh>'+title+'</lh></ul><p>'+desc+'</p><a target="_blank" href="https://pfam.xfam.org/family/'+acc+'">view on pfam.org</a></div>');
+        })
         
         
         // start logic for highlighted sequence hover-menu
@@ -245,6 +297,14 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
             var seq = all_ssi_seqs[get_ssi_class($(this))]
             $(this).addClass('ss_hover');
             $(this).append('<div class="ss_hovermenu"><ul><lh>'+flavor+'</lh><li class="ss_blast" data-seq="'+seq+'">BLAST</li><li class="ss_copy" data-seq="'+seq+'">Copy</li></ul></div>');
+        })
+        
+        // add hover menu for each domain segment
+        $("p.aa_dom span.hl").each(function(i){
+            var acc = $(this).data('acc');
+            var seq = $(this).data('seq');
+            $(this).addClass('ss_hover');
+            $(this).append('<div class="ss_hovermenu"><ul><lh>'+acc+'</lh><li class="ss_blast" data-seq="'+seq+'">BLAST</li><li class="ss_copy" data-seq="'+seq+'">Copy</li></ul></div>');
         })
         
         // highlight hovered segment
