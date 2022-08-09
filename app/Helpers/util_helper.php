@@ -152,9 +152,6 @@ function make_up_color_by_secondary_structure($aa_seq)
  */
 function build_color_by_domain( $aa_seq, $domains, $domain_colors=[] )
 {   
-    // CUSTOM FAMILIES
-    return '';
-    
     $result = '';
     
     $regular_seq = get_sequence_with_breaks($aa_seq);

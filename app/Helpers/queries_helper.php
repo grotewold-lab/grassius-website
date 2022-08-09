@@ -133,7 +133,7 @@ function get_proteininfor_query()
             JOIN organism obi__organism 
                 ON base.organism_id = obi__organism.organism_id
             
-            WHERE (base.name=:genename:)
+            WHERE (base.name=:genename:) AND base.type_id=844
             
             ORDER BY obi__organism.infraspecific_name, base.uniquename";
 }
