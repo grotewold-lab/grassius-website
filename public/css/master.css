@@ -199,9 +199,10 @@ p#cf_table_placeholder {
     color:red   
 }
 
-div.ui-menu-item-wrapper:hover {
-    background-color: black;
-    color: white;
+.ui-menu .ui-menu-item-wrapper:hover,
+.ui-menu .ui-menu-item-wrapper.ui-state-active {
+  color: white;
+  background-color: black;
 }
 
 
