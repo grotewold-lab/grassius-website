@@ -297,10 +297,10 @@ class ProteininforController extends PdicollectionController
         
         // insert headers corresponding with the order of query results
         // PdicollectionController->get_base_query_builder
-        $headers = array("Regulator Gene","Regulator Protein","Regulator sort order","Target Gene","Target Protein","Target sort order","PubMed ID","Type","Experiment");
+        $headers = array("Regulator Gene","Regulator Protein","Regulator sort order","Target Gene","Target Protein","Target sort order","PubMed ID","Type","Experiment","Distance");
         $sheet->fromArray($headers,NULL,'A1');
-        $spreadsheet->getActiveSheet()->getStyle('A1:I1')->applyFromArray($styleArray);
-        foreach (str_split("ABCDEFGH") as $char) {
+        $spreadsheet->getActiveSheet()->getStyle('A1:J1')->applyFromArray($styleArray);
+        foreach (str_split("ABCDEFGHI") as $char) {
             $spreadsheet->getActiveSheet()->getColumnDimension($char)->setWidth(20);
         }
         

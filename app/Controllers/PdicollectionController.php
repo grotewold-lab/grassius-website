@@ -22,9 +22,10 @@ class PdicollectionController extends DatatableController
            ["gi.target_name", "tar_protein", "Target Protein"],
            ["tar_dmn.name_sort_order", "tar_protein_order", "Target Protein"],
            ["gi.target_id", "tar_gene", "Target Gene"],
-           ["gi.pubmed_id", "pubmed", "Publication"],
-           ["gi.interaction_type", "type", "Type of Interaction"],
-           ["gi.experiment", "exp", "Experiment"]
+           //["gi.pubmed_id", "pubmed", "Publication"],
+           //["gi.interaction_type", "type", "Type of Interaction"],
+           ["gi.experiment", "exp", "Experiment"],
+           ["gi.distance", "dist", "Distance"]
         ];
     }
     
@@ -32,7 +33,7 @@ class PdicollectionController extends DatatableController
     protected function is_column_searchable( $query_key )
     {
         // disable searching of the hidden numerical values
-        if( in_array($query_key, ["reg_dmn.name_sort_order","tar_dmn.name_sort_order","gi.pubmed_id"]) ){
+        if( in_array($query_key, ["reg_dmn.name_sort_order","tar_dmn.name_sort_order","gi.pubmed_id","gi.distance"]) ){
             return false;
         }
            
@@ -47,7 +48,15 @@ class PdicollectionController extends DatatableController
               "columnDefs": [ 
                 { "targets": [0,3],"visible": false }
               ],
-              "order": [[ 4, "asc" ]]
+              "order": [[ 4, "asc" ]],
+                search: {
+                    return: true,
+                },
+        "processing": true,
+        "language": {
+            processing: \'<span>Loading...</span> \'
+            },
+ 
             ';   
     }
     
@@ -64,7 +73,8 @@ class PdicollectionController extends DatatableController
                     tar_dmn.name_sort_order AS tar_protein_order,
                     gi.pubmed_id as pubmed, 
                     gi.interaction_type as type, 
-                    gi.experiment as exp")
+                    gi.experiment as exp,
+                    gi.distance as dist")
             ->join("public.default_maize_names reg_dmn", "reg_dmn.name = gi.protein_name", 'left')
             ->join("public.default_maize_names tar_dmn", "tar_dmn.name = gi.target_name", 'left');
         
@@ -104,9 +114,10 @@ class PdicollectionController extends DatatableController
            "tar_protein" => "", # hidden placeholder for searching
            "tar_protein_order" => get_proteininfor_link($species, $protein_name_2), # visible column
            "tar_gene" => get_external_db_link($species, $row['tar_gene']),
-           "pubmed" => get_pubmed_link($row['pubmed']),
-           "type" => $row['type'],
-           "exp" => $row['exp']
+           //"pubmed" => get_pubmed_link($row['pubmed']),
+           //"type" => $row['type'],
+           "exp" => $row['exp'],
+           "dist" => $row['dist'],
         ];
     }
     
@@ -116,6 +127,7 @@ class PdicollectionController extends DatatableController
     {                
         $db=$this->db;
 
+        /*
         $data['distinct_bases']=$db->query("
             SELECT gene_id,COUNT(gene_id) 
             FROM public.gene_interaction 
@@ -139,10 +151,10 @@ class PdicollectionController extends DatatableController
 
         
         $n_total= $this->get_base_query_builder()->countAllResults();
-        
+        $data['n_total'] = $n_total;
+        */
         
         $data['title'] ="PDI Collection";
-        $data['n_total'] = $n_total;
         $data['datatable'] = $this->get_datatable_html("pdi_table","/pdicollection/datatable");
         
         return view('pdicollection', $data);

@@ -5,12 +5,12 @@
 <h2 class="wiki-top-header">
     PDI (Protein-DNA Interaction) Collection
 </h2>
+<?php if( false ){ ?>
   <p>
     You can download a spreadsheet of the entire collection here: 
     <a href="/download/Grassius_RegNet.xls">All TF interactions based on experimental data
     </a>
   </p>
-
 
 
 <h2 class="wiki-section-header">
@@ -51,12 +51,13 @@
     </ul>
     -->
 
-
 <h2 class="wiki-section-header">
     Listing all PDI
 </h2>
+<?php } ?>
   <br>
 
+<div style="text-align:right">Use the enter key to search</div>
   <?php echo $datatable; ?>
 
   <br>
