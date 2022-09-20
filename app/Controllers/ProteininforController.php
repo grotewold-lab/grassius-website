@@ -33,6 +33,16 @@ class ProteininforController extends PdicollectionController
         return $this->download_pdi_table();
     }
     
+    // OVERRIDE Pdicollectioncontroller
+    protected function get_extra_datatable_options(){
+        return '
+              "columnDefs": [ 
+                { "targets": [0,3],"visible": false }
+              ],
+              "order": [[ 4, "asc" ]],
+            ';   
+    }
+    
     // use inherited query to get a list of distinct pubmed IDs
     // depends on member variables "regulator_name" and "target_name"
     private function get_pubmed_ids(){
