@@ -63,7 +63,9 @@
     
 </div>
 
-<h2 class="wiki-top-header"></h2>
+<br>
+<a href="#" id="download" hidden>download excel sheet</a>
+<br>
 
   <br>
 
@@ -100,8 +102,14 @@
         var min_val = parseFloat($( "#distance_range_min" ).val())
         var max_val = parseFloat($( "#distance_range_max" ).val())
         var search_term = $('#search_term').val()
-        var url = '/pdicollection/filtered_datatable/'+[sort_col_index, sort_dir, min_val, max_val, search_term].join('/')
+        var url_suffix = [sort_col_index, sort_dir, min_val, max_val, search_term].join('/')
+        
+        var url = '/pdicollection/filtered_datatable/'+url_suffix
         pdi_table.ajax.url( url ).load();
+        
+        var csv_url = '/pdicollection/download_table/'+url_suffix
+        $('#download').attr("href", csv_url).show();
+        
     }
     
     $(document).ready(function(){

@@ -1,6 +1,9 @@
 <?php
 namespace App\Controllers;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 /**
  * handles the /pdicollection page
  *
@@ -180,5 +183,96 @@ class PdicollectionController extends DatatableController
     public function default_datatable(){        
         $this->sort_col_index = 8;
         return $this->datatable(); 
+    }
+    
+    // endpoints to download excel sheets with interactions
+    // wrap private function "download_pdi_table"
+    public function download_table( $sort_col_index, $sort_dir, $min_dist, $max_dist, $search_term ){
+        $this->sort_col_index = $sort_col_index;
+        $this->sort_dir = $sort_dir;
+        $this->min_dist = $min_dist;
+        $this->max_dist = $max_dist;
+        $this->search_term = $search_term;
+        return $this->download_pdi_table();
+    }
+    
+    // serve an excel sheet containining interactions
+    private function download_pdi_table()
+    {
+        define('ROOT_DIR', dirname(__FILE__));
+        ignore_user_abort(true);
+        set_time_limit(0); // disable the time limit for this script
+
+        // do query
+        $query = $this->get_base_query_builder()->get();
+        $result = $query->getResultArray();
+
+        // start writing local excel sheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // insert data
+        $sheet->fromArray($result,NULL,'A2');
+
+        // add human-readable formatting
+        $styleArray = [
+            'font' => [
+                'bold' => true,
+            ],
+            'borders' => [
+                'bottom' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+        
+        // insert headers corresponding with the order of query results
+        // PdicollectionController->get_base_query_builder
+        $headers = array("Regulator Gene","Regulator Protein","Regulator sort order","Target Gene","Target Protein","Target sort order","PubMed ID","Type","Experiment","Distance","Abs Distance");
+        $sheet->fromArray($headers,NULL,'A1');
+        $spreadsheet->getActiveSheet()->getStyle('A1:K1')->applyFromArray($styleArray);
+        foreach (str_split("ABCDEFGHIJK") as $char) {
+            $spreadsheet->getActiveSheet()->getColumnDimension($char)->setWidth(20);
+        }
+        
+        // remove columns that are not meaningful to users
+        $spreadsheet->getActiveSheet()->removeColumn("F");
+        $spreadsheet->getActiveSheet()->removeColumn("C");
+            
+        // write to local file
+        $fullPath = WRITEPATH."interactions_".microtime().".xlsx";
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($fullPath);
+
+
+        // send to client
+        if ($fd = fopen($fullPath, "r")) {
+            $fsize = filesize($fullPath);
+            $path_parts = pathinfo($fullPath);
+            $ext = strtolower($path_parts["extension"]);
+            switch ($ext) {
+            case "pdf":
+                header("Content-type: application/pdf");
+                header("Content-Disposition: attachment; filename=\"interactions.xlsx\""); // use 'attachment' to force a file download
+                break;
+                // add more headers for other content types here
+            default;
+                header("Content-type: application/octet-stream");
+                header("Content-Disposition: filename=\"interactions.xlsx\"");
+                break;
+            }
+            header("Content-length: $fsize");
+            header("Cache-control: private"); //use this to open files directly
+            while (!feof($fd)) {
+                $buffer = fread($fd, 2048);
+                echo $buffer;
+            }
+        }
+        fclose($fd);
+
+        // delete local excel sheet
+        unlink( $fullPath );
+
+        exit;
     }
 }

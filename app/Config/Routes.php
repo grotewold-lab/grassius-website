@@ -53,6 +53,9 @@ $routes->get('/pdicollection/datatable', 'PdicollectionController::default_datat
 $routes->get('/pdicollection/filtered_datatable/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::filtered_datatable/$1/$2/$3/$4/$5');
 $routes->get('/pdicollection/filtered_datatable/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::filtered_datatable/$1/$2/$3/$4/NULL');
 
+$routes->get('/pdicollection/download_table/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::download_table/$1/$2/$3/$4/$5');
+$routes->get('/pdicollection/download_table/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::download_table/$1/$2/$3/$4/NULL');
+
 
 
 $routes->get('/browsefamily/(:segment)/(:segment)', 'BrowsefamilyController::index/$1/$2');
