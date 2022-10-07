@@ -25,19 +25,15 @@ class PdicollectionController extends DatatableController
            //["gi.pubmed_id", "pubmed", "Publication"],
            //["gi.interaction_type", "type", "Type of Interaction"],
            ["gi.experiment", "exp", "Experiment"],
-           ["gi.distance", "dist", "Distance"]
+           ["gi.distance", "dist", "Distance <br>(+ or -) (kb)"],
+           ["ABS(gi.distance)", "abs_dist", "Absolute <br>Distance (kb)"]
         ];
     }
     
     // implement DatatableController
     protected function is_column_searchable( $query_key )
     {
-        // disable searching of the hidden numerical values
-        if( in_array($query_key, ["reg_dmn.name_sort_order","tar_dmn.name_sort_order","gi.pubmed_id","gi.distance"]) ){
-            return false;
-        }
-           
-        return true;
+        return false;
     }
     
     // OVERRIDE DatatableController
@@ -46,12 +42,9 @@ class PdicollectionController extends DatatableController
     protected function get_extra_datatable_options(){
         return '
               "columnDefs": [ 
-                { "targets": [0,3],"visible": false }
+                { "targets": [0,3],"visible": false },
+                { "targets": [0,1,2,3,4,5,6,7,8],"orderable": false },
               ],
-              "order": [[ 4, "asc" ]],
-                search: {
-                    return: true,
-                },
         "processing": true,
         "language": {
             processing: \'<span>Loading...</span> \'
@@ -74,7 +67,8 @@ class PdicollectionController extends DatatableController
                     gi.pubmed_id as pubmed, 
                     gi.interaction_type as type, 
                     gi.experiment as exp,
-                    gi.distance as dist")
+                    gi.distance as dist,
+                    ABS(gi.distance) as abs_dist")
             ->join("public.default_maize_names reg_dmn", "reg_dmn.name = gi.protein_name", 'left')
             ->join("public.default_maize_names tar_dmn", "tar_dmn.name = gi.target_name", 'left');
         
@@ -86,6 +80,39 @@ class PdicollectionController extends DatatableController
         if( isset($this->target_name) ) {
             $result = $result->where('gi.target_name',$this->target_name);
         }
+        
+        // support search form on pdicollection page
+        if( isset($this->min_dist) ) {
+            $result = $result->where('gi.distance >', $this->min_dist);
+        }
+        if( isset($this->max_dist) ) {
+            $result = $result->where('gi.distance <', $this->max_dist);
+        }
+        if( isset($this->sort_col_index) ){
+            $sort_col = $this->get_column_config()[$this->sort_col_index][0];
+            if( isset($this->sort_dir) ){
+                $sort_dir = ($this->sort_dir === 'DESC' ? 'DESC' : 'ASC');
+            } else {
+                $sort_dir = "ASC";   
+            }
+            $result = $result->orderBy($sort_col, $sort_dir);
+        }
+        if( isset($this->search_term) and (trim($this->search_term)!='') ){
+            $term = trim(strtolower($this->search_term));
+            if( ($term!='null') and ($term!='') ){
+                $result = $result
+                    ->groupStart()
+                    ->Like("LOWER(gi.gene_id)", $term )
+                    ->orLike("LOWER(gi.protein_name)", $term )
+                    ->orLike("LOWER(gi.target_id)", $term )
+                    ->orLike("LOWER(gi.target_name)", $term )
+                    ->orLike("LOWER(gi.experiment)", $term )
+                    ->groupEnd();
+            }
+        }
+        
+        
+        
         
         return $result;
     }
@@ -118,45 +145,40 @@ class PdicollectionController extends DatatableController
            //"type" => $row['type'],
            "exp" => $row['exp'],
            "dist" => $row['dist'],
+           "abs_dist" => $row['abs_dist']
         ];
     }
-    
     
     // render view for route: /pdicollection
     public function pdicollection_page()
     {                
         $db=$this->db;
-
-        /*
-        $data['distinct_bases']=$db->query("
-            SELECT gene_id,COUNT(gene_id) 
-            FROM public.gene_interaction 
-            GROUP BY gene_id 
-            ORDER BY COUNT(gene_id) DESC
-            ")->getResult();
-
-        $data['distinct_types']=$db->query("
-            SELECT interaction_type,COUNT(interaction_type) 
-            FROM public.gene_interaction 
-            GROUP BY interaction_type 
-            ORDER BY COUNT(interaction_type) DESC
-            ")->getResult();
-
-        $data['distinct_exps']=$db->query("
-            SELECT experiment,COUNT(experiment) 
-            FROM public.gene_interaction 
-            GROUP BY experiment 
-            ORDER BY COUNT(experiment) DESC
-            ")->getResult();
-
-        
-        $n_total= $this->get_base_query_builder()->countAllResults();
-        $data['n_total'] = $n_total;
-        */
         
         $data['title'] ="PDI Collection";
         $data['datatable'] = $this->get_datatable_html("pdi_table","/pdicollection/datatable");
         
+        // prepare options for search form
+        $data['sort_options'] = array_map(function($x) {return $x[2];}, $this->get_column_config());
+        
         return view('pdicollection', $data);
+    }
+    
+    // wrap inherited function: datatable()
+    // endpoint for route: /pdicollection/filtered_datatable
+    // used by search form on pdicollection page
+    public function filtered_datatable( $sort_col_index, $sort_dir, $min_dist, $max_dist, $search_term ){        
+        $this->sort_col_index = $sort_col_index;
+        $this->sort_dir = $sort_dir;
+        $this->min_dist = $min_dist;
+        $this->max_dist = $max_dist;
+        $this->search_term = $search_term;
+        return $this->datatable();   
+    }
+    
+    // wrap inherited function: datatable()
+    // endpoint for route: /pdicollection/datatable
+    public function default_datatable(){        
+        $this->sort_col_index = 8;
+        return $this->datatable(); 
     }
 }

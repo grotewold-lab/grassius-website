@@ -49,7 +49,11 @@ $routes->get('/tfomecollection/datatable', 'TfomecollectionController::crop_data
 //$routes->get('/rice_tfome/datatable', 'TfomecollectionController::crop_datatable/Rice');
 
 $routes->get('/pdicollection', 'PdicollectionController::pdicollection_page');
-$routes->get('/pdicollection/datatable', 'PdicollectionController::datatable');
+$routes->get('/pdicollection/datatable', 'PdicollectionController::default_datatable');
+$routes->get('/pdicollection/filtered_datatable/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::filtered_datatable/$1/$2/$3/$4/$5');
+$routes->get('/pdicollection/filtered_datatable/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::filtered_datatable/$1/$2/$3/$4/NULL');
+
+
 
 $routes->get('/browsefamily/(:segment)/(:segment)', 'BrowsefamilyController::index/$1/$2');
 
@@ -128,6 +132,8 @@ $routes->post('/post_edit_family/(:any)', 'Admin\AdminController::post_edit_fami
 
 // dev pages
 //$routes->get('/test', 'TestController::test');
+$routes->get('/get_json', 'TestController::get_json');
+$routes->get('/get_edges', 'TestController::get_edges');
 
 
 /*

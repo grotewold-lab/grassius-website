@@ -36,8 +36,70 @@
     text-decoration: none;
 }
 
+/**
+ * search form
+ * used on pdicollection page
+ */
+
+.search-form {
+    background-color: #DDD;   
+    padding: 30px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.search-form hr {
+    border:none;
+    border-top: 2px solid gray;
+}
 
 
+/**
+ * jquery ui slider
+ * used on pdicollection search form
+ * to select range of distances
+ */
+.ui-slider-outer-container {
+    white-space: nowrap;
+    width: 100%;
+}   
+.ui-slider-outer-container > p {
+    display: inline-block; 
+    width: 40%;
+    margin: 0px;
+    padding-bottom: 10px;
+}   
+
+.ui-slider-inner-container{
+    display: inline-block; 
+    width: 50%;
+    margin: 0px;
+}
+
+.ui-slider-range {
+    background-color: #AAF;   
+}
+
+.ui-slider-tick-mark{
+    display:inline-block;
+    width:2px;
+    background:black;
+    height:16px;
+    position:absolute;
+    top:-4px;
+}
+
+.ui-slider-tick-label{
+    display:inline-block;
+    width:20px;
+    height:16px;
+    position:absolute;
+    top:15px;
+}
+
+.ui-slider-text-box {
+    width: 50px;   
+}
 
 /**
  * radio buttons to select maize genome version
