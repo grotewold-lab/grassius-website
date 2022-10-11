@@ -53,16 +53,15 @@ function get_tfominfor_query()
 }
 
 
-function get_pdi_distance_histogram_bin( $db, $min_dist, $max_dist, $search_term)
+function get_pdi_distance_bin_indices( $db, $search_term)
 {
-    $result = $db->table('public.gene_interaction gi')
-        ->select("count(distance)")
-        ->where("distance BETWEEN '$min_dist' AND '$max_dist'");
+    $query = $db->table('public.gene_interaction gi')
+        ->select("(distance+2)*10 as bin_index");
     
     if( isset($search_term) and (trim($search_term)!='') ){
         $term = trim(strtolower($search_term));
         if( ($term!='null') and ($term!='') ){
-            $result = $result
+            $query = $query
                 ->groupStart()
                 ->Like("LOWER(gi.gene_id)", $term )
                 ->orLike("LOWER(gi.protein_name)", $term )
@@ -73,7 +72,12 @@ function get_pdi_distance_histogram_bin( $db, $min_dist, $max_dist, $search_term
         }
     }
     
-    return intval($result->get()->getResultArray()[0]['count']);
+    $qr = $query->get()->getResultArray();
+    $result = [];
+    foreach( $qr as $row ){
+       $result[] = intval($row['bin_index']);
+    }
+    return $result;
 }
 
 

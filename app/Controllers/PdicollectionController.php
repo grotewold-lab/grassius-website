@@ -164,7 +164,7 @@ class PdicollectionController extends DatatableController
         $data['sort_options'] = array_map(function($x) {return $x[2];}, $this->get_column_config());
         
         // use pre-computed distance histogram
-        $data['distance_hist'] = [25684,27161,28781,29605,31217,32876,34066,36533,40070,42699,45029,50522,53622,60583,70214,86623,111147,147615,180585,195155,213999,173141,123612,92430,81538,77591,73343,67632,66844,62203,59230,56499,54032,51138,48734,46096,44060,42895,39610,37693];
+        $data['distance_hist'] =[25684,27411,28215,29921,30898,32876,34066,36145,40061,42683,45029,50011,54133,59924,70057,85703,110757,147295,180330,191293,213999,173141,123612,92430,80754,77591,72626,68349,66195,62221,59230,56499,53501,51191,48760,46096,44060,42509,39635,37715];
             
         /*
         SELECT floor(distance*10)/10 as bin_floor, count(*)
@@ -192,13 +192,14 @@ class PdicollectionController extends DatatableController
     // endpoint for route: /pdicollection/filtered_histogram
     // used to show histogram on pdicolection page
     public function filtered_histogram( $search_term ){  
-        $result = [];
-        foreach( range(-2,1.95,.1) as $min_dist ) {
-            $max_dist = $min_dist + .1;
-            $count = get_pdi_distance_histogram_bin( $this->db, $min_dist, $max_dist, $search_term );
-            $result[] = $count;
+        $bin_indices = get_pdi_distance_bin_indices($this->db, $search_term); 
+        $bin_counts = array_fill( 0,40,0 );
+        foreach( $bin_indices as $bi ){
+            if( ($bi>=0) and ($bi<40) ){
+                $bin_counts[$bi] += 1;
+            }
         }
-        return json_encode($result);
+        return json_encode($bin_counts);
     }
     
     // wrap inherited function: datatable()

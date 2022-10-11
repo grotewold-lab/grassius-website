@@ -61,6 +61,7 @@
         
     <hr>
     <button id="submit" type="button">Filter PDIs</button>
+    <button id="update_histogram" type="button">Show Filtered Histogram</button>
     
 </div>
 
@@ -113,9 +114,23 @@
         
         var csv_url = '/pdicollection/download_table/'+url_suffix
         $('#download').attr("href", csv_url).show();
+    }
     
-        if (!isEmptyOrSpaces(search_term)) {
-            show_histogram_loading();
+    function show_histogram_message(message) {
+        var canvas = document.getElementById("histogram");
+        var ctx = canvas.getContext("2d");
+        ctx.font = "12px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText(message, 10,20);
+    }
+    
+    function query_filtered_histogram(){
+        var search_term = $('#search_term').val()
+        update_histogram();
+        if (isEmptyOrSpaces(search_term)) {
+            show_histogram_message("Enter a search term to show filtered histogram");
+        } else {
+            show_histogram_message("Loading filtered histogram...");
             $.ajax({
               method: "POST",
               url: "/pdicollection/filtered_histogram/" + search_term,
@@ -123,14 +138,6 @@
                 update_histogram(JSON.parse(bin_counts));
             });
         }
-    }
-    
-    function show_histogram_loading() {
-        var canvas = document.getElementById("histogram");
-        var ctx = canvas.getContext("2d");
-        ctx.font = "12px Arial";
-        ctx.fillStyle = "black";
-        ctx.fillText("Loading filtered histogram...", 10,20);
     }
     
     <?php 
@@ -207,6 +214,7 @@
         
         // enable button "Filter PDIs"
         $('#submit').click(update_datatable);
+        $('#update_histogram').click(query_filtered_histogram);
     })
     
     
