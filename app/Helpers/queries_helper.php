@@ -53,6 +53,31 @@ function get_tfominfor_query()
 }
 
 
+function get_pdi_distance_histogram_bin( $db, $min_dist, $max_dist, $search_term)
+{
+    $result = $db->table('public.gene_interaction gi')
+        ->select("count(distance)")
+        ->where("distance BETWEEN '$min_dist' AND '$max_dist'");
+    
+    if( isset($search_term) and (trim($search_term)!='') ){
+        $term = trim(strtolower($search_term));
+        if( ($term!='null') and ($term!='') ){
+            $result = $result
+                ->groupStart()
+                ->Like("LOWER(gi.gene_id)", $term )
+                ->orLike("LOWER(gi.protein_name)", $term )
+                ->orLike("LOWER(gi.target_id)", $term )
+                ->orLike("LOWER(gi.target_name)", $term )
+                ->orLike("LOWER(gi.experiment)", $term )
+                ->groupEnd();
+        }
+    }
+    
+    return intval($result->get()->getResultArray()[0]['count']);
+}
+
+
+
 /**
  * get the main query used for the following pages:
  * proteininfor.php, interactions.php

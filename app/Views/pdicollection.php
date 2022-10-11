@@ -46,7 +46,8 @@
             <label>kb</label>
         </p>
         <div class="ui-slider-inner-container">
-            <div id="slider-range"></div>
+            <canvas id="histogram" width='470' height='100'></canvas>
+            <div id="slider-range" style="width:470px;"></div>
         </div>
     </div>
 
@@ -95,7 +96,10 @@
         $( "#slider-range" ).slider( "option", "values", [ min_val, max_val ] );
     }
         
-        
+    function isEmptyOrSpaces(str){
+        return str === null || str.match(/^ *$/) !== null;
+    }
+    
     function update_datatable(){
         var sort_col_index = $('#select_sort').val()
         var sort_dir = $('input[name="sort_dir"]:checked').val()
@@ -109,12 +113,69 @@
         
         var csv_url = '/pdicollection/download_table/'+url_suffix
         $('#download').attr("href", csv_url).show();
-        
+    
+        if (!isEmptyOrSpaces(search_term)) {
+            show_histogram_loading();
+            $.ajax({
+              method: "POST",
+              url: "/pdicollection/filtered_histogram/" + search_term,
+            }).done(function( bin_counts ) {
+                update_histogram(JSON.parse(bin_counts));
+            });
+        }
+    }
+    
+    function show_histogram_loading() {
+        var canvas = document.getElementById("histogram");
+        var ctx = canvas.getContext("2d");
+        ctx.font = "12px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("Loading filtered histogram...", 10,20);
+    }
+    
+    <?php 
+        echo "var total_bin_counts = ".json_encode( $distance_hist ).";\n";
+    ?>
+    function update_histogram( filtered_bin_counts=null ){
+    
+        var c = document.getElementById("histogram");
+        var ctx = c.getContext("2d");
+        var w = c.width;
+        var h = c.height;
+        ctx.clearRect(0, 0, w, h);
+    
+        ctx.fillStyle = '#AAAAFF';
+        draw_hist( ctx, w, h, total_bin_counts );
+    
+        if( filtered_bin_counts != null ){
+            ctx.fillStyle = "rgba(255, 150, 150, 0.5)";
+            draw_hist( ctx, w, h, filtered_bin_counts );
+    
+            var canvas = document.getElementById("histogram");
+            var ctx = canvas.getContext("2d");
+            ctx.font = "12px Arial";
+            ctx.fillStyle = "blue";
+            ctx.fillText("All Data", 10,20);
+            ctx.fillStyle = "red";
+            ctx.fillText("Filtered Data", 10,35);
+        }
+    }
+    
+    function draw_hist( ctx, w, h, bin_counts ){
+        var n = bin_counts.length;
+        var max_count = Math.max(...bin_counts);
+        for (var i = 0; i < n; i++) {
+            var height = h*bin_counts[i]/max_count;
+            ctx.fillRect(w*i/n, h-height, (w/n)+1, h);
+        }
     }
     
     $(document).ready(function(){
         $('#nav_access').addClass("active");
         
+        //build histogram
+        update_histogram();
+                              
         // build slider
         var $slider =  $('#slider-range');
         $slider.slider({

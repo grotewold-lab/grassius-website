@@ -163,6 +163,17 @@ class PdicollectionController extends DatatableController
         // prepare options for search form
         $data['sort_options'] = array_map(function($x) {return $x[2];}, $this->get_column_config());
         
+        // use pre-computed distance histogram
+        $data['distance_hist'] = [25684,27161,28781,29605,31217,32876,34066,36533,40070,42699,45029,50522,53622,60583,70214,86623,111147,147615,180585,195155,213999,173141,123612,92430,81538,77591,73343,67632,66844,62203,59230,56499,54032,51138,48734,46096,44060,42895,39610,37693];
+            
+        /*
+        SELECT floor(distance*10)/10 as bin_floor, count(*)
+        FROM gene_interaction
+        GROUP BY 1
+        ORDER BY 1;
+        */
+            
+        
         return view('pdicollection', $data);
     }
     
@@ -176,6 +187,18 @@ class PdicollectionController extends DatatableController
         $this->max_dist = $max_dist;
         $this->search_term = $search_term;
         return $this->datatable();   
+    }
+    
+    // endpoint for route: /pdicollection/filtered_histogram
+    // used to show histogram on pdicolection page
+    public function filtered_histogram( $search_term ){  
+        $result = [];
+        foreach( range(-2,1.95,.1) as $min_dist ) {
+            $max_dist = $min_dist + .1;
+            $count = get_pdi_distance_histogram_bin( $this->db, $min_dist, $max_dist, $search_term );
+            $result[] = $count;
+        }
+        return json_encode($result);
     }
     
     // wrap inherited function: datatable()

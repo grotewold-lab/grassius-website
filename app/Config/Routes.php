@@ -55,6 +55,8 @@ $routes->get('/pdicollection/filtered_datatable/(:segment)/(:segment)/(:segment)
 
 $routes->get('/pdicollection/download_table/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::download_table/$1/$2/$3/$4/$5');
 $routes->get('/pdicollection/download_table/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::download_table/$1/$2/$3/$4/NULL');
+$routes->get('/pdicollection/filtered_histogram/(:segment)', 'PdicollectionController::filtered_histogram/$1' );
+$routes->get('/pdicollection/filtered_histogram', 'PdicollectionController::filtered_histogram/NULL' );
 
 
 
