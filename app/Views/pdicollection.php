@@ -52,11 +52,41 @@
     </div>
 
     <hr>
-    
-    <label>Search term:</label>
-    <input type="text" id="search_term">
-    &nbsp;
-    <label>(gene, protein, or experiment)</label>
+            <table>
+                <tr>
+                    <td>
+                        <label>Regulator Protein</label>
+                    </td>
+                    <td>
+                        <input type="text" id="filter_protein_name" placeholder="no filter">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Regulator Gene</label>
+                    </td>
+                    <td>
+                        <input type="text" id="filter_gene_id" placeholder="no filter">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Target Protein</label>
+                    </td>
+                    <td>
+                        <input type="text" id="filter_target_name" placeholder="no filter">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Target Gene</label>
+                    </td>
+                    <td>
+                        <input type="text" id="filter_target_id" placeholder="no filter">
+                    </td>
+                </tr>
+
+            </table>
     
         
     <hr>
@@ -101,13 +131,21 @@
         return str === null || str.match(/^ *$/) !== null;
     }
     
+    function build_ajax_url_suffix(){
+        return [
+            $('#select_sort').val(),
+            $('input[name="sort_dir"]:checked').val(),
+            $( "#distance_range_min" ).val(),
+            $( "#distance_range_max" ).val(),
+            $('#filter_gene_id').val(),
+            $('#filter_target_id').val(),
+            $('#filter_protein_name').val(),
+            $('#filter_target_name').val()
+        ].join(',');
+    }
+    
     function update_datatable(){
-        var sort_col_index = $('#select_sort').val()
-        var sort_dir = $('input[name="sort_dir"]:checked').val()
-        var min_val = parseFloat($( "#distance_range_min" ).val())
-        var max_val = parseFloat($( "#distance_range_max" ).val())
-        var search_term = $('#search_term').val()
-        var url_suffix = [sort_col_index, sort_dir, min_val, max_val, search_term].join('/')
+        var url_suffix = build_ajax_url_suffix();
         
         var url = '/pdicollection/filtered_datatable/'+url_suffix
         pdi_table.ajax.url( url ).load();
@@ -119,31 +157,33 @@
     function show_histogram_message(message) {
         var canvas = document.getElementById("histogram");
         var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.font = "12px Arial";
         ctx.fillStyle = "black";
         ctx.fillText(message, 10,20);
     }
     
     function query_filtered_histogram(){
-        var search_term = $('#search_term').val()
-        update_histogram();
-        if (isEmptyOrSpaces(search_term)) {
-            show_histogram_message("Enter a search term to show filtered histogram");
-        } else {
-            show_histogram_message("Loading filtered histogram...");
-            $.ajax({
-              method: "POST",
-              url: "/pdicollection/filtered_histogram/" + search_term,
-            }).done(function( bin_counts ) {
-                update_histogram(JSON.parse(bin_counts));
-            });
-        }
+        var url_suffix = build_ajax_url_suffix();
+        show_histogram_message("Loading...");
+        $.ajax({
+          method: "GET",
+          url: "/pdicollection/filtered_histogram/" + url_suffix
+        }).done(function( bin_counts ) {
+            update_histogram(JSON.parse(bin_counts));
+        });
     }
     
     <?php 
         echo "var total_bin_counts = ".json_encode( $distance_hist ).";\n";
     ?>
-    function update_histogram( filtered_bin_counts=null ){
+    var all_hist_colors = [
+        [255,150,150],
+        [150,255,150],
+        [255,255,150],
+        [150,150,150]
+    ]
+    function update_histogram( all_filtered_hists=null ){
     
         var c = document.getElementById("histogram");
         var ctx = c.getContext("2d");
@@ -154,17 +194,25 @@
         ctx.fillStyle = '#AAAAFF';
         draw_hist( ctx, w, h, total_bin_counts );
     
-        if( filtered_bin_counts != null ){
-            ctx.fillStyle = "rgba(255, 150, 150, 0.5)";
-            draw_hist( ctx, w, h, filtered_bin_counts );
-    
-            var canvas = document.getElementById("histogram");
-            var ctx = canvas.getContext("2d");
-            ctx.font = "12px Arial";
+        if( (all_filtered_hists != null) && (all_filtered_hists.length>0) ){
             ctx.fillStyle = "blue";
             ctx.fillText("All Data", 10,20);
-            ctx.fillStyle = "red";
-            ctx.fillText("Filtered Data", 10,35);
+            var label_y = 35
+            for (var i = 0; i < all_filtered_hists.length; i++){
+                var filtered_bin_counts = all_filtered_hists[i][1];
+                var color = all_hist_colors[i]
+                ctx.fillStyle = "rgba(" + color[0] + "," + color[1] + "," + color[2] + ", 0.5)";
+                draw_hist( ctx, w, h, filtered_bin_counts );
+            }
+                                                          
+            for (var i = 0; i < all_filtered_hists.length; i++){
+                var label = all_filtered_hists[i][0];
+                var color = all_hist_colors[i]
+                ctx.font = "12px Arial";
+                ctx.fillStyle = "rgb(" + (color[0]-150) + "," + (color[1]-150) + "," + (color[2]-150) + ")";
+                ctx.fillText(label, 10,label_y);
+                label_y += 15
+            }
         }
     }
     
@@ -180,6 +228,24 @@
     $(document).ready(function(){
         $('#nav_access').addClass("active");
         
+        $('#edit-params-acc').autocomplete({
+            source: "/coexp-accession-autocomplete",
+            select: function(event,ui){
+                $('#edit-params-acc').val(ui.item.value); 
+                return false;
+            }
+        });
+        // enable autocomplete
+        <?php foreach( ["gene_id","target_id","protein_name","target_name"] as $field ){ ?>
+        $('#filter_<?php echo $field; ?>').autocomplete({
+            source: "/pdicollection/autocomplete/<?php echo $field; ?>",
+            select: function(event,ui){
+                $('#filter_<?php echo $field; ?>').val(ui.item.value); 
+                return false;
+            }
+        });
+        <?php } ?>
+
         //build histogram
         update_histogram();
                               

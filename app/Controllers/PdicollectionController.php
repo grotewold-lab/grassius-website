@@ -100,6 +100,7 @@ class PdicollectionController extends DatatableController
             }
             $result = $result->orderBy($sort_col, $sort_dir);
         }
+        /*
         if( isset($this->search_term) and (trim($this->search_term)!='') ){
             $term = trim(strtolower($this->search_term));
             if( ($term!='null') and ($term!='') ){
@@ -113,11 +114,25 @@ class PdicollectionController extends DatatableController
                     ->groupEnd();
             }
         }
-        
-        
-        
+        */
+        if( isset($this->gene_id) and $this->is_valid($this->gene_id) ){
+            $result = $result->where('gi.gene_id',$this->gene_id);
+        }
+        if( isset($this->protein_name) and $this->is_valid($this->protein_name) ) {
+            $result = $result->where('gi.protein_name',$this->protein_name);
+        }
+        if( isset($this->target_id) and $this->is_valid($this->target_id) ) {
+            $result = $result->where('gi.target_id',$this->target_id);
+        }
+        if( isset($this->target_name) and $this->is_valid($this->target_name) ) {
+            $result = $result->where('gi.target_name',$this->target_name);
+        }
         
         return $result;
+    }
+    
+    private function is_valid($param_value){
+        return ($param_value!='null') and ($param_value!='');
     }
     
     // implement DatatableController
@@ -176,30 +191,86 @@ class PdicollectionController extends DatatableController
         
         return view('pdicollection', $data);
     }
+
+    // autocomplete for search form
+    public function autocomplete($field_name)
+    {
+        $r = $this->request;
+        $term = $r->getVar('term');
+        $term = strtolower($term);
+        
+        
+        $query = $this->db->table('pdi_distance_histograms')
+            ->select("value")
+            ->where("field", $field_name)
+            ->like("lower(value)", $term )
+            ->limit(10)
+            ->get();
+        
+        $result = [];
+        foreach( $query->getResult() as $row ){
+            $val = $row->value;
+            $result[] = ["id" => $val, "label" => $val, "value" => $val];
+        }
+        
+        return json_encode($result);
+    }
+    
+    private function parse_filter_options( $filter_options ){
+        $fo_parts = explode(',',$filter_options);       
+        $this->sort_col_index = trim($fo_parts[0]);
+        $this->sort_dir = trim($fo_parts[1]);
+        $this->min_dist = trim($fo_parts[2]);
+        $this->max_dist = trim($fo_parts[3]);
+        $this->gene_id = trim($fo_parts[4]);
+        $this->target_id = trim($fo_parts[5]);
+        $this->protein_name = trim($fo_parts[6]);
+        $this->target_name = trim($fo_parts[7]);
+    }
     
     // wrap inherited function: datatable()
     // endpoint for route: /pdicollection/filtered_datatable
     // used by search form on pdicollection page
-    public function filtered_datatable( $sort_col_index, $sort_dir, $min_dist, $max_dist, $search_term ){        
-        $this->sort_col_index = $sort_col_index;
-        $this->sort_dir = $sort_dir;
-        $this->min_dist = $min_dist;
-        $this->max_dist = $max_dist;
-        $this->search_term = $search_term;
+    public function filtered_datatable( $filter_options ){ 
+        $this->parse_filter_options($filter_options);
         return $this->datatable();   
     }
     
     // endpoint for route: /pdicollection/filtered_histogram
     // used to show histogram on pdicolection page
-    public function filtered_histogram( $search_term ){  
-        $bin_indices = get_pdi_distance_bin_indices($this->db, $search_term); 
-        $bin_counts = array_fill( 0,40,0 );
-        foreach( $bin_indices as $bi ){
-            if( ($bi>=0) and ($bi<40) ){
-                $bin_counts[$bi] += 1;
-            }
+    public function filtered_histogram( $filter_options ){  
+        $this->parse_filter_options($filter_options);
+
+        $result = [];
+        
+        if( isset($this->gene_id) and $this->is_valid($this->gene_id) ){
+            $result[] = [ "Regulator Gene = ".$this->gene_id, $this->get_sub_hist( 'gene_id', $this->gene_id )];
         }
-        return json_encode($bin_counts);
+        if( isset($this->protein_name) and $this->is_valid($this->protein_name) ) {
+            $result[] = [ "Regulator Protein = ".$this->protein_name, $this->get_sub_hist( 'protein_name', $this->protein_name )];
+        }
+        if( isset($this->target_id) and $this->is_valid($this->target_id) ) {
+            $result[] = [ "Target Gene = ".$this->target_id, $this->get_sub_hist( 'target_id', $this->target_id )];
+        }
+        if( isset($this->target_name) and $this->is_valid($this->target_name) ) {
+            $result[] = [ "Target Protein = ".$this->target_name, $this->get_sub_hist( 'target_name', $this->target_name )];
+        }
+        
+        return json_encode($result);
+    }
+                   
+    private function get_sub_hist( $field, $value ){
+        $query = $this->db->table('pdi_distance_histograms')
+            ->select("histogram")
+            ->where("field", $field)
+            ->where("value", $value)
+            ->get();
+        $result = $query->getResultArray();
+        if( count($result) == 0 ){
+            return [];
+        } else {
+            return json_decode($result[0]['histogram']);
+        }
     }
     
     // wrap inherited function: datatable()
@@ -211,12 +282,8 @@ class PdicollectionController extends DatatableController
     
     // endpoints to download excel sheets with interactions
     // wrap private function "download_pdi_table"
-    public function download_table( $sort_col_index, $sort_dir, $min_dist, $max_dist, $search_term ){
-        $this->sort_col_index = $sort_col_index;
-        $this->sort_dir = $sort_dir;
-        $this->min_dist = $min_dist;
-        $this->max_dist = $max_dist;
-        $this->search_term = $search_term;
+    public function download_table( $filter_options ){
+        $this->parse_filter_options($filter_options);
         return $this->download_pdi_table();
     }
     

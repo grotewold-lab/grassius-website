@@ -50,13 +50,11 @@ $routes->get('/tfomecollection/datatable', 'TfomecollectionController::crop_data
 
 $routes->get('/pdicollection', 'PdicollectionController::pdicollection_page');
 $routes->get('/pdicollection/datatable', 'PdicollectionController::default_datatable');
-$routes->get('/pdicollection/filtered_datatable/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::filtered_datatable/$1/$2/$3/$4/$5');
-$routes->get('/pdicollection/filtered_datatable/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::filtered_datatable/$1/$2/$3/$4/NULL');
+$routes->get('/pdicollection/filtered_datatable/(:segment)', 'PdicollectionController::filtered_datatable/$1');
 
-$routes->get('/pdicollection/download_table/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::download_table/$1/$2/$3/$4/$5');
-$routes->get('/pdicollection/download_table/(:segment)/(:segment)/(:segment)/(:segment)', 'PdicollectionController::download_table/$1/$2/$3/$4/NULL');
+$routes->get('/pdicollection/download_table/(:segment)', 'PdicollectionController::download_table/$1');
 $routes->get('/pdicollection/filtered_histogram/(:segment)', 'PdicollectionController::filtered_histogram/$1' );
-$routes->get('/pdicollection/filtered_histogram', 'PdicollectionController::filtered_histogram/NULL' );
+$routes->get('/pdicollection/autocomplete/(:segment)', 'PdicollectionController::autocomplete/$1' );
 
 
 
