@@ -29,10 +29,12 @@
     &nbsp;&nbsp;&nbsp;
     
     <input id="sort_dir_asc" type="radio" name="sort_dir" value="ASC" checked>
-    <label for="sort_dir_asc">ascending</label>
+    <label for="sort_dir_asc">ascending (lowest first)</label>
+    
+    &nbsp;&nbsp;&nbsp;
     
     <input id="sort_dir_desc" type="radio" name="sort_dir" value="DESC">
-    <label for="sort_dir_desc">descending</label>
+    <label for="sort_dir_desc">descending (highest first)</label>
     
     <hr>
 
@@ -90,6 +92,17 @@
     
         
     <hr>
+        
+        <label>Experiment</label>
+        <?php foreach( $exp_types as $exp ){ 
+            echo "&nbsp;&nbsp;&nbsp;";
+            echo "<input type='checkbox' class='filter_exp' id='filter_exp_$exp' name='filter_exp' value='$exp' checked>";
+            echo "&nbsp;";
+            echo "<label for='filter_exp_$exp'>$exp</label>";
+        }?>
+        
+    <hr>
+        
     <button id="submit" type="button">Filter PDIs</button>
     <button id="update_histogram" type="button">Show Filtered Histogram</button>
     
@@ -132,6 +145,17 @@
     }
     
     function build_ajax_url_suffix(){
+        
+        if( $('input.filter_exp').not(':checked').length > 0 ){
+            var filter_exps = new Array();
+            $('input.filter_exp:checked').each(function(){
+                filter_exps.push($(this).val());
+            });
+            filter_exps = filter_exps.join(';')
+        } else {
+            filter_exps = ""   
+        }
+                                     
         return [
             $('#select_sort').val(),
             $('input[name="sort_dir"]:checked').val(),
@@ -140,7 +164,8 @@
             $('#filter_gene_id').val(),
             $('#filter_target_id').val(),
             $('#filter_protein_name').val(),
-            $('#filter_target_name').val()
+            $('#filter_target_name').val(),
+            filter_exps
         ].join(',');
     }
     
@@ -181,7 +206,8 @@
         [255,150,150],
         [150,255,150],
         [255,255,150],
-        [150,150,150]
+        [150,150,150],
+        [255,255,255]
     ]
     function update_histogram( all_filtered_hists=null ){
     
