@@ -201,6 +201,7 @@
     
     <?php 
         echo "var total_bin_counts = ".json_encode( $distance_hist ).";\n";
+        echo "var total_n = '".$distance_hist_n."';\n";
     ?>
     var all_hist_colors = [
         [255,150,150],
@@ -222,7 +223,7 @@
     
         if( (all_filtered_hists != null) && (all_filtered_hists.length>0) ){
             ctx.fillStyle = "blue";
-            ctx.fillText("All Data", 10,20);
+            ctx.fillText("All Data (n=" + total_n + ")", 10,20);
             var label_y = 35
             for (var i = 0; i < all_filtered_hists.length; i++){
                 var filtered_bin_counts = all_filtered_hists[i][1];

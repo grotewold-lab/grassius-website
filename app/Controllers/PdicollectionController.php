@@ -184,7 +184,9 @@ class PdicollectionController extends DatatableController
         $data['exp_types'] = $this->get_distinct_gi_vals('experiment');
         
         // use pre-computed distance histogram
-        $data['distance_hist'] =[25684,27411,28215,29921,30898,32876,34066,36145,40061,42683,45029,50011,54133,59924,70057,85703,110757,147295,180330,191293,213999,173141,123612,92430,80754,77591,72626,68349,66195,62221,59230,56499,53501,51191,48760,46096,44060,42509,39635,37715];
+        $hist = [25684,27411,28215,29921,30898,32876,34066,36145,40061,42683,45029,50011,54133,59924,70057,85703,110757,147295,180330,191293,213999,173141,123612,92430,80754,77591,72626,68349,66195,62221,59230,56499,53501,51191,48760,46096,44060,42509,39635,37715];
+        $data['distance_hist'] = $hist;
+        $data['distance_hist_n'] = $this->total($hist);
         /*
         SELECT floor((distance+1)*20) as bin_floor, count(*)
         FROM gene_interaction
@@ -268,22 +270,22 @@ class PdicollectionController extends DatatableController
         if( isset($this->gene_id) and $this->is_valid($this->gene_id) ){
             $hist = $this->get_sub_hist( 'gene_id', $this->gene_id );
             $n = $this->total($hist);
-            $result[] = [ "Regulator Gene = ".$this->gene_id." (n=$n)", $hist ];
+            $result[] = [ "Reg Gene = ".$this->gene_id." (n=$n)", $hist ];
         }
         if( isset($this->protein_name) and $this->is_valid($this->protein_name) ) {
             $hist = $this->get_sub_hist( 'protein_name', $this->protein_name );
             $n = $this->total($hist);
-            $result[] = [ "Regulator Protein = ".$this->protein_name." (n=$n)",$hist ];
+            $result[] = [ "Reg Protein = ".$this->protein_name." (n=$n)",$hist ];
         }
         if( isset($this->target_id) and $this->is_valid($this->target_id) ) {
             $hist = $this->get_sub_hist( 'target_id', $this->target_id );
             $n = $this->total($hist);
-            $result[] = [ "Target Gene = ".$this->target_id." (n=$n)",$hist ];
+            $result[] = [ "Trg Gene = ".$this->target_id." (n=$n)",$hist ];
         }
         if( isset($this->target_name) and $this->is_valid($this->target_name) ) {
             $hist = $this->get_sub_hist( 'target_name', $this->target_name );
             $n = $this->total($hist);
-            $result[] = [ "Target Protein = ".$this->target_name." (n=$n)",$hist ];
+            $result[] = [ "Trg Protein = ".$this->target_name." (n=$n)",$hist ];
         }
         
         if( isset($this->exps) and $this->is_valid($this->exps) ) {
@@ -304,7 +306,7 @@ class PdicollectionController extends DatatableController
         foreach( $hist as $freq ){
             $result += $freq;
         }
-        return $result;
+        return number_format($result);
     }
     
     private function sum_hists( $hists ){ 
