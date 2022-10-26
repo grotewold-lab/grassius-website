@@ -56,6 +56,8 @@ $routes->get('/pdicollection/download_table/(:segment)', 'PdicollectionControlle
 $routes->get('/pdicollection/filtered_histogram/(:segment)', 'PdicollectionController::filtered_histogram/$1' );
 $routes->get('/pdicollection/autocomplete/(:segment)', 'PdicollectionController::autocomplete/$1' );
 
+$routes->get('/pdicollection/get_vis_json/(:segment)', 'PdicollectionController::get_vis_json/$1' );
+
 
 
 $routes->get('/browsefamily/(:segment)/(:segment)', 'BrowsefamilyController::index/$1/$2');

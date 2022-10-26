@@ -119,6 +119,37 @@
   <br>
   <br>
 
+
+<div class="hovermenu"></div>
+
+<canvas id="my_canvas" width="800" height="600">
+
+<script src="https://grotewold-lab.github.io/js/vis_tool.js"></script>
+<style>
+    .hovermenu {
+        position: absolute;
+        top: 0px;
+        left: -300px;
+        display: none;
+        font-family: sans-serif;
+        font-size: 12px;
+        width: 200px;
+        height: auto;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 6px;
+        position: absolute;
+        z-index: 100;
+        opacity: 1.0;
+    }
+
+    .hovermenu.visible {
+        display: block;
+    }
+</style>
+    
 <script>
     var $ = jQuery.noConflict();
     
@@ -177,6 +208,14 @@
         
         var csv_url = '/pdicollection/download_table/'+url_suffix
         $('#download').attr("href", csv_url).show();
+        
+        var vis_url = '/pdicollection/get_vis_json/'+url_suffix
+        var old_c = document.getElementById("my_canvas");
+        var c = old_c.cloneNode(true);
+        old_c.parentNode.replaceChild(c, old_c);
+        var ctx = c.getContext('2d');
+        show_network_with_api(ctx,800,600,vis_url);
+        add_mouse_listener_to_canvas(c,ctx);
     }
     
     function show_histogram_message(message) {

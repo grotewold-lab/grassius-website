@@ -430,4 +430,54 @@ class PdicollectionController extends DatatableController
 
         exit;
     }
+    
+    // endpoint for route: /pdicollection/get_vis_json
+    public function get_vis_json($filter_options){
+        $this->parse_filter_options($filter_options);
+        $query = $this->get_base_query_builder()->orderBy('gi.protein_name')->limit(10)->get();
+        $result = $query->getResultArray();
+        
+        $all_gids = [];
+        $nodes = [];
+        $edges = [];
+        foreach( $result as $row ){
+            
+            // append new nodes if necessary
+            foreach( ['reg_','tar_'] as $prefix ){
+                $gid_col = $prefix."gene";
+                $new_node = null;
+                if( !in_array($row[$gid_col],$all_gids) ){
+                    $all_gids[] = $row[$gid_col];
+                    $new_node = [
+                        "gene_id"=>$row[$gid_col]
+                    ];
+                }
+                if( !is_null($new_node) ){
+                    $name = $row[$prefix."protein"];
+                    if( strlen($name)>0 ){
+                        $new_node['protein_name'] = $name;
+                    }
+                    $nodes[] = $new_node;
+                }
+            }
+            
+            // append new edge
+            $edges[] = [
+                "gene_id"=> $row['reg_gene'],
+                "target_id"=> $row['tar_gene'],
+                "distance"=> $row['dist'],
+                "experiment"=> $row['exp'],
+                "support" => 1
+            ];
+            
+        }
+        
+        return json_encode(["nodes"=>$nodes,"edges"=>$edges]);
+    }
+    
+    // endpoint for route: /pdicollection/visual
+    public function visual(){
+        $data['title'] = 'Test';
+        return view('pdivisual', $data);
+    }
 }
