@@ -35,6 +35,7 @@ function build_fasta_query( $protein )
         WHERE org.common_name = :species:
         AND org.infraspecific_name = :species_version:
         AND taxrank__family.value = :family:
+        AND base.type_id = 844
     ";
 
     if( $protein ) {
