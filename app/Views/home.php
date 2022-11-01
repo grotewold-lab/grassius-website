@@ -27,13 +27,7 @@
                     $x = $cx + cos($a) * $radius;
                     $y = $cy + sin($a) * $radius;
                     $a += $da;
-                    
-                    // link back to old grassius for non-maize data
-                    if( $species == "Maize" ){
-                        $href = "/species/$species";
-                    } else {
-                        $href = $old_grassius_url;
-                    }
+                    $href = "/species/$species";
             ?>
           <a
             href="<?php echo $href; ?>"

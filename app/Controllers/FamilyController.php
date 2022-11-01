@@ -8,20 +8,31 @@ class FamilyController extends DatatableController
     // implement DatatableController
     protected function get_column_config()
     {
-        return [
+        if( $this->species == 'Maize' ){
+            return [
+
+               // [ query-key, result-key, view-label ]
+               ["dmn.name_sort_order", "name_sort_order", "Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
+               ["dmn.name", "grassius_name", "Protein Name"],
+               ["dmn.v3_id", "v3_id", "Maize v3 ID"],
+               ["dmn.v4_id", "v4_id", "Maize v4 ID"],
+               ["dmn.v5_id", "v5_id", "Maize v5 ID"],
+               ["default_domains.domains","domains","Domains"],
+               ["gene_name.synonym", "othername", "Synonym/<br>Gene Name"],
+               ["searchable_clones.clone_list", "clones", "Clone in TFome"],
+               ["dmn.all_ids", "all_ids", "All Gene IDs"],
+               ["dmn.all_ids", "raw_ids", "All Gene IDs"]
+            ];
             
-           // [ query-key, result-key, view-label ]
-           ["dmn.name_sort_order", "name_sort_order", "Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
-           ["dmn.name", "grassius_name", "Protein Name"],
-           ["dmn.v3_id", "v3_id", "Maize v3 ID"],
-           ["dmn.v4_id", "v4_id", "Maize v4 ID"],
-           ["dmn.v5_id", "v5_id", "Maize v5 ID"],
-           ["default_domains.domains","domains","Domains"],
-           ["gene_name.synonym", "othername", "Synonym/<br>Gene Name"],
-           ["searchable_clones.clone_list", "clones", "Clone in TFome"],
-           ["dmn.all_ids", "all_ids", "All Gene IDs"],
-           ["dmn.all_ids", "raw_ids", "All Gene IDs"]
-        ];
+        }else { // not maize
+            return [
+
+               // [ query-key, result-key, view-label ]
+               ["base.name", "grassius_name", "Protein Name"],
+               ["base.uniquename", "v3_id", "Gene ID"],
+            ];
+            
+        }
     }
     
     // implement DatatableController
@@ -39,23 +50,45 @@ class FamilyController extends DatatableController
     protected function get_base_query_builder()
     {
         
-        $result = $this->db->table('public.default_maize_names dmn')
-            ->select("dmn.name AS grassius_name,
-                dmn.name_sort_order AS name_sort_order,
-                gene_name.synonym AS othername,
-                dmn.v3_id AS v3_id,
-                dmn.v4_id AS v4_id,
-                dmn.v5_id AS v5_id,
-                default_domains.domains AS domains,
-                dmn.all_ids AS all_ids,
-                dmn.all_ids AS raw_ids,
-                searchable_clones.clone_list AS clones,
-                gene_name.accepted as accepted,
-                'Zea mays' AS speciesname")
-            ->join('public.searchable_clones', 'searchable_clones.name = dmn.name', 'left')
-            ->join('public.gene_name', 'gene_name.grassius_name = dmn.name', 'left')
-            ->join('default_domains', 'default_domains.protein_name = dmn.name', 'left')
-            ->where('dmn.family', $this->family);
+        if( $this->species == 'Maize' ){
+            return $this->db->table('public.default_maize_names dmn')
+                ->select("dmn.name AS grassius_name,
+                    dmn.name_sort_order AS name_sort_order,
+                    gene_name.synonym AS othername,
+                    dmn.v3_id AS v3_id,
+                    dmn.v4_id AS v4_id,
+                    dmn.v5_id AS v5_id,
+                    default_domains.domains AS domains,
+                    dmn.all_ids AS all_ids,
+                    dmn.all_ids AS raw_ids,
+                    searchable_clones.clone_list AS clones,
+                    gene_name.accepted as accepted,
+                    'Zea mays' AS speciesname")
+                ->join('public.searchable_clones', 'searchable_clones.name = dmn.name', 'left')
+                ->join('public.gene_name', 'gene_name.grassius_name = dmn.name', 'left')
+                ->join('default_domains', 'default_domains.protein_name = dmn.name', 'left')
+                ->where('dmn.family', $this->family);
+            
+        } else { //not maize
+            return $this->db->table('feature base')
+                ->select("base.name AS grassius_name,
+                    '' AS name_sort_order,
+                    '' AS othername,
+                    base.uniquename AS v3_id,
+                    ' AS v4_id,
+                    ' AS v5_id,
+                    '' AS domains,
+                    '' AS all_ids,
+                    '' AS raw_ids,
+                    '' AS clones,
+                    '' as accepted,
+                    CONCAT(org.genus,' ',org.species) AS speciesname")
+                ->join('featureprop fp', 'fp.feature_id = base.feature_id AND fp.type_id = 1362')
+                ->join('organism org', 'org.organism_id = base.organism_id')
+                ->where('fp.value', $this->family)
+                ->where('base.type_id', 844)
+                ->where('org.common_name', $this->species);
+        }
             
         return $result;
         
@@ -76,18 +109,31 @@ class FamilyController extends DatatableController
             $protein_class = "accpt";
         }
 
-        return [
-           "name_sort_order" => "<div class=$protein_class>$protein_link</div>", # visible column
-           "grassius_name" => "", # hidden placeholder for searching
-           "v3_id" => get_external_db_link($row['speciesname'], $row['v3_id']),
-           "v4_id" => get_external_db_link($row['speciesname'], $row['v4_id']),
-           "v5_id" => get_external_db_link($row['speciesname'], $row['v5_id']),
-           "domains" => get_domain_image($row['grassius_name'],$row['domains']),
-           "othername" => $row['othername'],
-           "clones" => get_tfomeinfor_link($row['clones']),
-           "all_ids" => get_agids_hover_element($row['all_ids']), #visible column
-           "raw_ids" => $row['raw_ids'] # hidden placeholder for downloading fasta
-        ];
+        
+        if( $this->species == 'Maize' ){
+            
+
+            return [
+               "name_sort_order" => "<div class=$protein_class>$protein_link</div>", # visible column
+               "grassius_name" => "", # hidden placeholder for searching
+               "v3_id" => get_external_db_link($row['speciesname'], $row['v3_id']),
+               "v4_id" => get_external_db_link($row['speciesname'], $row['v4_id']),
+               "v5_id" => get_external_db_link($row['speciesname'], $row['v5_id']),
+               "domains" => get_domain_image($row['grassius_name'],$row['domains']),
+               "othername" => $row['othername'],
+               "clones" => get_tfomeinfor_link($row['clones']),
+               "all_ids" => get_agids_hover_element($row['all_ids']), #visible column
+               "raw_ids" => $row['raw_ids'] # hidden placeholder for downloading fasta
+            ];
+            
+            
+        } else { //not maize
+
+            return [
+               "grassius_name" => "<div class=$protein_class>$protein_link</div>",
+               "v3_id" => get_external_db_link($row['speciesname'], $row['v3_id']),
+            ];
+        }
     }
     
     // OVERRIDE DatatableController
@@ -95,39 +141,25 @@ class FamilyController extends DatatableController
     // hide certain columns
     // set width of visible columns
     protected function get_extra_datatable_options(){
-        return '
-              "columnDefs": [ 
-                { "targets": [5,8],"orderable": false },
-                { "targets": [1,9],"visible": false },
-                { "targets": [0,2,3,4,7],"width": "10%" },
-                { "targets": [6,8],"width": "15%" },
-              ],
-            ';   
-    }
-    
-    
-    
-    // helper to recognize family names in url, including up to one slash
-    private function get_family_name($family_part1, $family_part2=null)
-    {
-        if( is_null($family_part2) or (trim($family_part2) == '') ) {
-            return $family_part1;
+        if( $this->species == 'Maize' ){
+            return '
+                  "columnDefs": [ 
+                    { "targets": [5,8],"orderable": false },
+                    { "targets": [1,9],"visible": false },
+                    { "targets": [0,2,3,4,7],"width": "10%" },
+                    { "targets": [6,8],"width": "15%" },
+                  ],
+                ';   
         } else {
-            return $family_part1."/".$family_part2;
+            return "";   
         }
     }
-        
     
     public function index( $species, $family_part1, $family_part2=null )
     {
-        // get species name in two forms 
-        list($species,$new_species) = parse_species($species);
-        
-        // accept family names including up to one slash
-        $family = $this->get_family_name($family_part1, $family_part2);
-        
-        // put most recent species in session vars for convenience
-        $this->session->set("species",$species);
+        $this->parse_params($species, $family_part1, $family_part2);
+        $species = $this->species;
+        $family = $this->family;
         
         // get class and description
         $famsql=  "
@@ -148,7 +180,7 @@ class FamilyController extends DatatableController
             WHERE familyname = :familyname:
         ";
         $query=$this->db->query($famsql,[
-            'familyname'   => $family
+            'familyname'   => $this->family
         ]);          
         $famresult = $query->getRowArray();
         
@@ -179,9 +211,10 @@ class FamilyController extends DatatableController
         return view('family', $data);
     }
     
-    
-    public function family_datatable( $species, $family_part1, $family_part2=null )
+    // helper to parse common request params
+    private function parse_params( $species, $family_part1, $family_part2=null )
     {
+        // get species names in two forms
         list($species,$new_species) = parse_species($species);
         
         // accept family names including up to one slash
@@ -190,23 +223,25 @@ class FamilyController extends DatatableController
         $this->family = $family;
         $this->species = $species;
         $this->new_species = $new_species;
-        
-        return $this->datatable();
     }
     
     
-    public function family_datatable_debug( $species, $family_part1, $family_part2=null )
-    {
-        list($species,$new_species) = parse_species($species);
-        
-        // accept family names including up to one slash
-        $family = $this->get_family_name($family_part1, $family_part2);
     
-        $this->family = $family;
-        $this->species = $species;
-        $this->new_species = $new_species;
+    // helper to recognize family names in url, including up to one slash
+    private function get_family_name($family_part1, $family_part2=null)
+    {
+        if( is_null($family_part2) or (trim($family_part2) == '') ) {
+            return $family_part1;
+        } else {
+            return $family_part1."/".$family_part2;
+        }
+    }
         
-        return $this->get_base_query_builder()->getCompiledSelect();
+    
+    public function family_datatable( $species, $family_part1, $family_part2=null )
+    {
+        $this->parse_params($species, $family_part1, $family_part2);
+        return $this->datatable();
     }
     
     
@@ -221,10 +256,7 @@ class FamilyController extends DatatableController
      */
     public function download( $protein, $species, $species_version, $family_part1, $family_part2=null )
     {
-        list($species,$new_species) = parse_species($species);
-        
-        // accept family names including up to one slash
-        $family = $this->get_family_name($family_part1, $family_part2);
+        $this->parse_params($species, $family_part1, $family_part2);
         
         //debug
         //return "PLACEHOLDER fasta file for {$species} {$species_version} {$family}";
@@ -236,11 +268,11 @@ class FamilyController extends DatatableController
         
         
         // get all relevant transcripts 
-        $sql = $this->_build_fasta_query( $protein );
+        $sql = build_fasta_query( $protein );
         $query=$this->db->query($sql,[
-            'species' => $species,
+            'species' => $this->species,
             'species_version' => $species_version,
-            'family' => $family
+            'family' => $this->family
         ]);            
         $results=$query->getResultArray();
         
@@ -250,10 +282,10 @@ class FamilyController extends DatatableController
         
 
         // write to local file
-        $new_species = str_replace( " ", "_", $new_species );
-        $family = str_replace( " ", "_", $family );
-        $family = str_replace( "/", "_", $family );
-        $fullPath = WRITEPATH.$new_species."_".$family."_".microtime().".fasta";
+        $new_species = str_replace( " ", "_", $this->new_species );
+        $family = str_replace( " ", "_", $this->family );
+        $family = str_replace( "/", "_", $this->family );
+        $fullPath = WRITEPATH.$this->new_species."_".$this->family."_".microtime().".fasta";
         $myfile = fopen($fullPath, "w");
         foreach( $results as $row ){
             $tid = $row['tid'];
@@ -300,51 +332,5 @@ class FamilyController extends DatatableController
         unlink( $fullPath );
 
         exit;
-    }
-    
-    // helper for downloading fasta
-    // build a general query with placeholders
-    private function _build_fasta_query( $protein )
-    {
-        if( $protein ) {
-            $sql =  "SELECT
-                    aa_seq.uniquename as tid,
-                    aa_seq.residues as seq";
-        } else {
-            $sql =  "SELECT
-                    base.uniquename as tid,
-                    base.residues as seq";
-        }
-        
-        $sql .= "
-            FROM feature base
-            
-            JOIN featureprop taxrank__family
-                ON (base.feature_id = taxrank__family.feature_id)
-                AND (taxrank__family.type_id = 1362)
-
-            LEFT JOIN feature_relationship aa_rel
-                ON (aa_rel.object_id = base.feature_id)
-                AND (aa_rel.type_id = 327)
-
-            LEFT JOIN feature aa_seq
-                ON (aa_seq.feature_id = aa_rel.subject_id) 
-                AND (aa_seq.type_id = 534)
-                
-            JOIN organism org 
-                ON base.organism_id = org.organism_id
-                
-            WHERE org.common_name = :species:
-            AND org.infraspecific_name = :species_version:
-            AND taxrank__family.value = :family:
-        ";
-        
-        if( $protein ) {
-            $sql .= "ORDER BY aa_seq.uniquename";
-        } else {
-            $sql .= "ORDER BY base.uniquename";
-        }
-        
-        return $sql; 
     }
 }

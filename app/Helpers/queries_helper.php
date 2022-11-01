@@ -1,5 +1,50 @@
 <?php
+    
+// helper for downloading fasta
+// build a general query with placeholders
+function build_fasta_query( $protein )
+{
+    if( $protein ) {
+        $sql =  "SELECT
+                aa_seq.uniquename as tid,
+                aa_seq.residues as seq";
+    } else {
+        $sql =  "SELECT
+                base.uniquename as tid,
+                base.residues as seq";
+    }
 
+    $sql .= "
+        FROM feature base
+
+        JOIN featureprop taxrank__family
+            ON (base.feature_id = taxrank__family.feature_id)
+            AND (taxrank__family.type_id = 1362)
+
+        LEFT JOIN feature_relationship aa_rel
+            ON (aa_rel.object_id = base.feature_id)
+            AND (aa_rel.type_id = 327)
+
+        LEFT JOIN feature aa_seq
+            ON (aa_seq.feature_id = aa_rel.subject_id) 
+            AND (aa_seq.type_id = 534)
+
+        JOIN organism org 
+            ON base.organism_id = org.organism_id
+
+        WHERE org.common_name = :species:
+        AND org.infraspecific_name = :species_version:
+        AND taxrank__family.value = :family:
+    ";
+
+    if( $protein ) {
+        $sql .= "ORDER BY aa_seq.uniquename";
+    } else {
+        $sql .= "ORDER BY base.uniquename";
+    }
+
+    return $sql; 
+}
 
 /**
  * get the main query used for tfomeinfor.php
@@ -170,23 +215,51 @@ function get_proteininfor_query()
 /**
  * get the main query used for browsefamily.php
  */
-function get_browsefamily_query()
+function get_browsefamily_query( $species )
 {
-    return "SELECT cf.family as familyname,total
-        FROM class_family cf
+    if( $species == 'Maize' ){
+        return "SELECT cf.family as familyname,total
+            FROM class_family cf
 
-        LEFT JOIN (
-            SELECT family, COUNT(*) as total
+            LEFT JOIN (
+                SELECT family, COUNT(*) as total
 
-            FROM default_maize_names
+                FROM default_maize_names
 
-            GROUP BY family
-        ) as dmn
-            ON dmn.family = cf.family
+                GROUP BY family
+            ) as dmn
+                ON dmn.family = cf.family
 
-        WHERE (class = :class:) OR (class = 'Orphans')
+            WHERE (class = :class:) OR (class = 'Orphans')
 
-        ORDER BY cf.family;";
+            ORDER BY cf.family;";
+        
+    } else { // not maize
+        
+        return "
+            SELECT fp.value as familyname, COUNT(*) as total
+
+            FROM feature base
+
+            JOIN featureprop fp
+                ON fp.feature_id = base.feature_id
+                AND fp.type_id = 1362
+                
+            JOIN featureprop cp
+                ON cp.feature_id = base.feature_id
+                AND cp.type_id = 13
+
+            JOIN organism org
+                ON org.organism_id = base.organism_id
+
+            WHERE org.common_name = '$species'
+            AND base.type_id = 844
+            AND ((cp.value = :class:) OR (cp.value = 'Orphans'))
+
+            GROUP BY fp.value
+
+            ORDER BY fp.value;";
+    }
 }
 
 /**

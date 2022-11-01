@@ -10,15 +10,12 @@ class BrowsefamilyController extends BaseController
         // get species name in two forms 
         list($species,$new_species) = parse_species($species);
         
-        $sql = get_browsefamily_query();
+        $sql = get_browsefamily_query($species);
         
         $query=$this->db->query($sql,[
             'class' => $class
         ]);          
         $results = $query->getResultArray();
-
-        $results=$query->getResultArray();
-        
         
         //build input for word cloud generator
         $word_cloud_input = "";

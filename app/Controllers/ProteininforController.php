@@ -142,6 +142,8 @@ class ProteininforController extends PdicollectionController
         // parse all relevant domain annotations.
         // find the longest transcript with domain annotations, 
         // extract annotations and mark it as the transcript of interest
+        $default_transcript_domains = [];
+        $default_transcript_aa_seq = "";
         $best_seq_len = 0;
         for($i =0; $i<count($results);$i++)
         {            

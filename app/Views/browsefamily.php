@@ -31,7 +31,7 @@
 
 <br>
 <h2 class="wiki-section-header">
-    Maize <?php echo $class ?> Families Word Cloud
+    <?php echo $species?> <?php echo $class ?> Families Word Cloud
 </h2>
 <p>The size of each family name is proportional to the number of proteins in that family</p>
           
