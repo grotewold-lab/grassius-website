@@ -42,11 +42,19 @@ if (user_is_admin())
 
 <?php
 
-require_once "common/maize_version_controls.php";
+if( $species == "Maize" ){
+    require_once "common/maize_version_controls.php";
+}
 
-echo '<a id="download_fasta_aa" style="vertical-align:top" href="/download_family_fasta_aa/'.$species.'/v5/'.$familyname.'">Download v5 FASTA (protein)</a>';
+if( $species_version == "_" ){
+    $label_prefix = "Download FASTA";
+} else {
+    $label_prefix = "Download $species_version FASTA";
+}
 
-echo '<br><a id="download_fasta_nu" style="vertical-align:top" href="/download_family_fasta_nu/'.$species.'/v5/'.$familyname.'">Download v5 FASTA (cdna)</a><br><br>';
+echo '<a id="download_fasta_aa" style="vertical-align:top" href="/download_family_fasta_aa/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (protein)</a>';
+
+echo '<br><a id="download_fasta_nu" style="vertical-align:top" href="/download_family_fasta_nu/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (cdna)</a><br><br>';
 
 
 //show_gene_table($species, $familyname, $results);

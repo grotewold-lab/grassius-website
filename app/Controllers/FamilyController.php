@@ -204,8 +204,12 @@ class FamilyController extends DatatableController
         $data['domain_colors'] = $query->getResultArray();
         
         
-        # set the initial state of the maize version radio buttons
-        $data['species_version'] = $this->get_session_var('Maize_version');
+        # if necessary, set the initial state of the maize version radio buttons
+        if( $this->species == 'Maize' ){
+            $data['species_version'] = $this->get_session_var('Maize_version');
+        } else {
+            $data['species_version'] = "_";
+        }
         
         
         return view('family', $data);
@@ -256,6 +260,11 @@ class FamilyController extends DatatableController
      */
     public function download( $protein, $species, $species_version, $family_part1, $family_part2=null )
     {
+        // handle placeholder for species with only one version
+        if( $species_version == "_") {
+            $species_version = "";   
+        }
+        
         $this->parse_params($species, $family_part1, $family_part2);
         
         //debug
