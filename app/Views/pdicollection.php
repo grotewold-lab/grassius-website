@@ -214,8 +214,9 @@
         var c = old_c.cloneNode(true);
         old_c.parentNode.replaceChild(c, old_c);
         var ctx = c.getContext('2d');
-        show_network_with_api(ctx,800,600,vis_url);
-        add_mouse_listener_to_canvas(c,ctx);
+        show_network_with_api(ctx,800,600,vis_url,function(){
+            add_mouse_listener_to_canvas(c,ctx);
+        });
     }
     
     function show_histogram_message(message) {
