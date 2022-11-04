@@ -24,7 +24,9 @@ class TfomecollectionController extends DatatableController
             return [
 
                 // [ query-key, result-key, view-label ]
-               ["base.name", "clone", "Clone Name"]
+               ["base.name", "clone", "Clone Name"],
+               ["f.name","grassius_name","Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
+               ['fp.value','gene_id','Gene ID']
             ];
             
         }
@@ -64,8 +66,10 @@ class TfomecollectionController extends DatatableController
             
         } else { // not maize
             return $this->db->table('feature base')
-                ->select("base.name as clone")
+                ->select("base.name as clone, f.name as grassius_name, fp.value as gene_id, 'no' as accepted")
                 ->join('feature_relationship fr', 'fr.subject_id = base.feature_id AND fr.type_id = 435')
+                ->join('feature f', 'f.feature_id = fr.object_id')
+                ->join('featureprop fp', 'fp.feature_id = f.feature_id AND fp.type_id=496')
                 ->join('organism org', 'org.organism_id = base.organism_id' )
                 ->where('org.common_name', $this->crop );
         }
@@ -76,14 +80,15 @@ class TfomecollectionController extends DatatableController
         
         $crop = $this->crop;
         
-        if( $this->crop == "Maize" ){
-            $protein_link = get_proteininfor_link($crop, $row['grassius_name']);
+        $protein_link = get_proteininfor_link($crop, $row['grassius_name']);
 
-            if ($row['accepted'] === "no"){
-                $protein_class = "sugg";
-            }else {
-                $protein_class = "accpt";
-            }
+        if ($row['accepted'] === "no"){
+            $protein_class = "sugg";
+        }else {
+            $protein_class = "accpt";
+        }
+        
+        if( $this->crop == "Maize" ){
             return [
                "clone" => get_tfomeinfor_link($row['clone']),
                "name_sort_order" => "<div class=$protein_class>$protein_link</div>", # visible column
@@ -95,7 +100,9 @@ class TfomecollectionController extends DatatableController
             
         }else{ //not maize
             return [
-               "clone" => get_tfomeinfor_link($row['clone'])
+               "clone" => get_tfomeinfor_link($row['clone']),
+               "grassius_name" => "<div class=$protein_class>$protein_link</div>",
+               "gene_id" => get_external_db_link($this->species, $row['gene_id']),
             ];
         }
     }
