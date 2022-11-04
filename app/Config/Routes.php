@@ -43,10 +43,12 @@ $routes->get('/species/(:segment)', 'SpeciesportalController::index/$1');
 $routes->get('/grasstfdb', 'GrassdbController::index/TF');
 $routes->get('/grasscoregdb', 'GrassdbController::index/Coreg');
 
+
 $routes->get('/tfomecollection', 'TfomecollectionController::index/Maize');
 $routes->get('/tfomecollection/datatable', 'TfomecollectionController::crop_datatable/Maize');
-//$routes->get('/RiceTfome', 'TfomecollectionController::index/Rice');
-//$routes->get('/rice_tfome/datatable', 'TfomecollectionController::crop_datatable/Rice');
+
+$routes->get('/RiceTfome', 'TfomecollectionController::index/Rice');
+$routes->get('/rice_tfome/datatable', 'TfomecollectionController::crop_datatable/Rice');
 
 $routes->get('/pdicollection', 'PdicollectionController::pdicollection_page');
 $routes->get('/pdicollection/datatable', 'PdicollectionController::default_datatable');

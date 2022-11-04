@@ -92,7 +92,7 @@ function get_tfominfor_query()
             JOIN gene_clone gc
                 ON gc.clone_name = base.uniquename
             
-            JOIN default_maize_names dmn
+            LEFT JOIN default_maize_names dmn
                 ON dmn.v3_id = gc.v3_id
                 
             WHERE base.uniquename=:clone_name:";
