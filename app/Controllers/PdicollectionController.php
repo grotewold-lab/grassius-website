@@ -432,9 +432,9 @@ class PdicollectionController extends DatatableController
     }
     
     // endpoint for route: /pdicollection/get_vis_json
-    public function get_vis_json($filter_options){
+    public function get_vis_json($filter_options, $draw_num){
         $this->parse_filter_options($filter_options);
-        $query = $this->get_base_query_builder()->orderBy('gi.protein_name')->limit(10)->get();
+        $query = $this->get_base_query_builder()->orderBy('gi.protein_name')->get(10,intval($draw_num)*10);
         $result = $query->getResultArray();
         
         $all_gids = [];
@@ -473,11 +473,5 @@ class PdicollectionController extends DatatableController
         }
         
         return json_encode(["nodes"=>$nodes,"edges"=>$edges]);
-    }
-    
-    // endpoint for route: /pdicollection/visual
-    public function visual(){
-        $data['title'] = 'Test';
-        return view('pdivisual', $data);
     }
 }
