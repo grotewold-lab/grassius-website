@@ -124,7 +124,7 @@
 
 <canvas id="my_canvas" width="800" height="600">
 
-<script src="https://grotewold-lab.github.io/js/vis_tool.js"></script>
+<script src="https://grotewold-lab.github.io/assets/javascript/vis_tool.js"></script>
 <style>
     .hovermenu {
         position: absolute;
