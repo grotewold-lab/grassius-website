@@ -159,7 +159,7 @@ if( ($domain_table !== NULL) ){
                 $short_dna_seq = $full_dna_seq;
             }
         ?>
-        <h2 class="wiki-section-header">Nucleotide Sequence <?php echo get_copy_button($results[$i]['nucleotidesequence']); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo get_expand_button("dna_".$i); ?></h2>
+        <h2 class="wiki-section-header">cDNA <?php echo get_copy_button($results[$i]['nucleotidesequence']); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo get_expand_button("dna_".$i); ?></h2>
         <p class="wrap sequence short dna_<?php echo $i;?>"><?php echo $short_dna_seq; ?></p>
         <p hidden class="wrap sequence long dna_<?php echo $i;?>"><?php echo $full_dna_seq; ?></p>
     </div>
