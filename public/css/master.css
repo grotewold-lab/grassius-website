@@ -181,7 +181,7 @@ li.term a{
     color:#173830;
     border-color:#173830;
     background-color:#f3f6f5;
-    margin:1px
+    margin:1px !important;
 }
 
 li.term a.ui-state-active {
@@ -190,6 +190,8 @@ li.term a.ui-state-active {
     font-weight: normal;
     color: #ffffff;
 }
+
+
 
 
 /**
@@ -260,13 +262,6 @@ div#req_container div p, div#forb_container div p {
 p#cf_table_placeholder {
     color:red   
 }
-
-.ui-menu .ui-menu-item-wrapper:hover,
-.ui-menu .ui-menu-item-wrapper.ui-state-active {
-  color: white;
-  background-color: black;
-}
-
 
 /**
  * Color-coded labels for required domains on family page
