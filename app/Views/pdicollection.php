@@ -34,7 +34,7 @@
     &nbsp;&nbsp;&nbsp;
     
     <input id="sort_dir_desc" type="radio" name="sort_dir" value="DESC">
-    <label for="sort_dir_desc">descending (highest first)</label>
+    <label for="sort_dir_desc">descending (blanks first) (highest first)</label>
     
     <hr>
 

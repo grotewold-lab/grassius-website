@@ -86,10 +86,16 @@ class PdicollectionController extends DatatableController
         
         // support search form on pdicollection page
         if( isset($this->min_dist) ) {
-            $result = $result->where('gi.distance >', $this->min_dist);
+            $result = $result->groupStart()
+                ->where('gi.distance >', $this->min_dist)
+                ->orWhere('gi.distance is NULL')
+                ->groupEnd();
         }
         if( isset($this->max_dist) ) {
-            $result = $result->where('gi.distance <', $this->max_dist);
+            $result = $result->groupStart()
+                ->where('gi.distance <', $this->max_dist)
+                ->orWhere('gi.distance is NULL')
+                ->groupEnd();
         }
         if( isset($this->sort_col_index) ){
             $sort_col = $this->get_column_config()[$this->sort_col_index][0];
