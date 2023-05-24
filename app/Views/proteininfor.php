@@ -200,17 +200,15 @@ foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){
                 <a href="/proteininfor/download_table_filter_by_<?php echo "$label/$genename"; ?>">download excel sheet</a>
                 <br>
                 
-                <?php if( false ){ ?>
-                    Related pubmed articles:
-                    <?php foreach( $all_pubmed_ids as $pubmed_id )
-                    {
-                        echo get_pubmed_link($pubmed_id, TRUE);   
-                        if ($pubmed_id !== end($all_pubmed_ids)) {
-                            echo ", ";
-                        }
+                Related pubmed articles:
+                <?php foreach( $all_pubmed_ids as $pubmed_id )
+                {
+                    echo get_pubmed_link($pubmed_id, "PMID: $pubmed_id");   
+                    if ($pubmed_id !== end($all_pubmed_ids)) {
+                        echo ", ";
                     }
-                    ?>
-                <?php } ?>
+                }
+                ?>
                 
             </div>
             <div hidden class="long pdi_table_<?php echo $label; ?>">

@@ -25,9 +25,9 @@ class PdicollectionController extends DatatableController
            ["gi.target_name", "tar_protein", "Target Protein"],
            ["tar_dmn.name_sort_order", "tar_protein_order", "Target Protein"],
            ["gi.target_id", "tar_gene", "Target Gene"],
-           //["gi.pubmed_id", "pubmed", "Publication"],
            //["gi.interaction_type", "type", "Type of Interaction"],
            ["gi.experiment", "exp", "Experiment"],
+           ["gi.pubmed_id", "pmid", "Pubmed ID"],
            ["gi.distance", "dist", "Distance <br>(+ or -) (kb)"],
            ["ABS(gi.distance)", "abs_dist", "Absolute <br>Distance (kb)"]
         ];
@@ -67,11 +67,11 @@ class PdicollectionController extends DatatableController
                     gi.target_id AS tar_gene, 
                     gi.target_name AS tar_protein,
                     tar_dmn.name_sort_order AS tar_protein_order,
-                    gi.pubmed_id as pubmed, 
                     gi.interaction_type as type, 
                     gi.experiment as exp,
                     gi.distance as dist,
-                    ABS(gi.distance) as abs_dist")
+                    ABS(gi.distance) as abs_dist,
+                    gi.pubmed_id as pmid")
             ->join("public.default_maize_names reg_dmn", "reg_dmn.name = gi.protein_name", 'left')
             ->join("public.default_maize_names tar_dmn", "tar_dmn.name = gi.target_name", 'left');
         
@@ -168,11 +168,11 @@ class PdicollectionController extends DatatableController
            "tar_protein" => "", # hidden placeholder for searching
            "tar_protein_order" => get_proteininfor_link($species, $protein_name_2), # visible column
            "tar_gene" => get_external_db_link($species, $row['tar_gene']),
-           //"pubmed" => get_pubmed_link($row['pubmed']),
            //"type" => $row['type'],
            "exp" => $row['exp'],
            "dist" => $row['dist'],
-           "abs_dist" => $row['abs_dist']
+           "abs_dist" => $row['abs_dist'],
+           "pmid" => get_pubmed_link($row['pmid'],$row['pmid'])
         ];
     }
     

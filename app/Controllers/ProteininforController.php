@@ -51,7 +51,7 @@ class ProteininforController extends PdicollectionController
         
         for($i =0; $i<count($results);$i++)
         {            
-            $pmid = $results[$i]['pubmed'];
+            $pmid = $results[$i]['pmid'];
             if( !in_array($pmid,$pubmed_ids) )
             {
                 $pubmed_ids[] = $pmid;

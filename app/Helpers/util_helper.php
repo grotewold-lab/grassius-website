@@ -228,13 +228,8 @@ function get_proteininfor_link($species,$grassius_name)
  * Show a link to the pubmed article with the given id
  * return a string containing an html "a" tag
  */
-function get_pubmed_link($pubmed_id, $visible_id=FALSE)
+function get_pubmed_link($pubmed_id, $label)
 {
-    if( $visible_id ) {
-        $label = "PMID: $pubmed_id";
-    } else {
-        $label = "View on PubMed";
-    }
     return "<a class='external' href='https://pubmed.ncbi.nlm.nih.gov/$pubmed_id/' target='_blank'>$label</a>";
 }
 
