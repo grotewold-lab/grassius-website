@@ -124,7 +124,7 @@ switch ($template) {
 <p><small style="color:red">TFome clones do not contain stop codon at 3'end.</small></p>
 
 <h2 class="wiki-section-header">
-    Nucleotide Sequence 
+    CDS 
     <?php echo get_copy_button($results['sequence']); ?>
 </h2>
 <p class="wrap sequence"><?php echo $results['sequence']; ?></p>
