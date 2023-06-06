@@ -181,7 +181,8 @@ li.term a{
     color:#173830;
     border-color:#173830;
     background-color:#f3f6f5;
-    margin:1px
+    margin:1px !important;
+    padding: 3px 7px !important;
 }
 
 li.term a.ui-state-active {
@@ -190,6 +191,8 @@ li.term a.ui-state-active {
     font-weight: normal;
     color: #ffffff;
 }
+
+
 
 
 /**
@@ -260,13 +263,6 @@ div#req_container div p, div#forb_container div p {
 p#cf_table_placeholder {
     color:red   
 }
-
-.ui-menu .ui-menu-item-wrapper:hover,
-.ui-menu .ui-menu-item-wrapper.ui-state-active {
-  color: white;
-  background-color: black;
-}
-
 
 /**
  * Color-coded labels for required domains on family page
@@ -368,7 +364,15 @@ div.dom_legend_hovermenu a {
  */
 
 .copy-button {
-    cursor: pointer;   
+    cursor: pointer;  
+    margin-left: 4px;
+    margin-bottom: 2px;
+    height: 15px;
+    width: auto;
+}
+
+.expand-button {
+    cursor: pointer;  
 }
 
 .tooltip {
