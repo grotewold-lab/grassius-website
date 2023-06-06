@@ -70,7 +70,7 @@
 
 
 <?php 
-if( ($domain_table !== NULL) ){
+if( ($species=='Maize') and ($domain_table !== NULL) ){
     
     $ncols = count($domain_table[0]);
     
@@ -109,7 +109,11 @@ if( ($domain_table !== NULL) ){
     
     <div class="at at_<?php echo $results[$i]["species_version"]; ?>">
         <h2 class="wiki-section-header" style="margin-top:80px; font-size:30px; clear:both;">
-            <a class='external' target = '_blank' href="http://maizegdb.org/gene_center/gene/<?php echo $results[$i]['id_name']; ?>"> <?php echo $results[$i]['id_name']; ?></a><span class="maize_version_label <?php echo $results[$i]["species_version"]; ?>">from maize genome <?php echo $results[$i]["species_version"]; ?></span>
+            <a class='external' target = '_blank' href="http://maizegdb.org/gene_center/gene/<?php echo $results[$i]['id_name']; ?>"> <?php echo $results[$i]['id_name']; ?></a>
+            
+            <?php if( $species == 'Maize' ){ ?>
+                <span class="maize_version_label <?php echo $results[$i]["species_version"]; ?>">from maize genome <?php echo $results[$i]["species_version"]; ?></span>
+            <?php } ?>
         </h2>
 
         <?php if( !is_null($results[$i]["clone_names"]) ){ ?>
@@ -166,70 +170,66 @@ if( ($domain_table !== NULL) ){
 
 <?php } ?>
 
+<?php if( $species == 'Maize' ) { ?>
 
-<h2 class="wiki-section-header" style="margin-top:80px; font-size:30px; clear:both;">
-    Protein-DNA interactions
-</h2>
-<p><small style="color:red">All interactions are based on Maize genome v3</small></p>
-
-<?php 
-$specs = [
-    ["regulator", $pdi_count_regulator, $pubmed_ids_regulator, $pdi_table_regulator],
-    ["target", $pdi_count_target, $pubmed_ids_target, $pdi_table_target],
-];
-foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){ 
-?>
-        
-
-
-    <h2 class="wiki-section-header">
-        Interactions where <?php echo $genename; ?> is the <b><?php echo $label; ?></b>
+    <h2 class="wiki-section-header" style="margin-top:80px; font-size:30px; clear:both;">
+        Protein-DNA interactions
+    </h2>
+    <p><small style="color:red">All interactions are based on Maize genome v3</small></p>
 
     <?php 
-        if( $pdi_count > 0 ){ 
-            echo get_expand_button("pdi_table_$label"); 
+    $specs = [
+        ["regulator", $pdi_count_regulator, $pubmed_ids_regulator, $pdi_table_regulator],
+        ["target", $pdi_count_target, $pubmed_ids_target, $pdi_table_target],
+    ];
+    foreach( $specs as [$label, $pdi_count, $all_pubmed_ids, $pdi_table] ){ 
     ?>
-            </h2>
-            <br>
-            <div>
-                <?php if( $pdi_count > 1) {
-                    echo "There are $pdi_count protein-dna interactions that fit this criteria.";
-                } else {
-                    echo "There is 1 protein-dna interaction that fits this criteria.";
-                }?>
-                <a href="/proteininfor/download_table_filter_by_<?php echo "$label/$genename"; ?>">download excel sheet</a>
+
+
+
+        <h2 class="wiki-section-header">
+            Interactions where <?php echo $genename; ?> is the <b><?php echo $label; ?></b>
+        </h2>
+
+        <?php 
+            if( $pdi_count > 0 ){ 
+                echo get_expand_button("pdi_table_$label"); 
+        ?>
                 <br>
-                
-                <?php if( false ){ ?>
-                    Related pubmed articles:
-                    <?php foreach( $all_pubmed_ids as $pubmed_id )
-                    {
-                        echo get_pubmed_link($pubmed_id, TRUE);   
-                        if ($pubmed_id !== end($all_pubmed_ids)) {
-                            echo ", ";
+                <div>
+                    <?php if( $pdi_count > 1) {
+                        echo "There are $pdi_count protein-dna interactions that fit this criteria.";
+                    } else {
+                        echo "There is 1 protein-dna interaction that fits this criteria.";
+                    }?>
+                    <a href="/proteininfor/download_table_filter_by_<?php echo "$label/$genename"; ?>">download excel sheet</a>
+                    <br>
+
+                    <?php if( false ){ ?>
+                        Related pubmed articles:
+                        <?php foreach( $all_pubmed_ids as $pubmed_id )
+                        {
+                            echo get_pubmed_link($pubmed_id, TRUE);   
+                            if ($pubmed_id !== end($all_pubmed_ids)) {
+                                echo ", ";
+                            }
                         }
-                    }
-                    ?>
-                <?php } ?>
-                
-            </div>
-            <div hidden class="long pdi_table_<?php echo $label; ?>">
+                        ?>
+                    <?php } ?>
+
+                </div>
+                <div hidden class="long pdi_table_<?php echo $label; ?>">
+                    <br>
+                    <?php echo $pdi_table ?>
+                </div>
+
+        <?php } else { ?>
                 <br>
-                <?php echo $pdi_table ?>
-            </div>
-
-    <?php 
-        } else {
-    ?>
-            </h2>
-            <br>
-            <div>
-                There are no protein-dna interactions that fit this criteria.
-            </div>
-    <?php
-        } 
-    ?>
-
+                <div>
+                    There are no protein-dna interactions that fit this criteria.
+                </div>
+        <?php } ?>
+    <?php } ?>
 <?php } ?>
 
 

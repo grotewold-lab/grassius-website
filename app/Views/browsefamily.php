@@ -3,9 +3,11 @@
 
 <?php require_once "common/species_banner.php"; ?>
 
-<a href='/customfamily/<?php echo $species ?>'>build custom family...</a>
+<?php if( $species == 'Maize' ){ ?>
+    <a href='/customfamily/<?php echo $species ?>'>build custom family...</a>
+    <br>
+<?php } ?>
 
-<br>
 <h2 class="wiki-top-header"><?php echo $species." ".$class." Families" ?></h2>
 <p>The number next to each family name indicates the number of proteins in that family</p>
      
