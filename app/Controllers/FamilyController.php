@@ -183,6 +183,12 @@ class FamilyController extends DatatableController
             'familyname'   => $this->family
         ]);          
         $famresult = $query->getRowArray();
+        if( $famresult == null ){
+            $famresult = array(
+                "comments_url" => "",
+                "class" => "TF"
+            );   
+        }
         
         $data['datatable'] = $this->get_datatable_html("gene_table","/family_datatable/".$species."/$family");
         $data['famresult'] = $famresult;
