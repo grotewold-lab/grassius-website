@@ -170,6 +170,7 @@ class PdicollectionController extends DatatableController
         ];
     }
     
+    
     // render view for route: /pdicollection
     public function pdicollection_page()
     {                

@@ -50,6 +50,11 @@ $routes->get('/tfomecollection/datatable', 'TfomecollectionController::crop_data
 $routes->get('/RiceTfome', 'TfomecollectionController::index/Rice');
 $routes->get('/rice_tfome/datatable', 'TfomecollectionController::crop_datatable/Rice');
 
+$routes->get('/regcollection/filtered_datatable/(:segment)', 'Regnet\RegnetController::filtered_datatable/$1');
+$routes->get('/regnet/get_vis_json/(:segment)/(:segment)', 'Regnet\RegnetController::get_vis_json/$1/$2');
+$routes->get('/regnet/autocomplete', 'Regnet\RegnetController::autocomplete');
+$routes->get('/pdinetwork', 'Regnet\RegnetController::index');
+
 $routes->get('/pdicollection', 'PdicollectionController::pdicollection_page');
 $routes->get('/pdicollection/datatable', 'PdicollectionController::default_datatable');
 $routes->get('/pdicollection/filtered_datatable/(:segment)', 'PdicollectionController::filtered_datatable/$1');

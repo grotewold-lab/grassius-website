@@ -59,7 +59,7 @@
             "Databases" => array(
                 "CoregDB" => "/browsefamily/Maize/Coreg",
                 "TFDB" => "/browsefamily/Maize/TF",
-                "Protein-DNA Interactions" => "/pdicollection",
+                "Protein-DNA Interactions" => "/pdinetwork",
                 "Maize TFome Collection" => "/tfomecollection",
                 "Rice TFome Collection" => "/RiceTfome",
             )
