@@ -5,58 +5,69 @@
 
 <script src="/js/domain_canvas.js"></script>
 
-<h2 class="wiki-top-header"><?php echo $familyname ?> Family from <?php echo $species ?></h2>
 
-<p>
-    <?php    
-        if (!empty($famresult["description"])) {  
-            echo $famresult['description']; 
-        } else {
-            echo "Description for the $familyname family is not available at this time";    
-        }
-    ?>
-</p>
+<table>
+    <tr>
+        <td width="50%" style="vertical-align:top; padding-right:30px;">
+            <h2 class="wiki-top-header"><?php echo $familyname ?> Family from <?php echo $species ?></h2>
+            <br><br>
+            <?php
+                if( count($domain_colors) > 0 ){
+                    echo "Required domains for $familyname family:";
+                    foreach( $domain_colors as $dc ){
+                        $name = $dc['domain'];
+                        $color = get_real_color_for_domain_image($dc['color']);
+                        echo "<span class='required_domain_label' style='background-color:$color'><a href='/download/hmm/$name.hmm' target='_blank'>$name</a></span>";
+                    }
+                }
+            ?>
+
+
+
+            <?php
+            if (user_is_admin()) 
+            {
+                echo '<br><a href="/edit_family/'.$familyname.'">edit description for '.$familyname.' family</a><br>';    
+            }          
+            ?>
+
+            <br>
+            <br>
+
+            <?php
+
+                if( $species == "Maize" ){
+                    require_once "common/maize_version_controls.php";
+                }
+
+                if( $species_version == "_" ){
+                    $label_prefix = "Download FASTA";
+                } else {
+                    $label_prefix = "Download $species_version FASTA";
+                }
+
+                echo '<a id="download_fasta_aa" style="vertical-align:top" href="/download_family_fasta_aa/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (protein)</a>';
+
+                echo '<br><a id="download_fasta_nu" style="vertical-align:top" href="/download_family_fasta_nu/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (cdna)</a><br><br>';
+            ?>
+        </td>
+        <td width="50%" style="padding:30px;">
+            <div style="height:300px;overflow-y:auto;overflow-x:hidden">
+                <br>
+                <?php    
+                    if (!empty($famresult["description"])) {  
+                        echo $famresult['description']; 
+                    } else {
+                        echo "Description for the $familyname family is not available at this time";    
+                    }
+                ?>
+            </div>
+        </td>
+    </tr>
+</table> 
 
 
 <?php
-    if( count($domain_colors) > 0 ){
-        echo "Required domains for $familyname family:";
-        foreach( $domain_colors as $dc ){
-            $name = $dc['domain'];
-            $color = get_real_color_for_domain_image($dc['color']);
-            echo "<span class='required_domain_label' style='background-color:$color'><a href='/download/hmm/$name.hmm' target='_blank'>$name</a></span>";
-        }
-    }
-?>
-
-
-<?php
-if (user_is_admin()) 
-{
-    echo '<br><a href="/edit_family/'.$familyname.'">edit description for '.$familyname.' family</a><br>';    
-}          
-?>
-
-<br>
-<br>
-
-<?php
-
-if( $species == "Maize" ){
-    require_once "common/maize_version_controls.php";
-}
-
-if( $species_version == "_" ){
-    $label_prefix = "Download FASTA";
-} else {
-    $label_prefix = "Download $species_version FASTA";
-}
-
-echo '<a id="download_fasta_aa" style="vertical-align:top" href="/download_family_fasta_aa/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (protein)</a>';
-
-echo '<br><a id="download_fasta_nu" style="vertical-align:top" href="/download_family_fasta_nu/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (cdna)</a><br><br>';
-
-
 //show_gene_table($species, $familyname, $results);
 echo $datatable;
 
