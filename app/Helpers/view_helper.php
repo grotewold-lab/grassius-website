@@ -35,10 +35,13 @@ function get_real_color_for_domain_image( $color_name )
  */
 function get_domain_image( $protein_name, $sanno, $cf_req_doms=NULL )
 {
-    
-    $domains = json_decode( $sanno );
-    if( is_null($domains) ){
-        $domains = [];
+    if( is_null($sanno) ){
+        $domains = [];   
+    } else {
+        $domains = json_decode( $sanno );
+        if( is_null($domains) ){
+            $domains = [];
+        }
     }
     $dom_id = "canvas_$protein_name";
     $width = 300;
