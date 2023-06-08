@@ -232,7 +232,7 @@ class RegnetController extends DatatableController
         $query = $this->get_base_query_builder()->orderBy('udp_matches desc');
         
         //debug
-        file_put_contents(WRITEPATH.'/debug.txt', "\n\nnet-vis query:\n".$query->getCompiledSelect(false)."\n\n", FILE_APPEND);
+        //file_put_contents(WRITEPATH.'/debug.txt', "\n\nnet-vis query:\n".$query->getCompiledSelect(false)."\n\n", FILE_APPEND);
         
         $result = $query->get(10,intval($draw_num)*10)->getResultArray();
         
