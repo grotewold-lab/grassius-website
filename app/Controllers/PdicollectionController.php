@@ -29,7 +29,8 @@ class PdicollectionController extends DatatableController
            //["gi.interaction_type", "type", "Type of Interaction"],
            ["gi.experiment", "exp", "Experiment"],
            ["gi.distance", "dist", "Distance <br>(+ or -) (kb)"],
-           ["ABS(gi.distance)", "abs_dist", "Absolute <br>Distance (kb)"]
+           ["ABS(gi.distance)", "abs_dist", "Absolute <br>Distance (kb)"],
+           ["gi.note","note","Note"]
         ];
     }
     
@@ -46,7 +47,7 @@ class PdicollectionController extends DatatableController
         return '
               "columnDefs": [ 
                 { "targets": [0,3],"visible": false },
-                { "targets": [0,1,2,3,4,5,6,7,8],"orderable": false },
+                { "targets": [0,1,2,3,4,5,6,7,8,9],"orderable": false },
               ],
         "processing": true,
         "language": {
@@ -71,7 +72,8 @@ class PdicollectionController extends DatatableController
                     gi.interaction_type as type, 
                     gi.experiment as exp,
                     gi.distance as dist,
-                    ABS(gi.distance) as abs_dist")
+                    ABS(gi.distance) as abs_dist,
+                    gi.note as note")
             ->join("public.default_maize_names reg_dmn", "reg_dmn.name = gi.protein_name", 'left')
             ->join("public.default_maize_names tar_dmn", "tar_dmn.name = gi.target_name", 'left');
         
@@ -86,10 +88,16 @@ class PdicollectionController extends DatatableController
         
         // support search form on pdicollection page
         if( isset($this->min_dist) ) {
-            $result = $result->where('gi.distance >', $this->min_dist);
+            $result = $result->groupStart()
+                ->where('gi.distance >', $this->min_dist)
+                ->orWhere('gi.distance IS NULL', null, false)
+                ->groupEnd();
         }
         if( isset($this->max_dist) ) {
-            $result = $result->where('gi.distance <', $this->max_dist);
+            $result = $result->groupStart()
+                ->where('gi.distance <', $this->max_dist)
+                ->orWhere('gi.distance IS NULL', null, false)
+                ->groupEnd();
         }
         if( isset($this->sort_col_index) ){
             $sort_col = $this->get_column_config()[$this->sort_col_index][0];
@@ -166,7 +174,8 @@ class PdicollectionController extends DatatableController
            //"type" => $row['type'],
            "exp" => $row['exp'],
            "dist" => $row['dist'],
-           "abs_dist" => $row['abs_dist']
+           "abs_dist" => $row['abs_dist'],
+           "note" => $row['note'],
         ];
     }
     
@@ -185,9 +194,9 @@ class PdicollectionController extends DatatableController
         $data['exp_types'] = $this->get_distinct_gi_vals('experiment');
         
         // use pre-computed distance histogram
-        $hist = [25684,27411,28215,29921,30898,32876,34066,36145,40061,42683,45029,50011,54133,59924,70057,85703,110757,147295,180330,191293,213999,173141,123612,92430,80754,77591,72626,68349,66195,62221,59230,56499,53501,51191,48760,46096,44060,42509,39635,37715];
-        $data['distance_hist'] = $hist;
-        $data['distance_hist_n'] = $this->total($hist);
+        //$hist = [25684,27411,28215,29921,30898,32876,34066,36145,40061,42683,45029,50011,54133,59924,70057,85703,110757,147295,180330,191293,213999,173141,123612,92430,80754,77591,72626,68349,66195,62221,59230,56499,53501,51191,48760,46096,44060,42509,39635,37715];
+        //$data['distance_hist'] = $hist;
+        //$data['distance_hist_n'] = $this->total($hist);
         /*
         SELECT floor((distance+1)*20) as bin_floor, count(*)
         FROM gene_interaction
