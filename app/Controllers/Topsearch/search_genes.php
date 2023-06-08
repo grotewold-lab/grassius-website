@@ -26,15 +26,19 @@ function search_genes( $db, $searchterm )
     foreach( $searchable_keys as $col ) {
         if( $first ) {
             $first = false;
-            $query = $query->like('LOWER('.$col.')',$searchterm);
+            $query = $query->like("LOWER($col)",$searchterm);
         } else {
-            $query = $query->orLike('LOWER('.$col.')',$searchterm);
+            $query = $query->orLike("LOWER($col)",$searchterm);
         }
     }
     $query = $query->groupEnd();
     
     // finish query
     $query = $query->orderBy("sort_order");
+    
+    //debug
+    //file_put_contents(WRITEPATH.'/debug.txt', "\n\nsearch_genes query:\n".$query->getCompiledSelect(false)."\n\n", FILE_APPEND);
+    
     $query = $query->limit(10)->get();
     
     

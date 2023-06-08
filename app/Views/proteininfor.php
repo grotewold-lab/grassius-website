@@ -68,9 +68,8 @@
 
 </p>
 
-
 <?php 
-if( ($species=='Maize') and ($domain_table !== NULL) ){
+if( ($species=='Maize') and ($domain_table !== NULL) and (count($domain_table)>1) ){
     
     $ncols = count($domain_table[0]);
     
