@@ -181,11 +181,8 @@ TF name:
                 pdi_table = $('#pdi_table').DataTable( {
                     serverSide: true,
                     ajax: api_url,
-                    columns: [
-                        {"data":"reg_gene","title":"TF GeneID"},
-                        {"data":"tar_gene","title":"Target GeneID"},
-                        {"data":"edge_id","title":"edge_id"}
-                    ],
+                    columns: [{"data":"reg_protein","title":"Regulator Protein"},{"data":"reg_protein_order","title":"Regulator Protein"},{"data":"reg_gene","title":"Regulator Gene"},{"data":"tar_protein","title":"Target Protein"},{"data":"tar_protein_order","title":"Target Protein"},{"data":"tar_gene","title":"Target Gene"},{"data":"exp","title":"Experiment"},{"data":"dist","title":"Distance <br>(+ or -) (kb)"},{"data":"abs_dist","title":"Absolute <br>Distance (kb)"},{"data":"note","title":"Note"}],
+                    
                 } );
             } else {
                 pdi_table.ajax.url( api_url ).load();

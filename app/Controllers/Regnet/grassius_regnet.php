@@ -71,7 +71,8 @@ function get_column_config()
        ["gi.experiment", "exp", "Experiment"],
        ["gi.distance", "dist", "Distance <br>(+ or -) (kb)"],
        ["ABS(gi.distance)", "abs_dist", "Absolute <br>Distance (kb)"],
-       ["gi.gi_id", "edge_id", "edge_id"]
+       ["gi.gi_id", "edge_id", "edge_id"],
+       ["gi.note", "note", "Note"]
     ];
 }
     
@@ -118,7 +119,8 @@ function get_base_query_builder($context)
                 ABS(gi.distance) as abs_dist,
                 gi.udp_hash as udp_hash,
                 gi.udp_matches as udp_matches,
-                gi.gi_id as edge_id")
+                gi.gi_id as edge_id,
+                gi.note as note")
         ->join("public.default_maize_names reg_dmn", "reg_dmn.name = gi.protein_name", 'left')
         ->join("public.default_maize_names tar_dmn", "tar_dmn.name = gi.target_name", 'left');
 
@@ -176,7 +178,8 @@ function prepare_results( $row ) {
        "dist" => $row['dist'],
        "abs_dist" => $row['abs_dist'],
         "udp_hash" => $row['udp_hash'],
-        "edge_id" => "<div class='edge_id_$edge_id'>$edge_id</div>"
+        "edge_id" => "<div class='edge_id_$edge_id'>$edge_id</div>",
+        "note" => $row['note']
     ];
 }
 
