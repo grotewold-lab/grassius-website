@@ -14,6 +14,7 @@ Current contributors (in alphabetical order)
     <li>Erich Grotewold (Michigan State University, MI)</li>
     <li>Hadi Nayebi (Michigan State University, MI)</li>
     <li>Oliver Tessmer (Michigan State University, MI)</li>
+    <li>Sarah Percival (Michigan State University, MI)</li>
 </ul>
 
 <br>
