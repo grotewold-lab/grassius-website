@@ -108,6 +108,9 @@
     </div>
     <div class="posts-col col-sm-3" >
       <div class="posts-wrapper" >
+          <br>
+          <br>
+          <?php require_once "common/hitcount_map.php"; ?>
           <h2 >Recent News</h2><br>
         <ul class="posts list-unstyled" style="overflow: auto; height: 600px;">
           <?php echo $news_html; ?>
