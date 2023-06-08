@@ -34,7 +34,7 @@
 <div id="tutorial">
     <table>
         <tr>
-            <td style="width:400px; padding-right:50px">
+            <td style="width:600px; padding-right:50px">
                 <b>RegNet Tutorial</b>
                 <ol>
                     <li>Start typing a TF name, and choose from the auto-complete suggestions</li>
@@ -103,7 +103,7 @@ TF name:
 <div class="hovermenu"></div>
 
 <div style="display:block">
-    <canvas id="my_canvas" width="800" height="600">
+    <canvas id="my_canvas" width="1000" height="800">
 </div>    
     
 <div id="table_placeholder">
@@ -214,7 +214,7 @@ TF name:
         var c = old_c.cloneNode(true);
         old_c.parentNode.replaceChild(c, old_c);
         ctx = c.getContext('2d');
-        show_network_with_api(ctx,800,600,vis_url,function(){
+        show_network_with_api(ctx,1000,800,vis_url,function(){
             add_mouse_listener_to_canvas(c,ctx);
             add_node_selection_listener(ctx,update_pdi_table);
         },$('#filter_protein_name').val());
