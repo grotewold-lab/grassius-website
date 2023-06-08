@@ -111,7 +111,7 @@ TF name:
 </div>
 <div id="table_container">
     <span id="table_header"></span>
-    <a href="/regcollection">Click here to view ALL interactions</a>
+    <a href="/pdicollection">Click here to view ALL interactions</a>
     <div id="table_legend">
         <span>Legend:</span>
         &nbsp;&nbsp;&nbsp;
@@ -182,7 +182,9 @@ TF name:
                     serverSide: true,
                     ajax: api_url,
                     columns: [{"data":"reg_protein","title":"Regulator Protein"},{"data":"reg_protein_order","title":"Regulator Protein"},{"data":"reg_gene","title":"Regulator Gene"},{"data":"tar_protein","title":"Target Protein"},{"data":"tar_protein_order","title":"Target Protein"},{"data":"tar_gene","title":"Target Gene"},{"data":"exp","title":"Experiment"},{"data":"dist","title":"Distance <br>(+ or -) (kb)"},{"data":"abs_dist","title":"Absolute <br>Distance (kb)"},{"data":"note","title":"Note"}],
-                    
+                  "columnDefs": [ 
+                    { "targets": [0,3],"visible": false },
+                  ],
                 } );
             } else {
                 pdi_table.ajax.url( api_url ).load();
@@ -197,7 +199,7 @@ TF name:
             var all_pdis = selected_node.data.related_pdis;
             for( var i = 0 ; i < all_pdis.length ; i++ ){
                 var edge_id = all_pdis[i].edge_id
-                style += '.edge_id_' + edge_id + ' {color:blue !important;}';
+                style += ' .edge_id_' + edge_id + ', .edge_id_' + edge_id + ' a {color:blue !important;}';
             }
             $('#table_style').text(style)
         }

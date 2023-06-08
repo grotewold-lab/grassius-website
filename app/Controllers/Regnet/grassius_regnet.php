@@ -163,23 +163,26 @@ function prepare_results( $row ) {
         $protein_name_2 = $row['tar_protein'];
     }
 
+    // assume the species is always maize
+    $species = 'Maize';
+
     $edge_id = $row['edge_id'];
     
     return [
        "reg_protein" => "", # hidden placeholder for searching
-       "reg_protein_order" => "<div class='edge_id_$edge_id'>$protein_name_1</div>", # visible column
-       "reg_gene" => "<div class='edge_id_$edge_id'>".$row['reg_gene']."</div>",
+       "reg_protein_order" => "<div class='edge_id_$edge_id'>".get_proteininfor_link($species, $protein_name_1)."</div>", # visible column
+       "reg_gene" => "<div class='edge_id_$edge_id'>".get_external_db_link($species, $row['reg_gene'])."</div>",
        "tar_protein" => "", # hidden placeholder for searching
-       "tar_protein_order" => "<div class='edge_id_$edge_id'>$protein_name_2</div>", # visible column
-       "tar_gene" => "<div class='edge_id_$edge_id'>".$row['tar_gene']."</div>",
+       "tar_protein_order" => "<div class='edge_id_$edge_id'>".get_proteininfor_link($species, $protein_name_2)."</div>", # visible column
+       "tar_gene" => "<div class='edge_id_$edge_id'>".get_external_db_link($species, $row['tar_gene'])."</div>",
        //"pubmed" => get_pubmed_link($row['pubmed']),
        //"type" => $row['type'],
-       "exp" => $row['exp'],
-       "dist" => $row['dist'],
-       "abs_dist" => $row['abs_dist'],
-        "udp_hash" => $row['udp_hash'],
+       "exp" => "<div class='edge_id_$edge_id'>".$row['exp']."</div>",
+       "dist" => "<div class='edge_id_$edge_id'>".$row['dist']."</div>",
+       "abs_dist" => "<div class='edge_id_$edge_id'>".$row['abs_dist']."</div>",
+        "udp_hash" => "<div class='edge_id_$edge_id'>".$row['udp_hash']."</div>",
         "edge_id" => "<div class='edge_id_$edge_id'>$edge_id</div>",
-        "note" => $row['note']
+        "note" => "<div class='edge_id_$edge_id'>".$row['note']."</div>"
     ];
 }
 
