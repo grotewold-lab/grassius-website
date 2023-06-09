@@ -79,10 +79,10 @@ class PdicollectionController extends DatatableController
         
     
         // special cases to support tables on proteininfor page
-        if( isset($this->regulator_name) ){
+        if( isset($this->regulator_name) and $this->is_valid($this->regulator_name) ){
             $result = $result->where('gi.protein_name',$this->regulator_name);
         }
-        if( isset($this->target_name) ) {
+        if( isset($this->target_name) and $this->is_valid($this->target_name) ) {
             $result = $result->where('gi.target_name',$this->target_name);
         }
         
