@@ -10,11 +10,12 @@
 <br>
 Current contributors (in alphabetical order)
 <ul>
+    <li>Fabio Gomez Cano (Michigan State University, MI)</li>
     <li>John Gray (University of Toledo, OH)</li>
     <li>Erich Grotewold (Michigan State University, MI)</li>
     <li>Hadi Nayebi (Michigan State University, MI)</li>
-    <li>Oliver Tessmer (Michigan State University, MI)</li>
     <li>Sarah Percival (Michigan State University, MI)</li>
+    <li>Oliver Tessmer (Michigan State University, MI)</li>
 </ul>
 
 <br>
@@ -25,14 +26,14 @@ Former Contributors (in alphabetical order)
     <li>Ramana Davuluri</li>
     <li>Eric Easley</li>
     <li>Evans Kataka</li>
-    <li>Eric Maina</li>
     <li>Maria Katherine Mejia-Guerra</li>
-    <li>Milton Yutaka Nishiyama Jr.</li>
-    <li>Alper Yilmaz</li>
+    <li>Eric Maina</li>
     <li>Wilberforce Ouma</li>
     <li>Saran Palaniswamy</li>
     <li>Glaucia Souza</li>
     <li>Hao Sun</li>
+    <li>Alper Yilmaz</li>
+    <li>Milton Yutaka Nishiyama Jr.</li>
 </ul>
 
 <br>
