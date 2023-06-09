@@ -162,13 +162,6 @@ function add_mouse_listener_to_canvas(canvas,ctx){
                     win.focus();
                 }
                 return
-            } else if ( ctx.tair_button.hl && ctx.selected_node ){
-                var url = "http://arabidopsis.org/servlets/TairObject?type=locus&name=" + ctx.selected_node.data.gene_id
-                var win = window.open(url, '_blank');
-                if (win) {
-                    win.focus();
-                }
-                return
             }
         
             // click on node (or deselect node)
@@ -625,8 +618,6 @@ function show_network_with_static_json( ctx, w, h, json_data, init_protein_name=
                             text:'Load More Interactions'}
     ctx.link_button = {x:(w-285),y:28,w:148,h:20,hl:false,
                             text:'Link'}
-    ctx.tair_button = {x:(w-285),y:118,w:148,h:20,hl:false,
-                            text:'View on TAIR 🔗'}
     ctx.deselect_button = {x:(w-20),y:1,w:20,h:20,hl:false,text:'x'}
     
     // list of "typical" buttons
@@ -634,7 +625,6 @@ function show_network_with_static_json( ctx, w, h, json_data, init_protein_name=
     ctx.standard_buttons = [
         ctx.load_more_button,
         ctx.link_button,
-        ctx.tair_button,
         ctx.deselect_button,
     ]
     
@@ -648,10 +638,8 @@ function update_buttons(ctx){
         ctx.load_more_button.visible = false
         ctx.deselect_button.visible = false
         ctx.link_button.visible = false
-        ctx.tair_button.visible = false
     } else {
         ctx.link_button.visible = true
-        ctx.tair_button.visible = true
         ctx.link_button.text = get_node_link_text(ctx.selected_node.data)
         
         ctx.deselect_button.visible = true
