@@ -43,6 +43,11 @@ function get_domain_image( $protein_name, $sanno, $cf_req_doms=NULL )
             $domains = [];
         }
     }
+
+    if( count($domains) == 0 ){
+        return "Domain Annotations Pending";
+    }
+
     $dom_id = "canvas_$protein_name";
     $width = 300;
     $height = 20;
