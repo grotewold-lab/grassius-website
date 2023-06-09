@@ -25,11 +25,11 @@ class PdicollectionController extends DatatableController
            ["gi.target_name", "tar_protein", "Target Protein"],
            ["tar_dmn.name_sort_order", "tar_protein_order", "Target Protein"],
            ["gi.target_id", "tar_gene", "Target Gene"],
-           //["gi.pubmed_id", "pubmed", "Publication"],
            //["gi.interaction_type", "type", "Type of Interaction"],
            ["gi.experiment", "exp", "Experiment"],
            ["gi.distance", "dist", "Distance <br>(+ or -) (kb)"],
            ["ABS(gi.distance)", "abs_dist", "Absolute <br>Distance (kb)"],
+           ["gi.pubmed_id", "pubmed", "Reference"],
            ["gi.note","note","Note"]
         ];
     }
@@ -47,7 +47,7 @@ class PdicollectionController extends DatatableController
         return '
               "columnDefs": [ 
                 { "targets": [0,3],"visible": false },
-                { "targets": [0,1,2,3,4,5,6,7,8,9],"orderable": false },
+                { "targets": [0,1,2,3,4,5,6,7,8,9,10],"orderable": false },
               ],
         "processing": true,
         "language": {
@@ -170,7 +170,7 @@ class PdicollectionController extends DatatableController
            "tar_protein" => "", # hidden placeholder for searching
            "tar_protein_order" => get_proteininfor_link($species, $protein_name_2), # visible column
            "tar_gene" => get_external_db_link($species, $row['tar_gene']),
-           //"pubmed" => get_pubmed_link($row['pubmed']),
+           "pubmed" => get_pubmed_link($row['pubmed'],true),
            //"type" => $row['type'],
            "exp" => $row['exp'],
            "dist" => $row['dist'],

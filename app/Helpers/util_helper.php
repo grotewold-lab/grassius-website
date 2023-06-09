@@ -216,7 +216,7 @@ function make_up_color_by_domain($aa_seq)
  */
 function get_proteininfor_link($species,$grassius_name)
 {
-    if( is_null($grassius_name) or (strlen(trim($grassius_name)) <= 0) ){
+    if( is_null($grassius_name) or (strlen(trim($grassius_name)) == 0) ){
         return "";
     } else {
         return "<a href='/proteininfor/$species/$grassius_name'>$grassius_name</a>";
@@ -230,6 +230,9 @@ function get_proteininfor_link($species,$grassius_name)
  */
 function get_pubmed_link($pubmed_id, $visible_id=FALSE)
 {
+    if( is_null($pubmed_id) or (strlen(trim($pubmed_id)) == 0) ){
+        return "";
+    }
     if( $visible_id ) {
         $label = "PMID: $pubmed_id";
     } else {

@@ -8,85 +8,130 @@
     Relevant Publications from the GRASSIUS Team
 </h2>  
 <br>
+<div id="pubs">
+    <p>
+        Schmitz, R.J., Grotewold, E., and Stam, E. (2021) 
+        <br>
+        <i>
+            Cis-regulatory sequences in plants: their importance, discovery and future challenges.
+        </i>
+        <br>
+        <a href="https://academic.oup.com/plcell">Plant Cell</a>, 34: 718-741.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/34918159/">PMID: 34918159</a>
+    </p>
 
-<p>
-    Schmitz, R.J., Grotewold, E., and Stam, E. (2021) 
-    <br>
-    <strong>
-        Cis-regulatory sequences in plants: their importance, discovery and future challenges.
-    </strong>
-    <br>
-    Plant Cell, 34: 718-741.
-</p>
+    <p>
+        Yang, F., Li, W., Jiang, N., Yu, H., Morohashi, K., Ouma, W.Z., Morales-Mantilla, D., Gomez-Cano, F., Mukundi, E., Prada-Salcedo, L.D., Alers Velazquez, R., Valentin, J., Mejía-Guerra, M.K., Gray, J., Doseff, A.I., and Grotewold, E. (2017). 
+        <br>
+        <i>
+            A maize gene regulatory network for phenolic metabolism. 
+        </i>
+        <br>
+        <a href="https://www.cell.com/molecular-plant/home">Mol Plant</a>, 10: 489-515.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/27871810/">PMID: 27871810</a>
+    </p>
 
-<p>
-    Yang, F., Li, W., Jiang, N., Yu, H., Morohashi, K., Ouma, W.Z., Morales-Mantilla, D., Gomez-Cano, F., Mukundi, E., Prada-Salcedo, L.D., Alers Velazquez, R., Valentin, J., Mejía-Guerra, M.K., Gray, J., Doseff, A.I., and Grotewold, E. (2017). 
-    <br>
-    <strong>
-        A maize gene regulatory network for phenolic metabolism. 
-    </strong>
-    <br>
-    Mol Plant, 10: 489-515.
-</p>
+    <p>
+        Mukundi, E., Gomez-Cano, F., Ouma, W.Z., and Grotewold, E. (2017) 
+        <br>
+        <i>
+            Design of knowledge bases for plant gene regulatory networks. 
+        </i>
+        <br>
+        <a href="https://www.springer.com/series/7651">Methods Mol Biol</a>, 1629: 207-223.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/28623588/">PMID: 28623588</a>
+    </p>
 
-<p>
-    Mukundi, E., Gomez-Cano, F., Ouma, W.Z., and Grotewold, E. (2017) 
-    <br>
-    <strong>
-        Design of knowledge bases for plant gene regulatory networks. 
-    </strong>
-    <br>
-    Methods Mol Biol, 1629: 207-223.
-</p>
+    <p>
+        Mejía-Guerra, K.M., Li, W., Galeano, N.F., Vidal, M., Gray, J., Doseff, A.I., and Grotewold, E. (2015) 
+        <br>
+        <i>
+            Core promoter plasticity between maize tissues and genotypes contrasts with predominance of sharp transcription initiation sites. 
+        </i>
+        <br>
+        <a href="https://academic.oup.com/plcell">Plant Cell</a>, 27: 3309-3320.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/26628745/">PMID: 26628745</a>
+    </p>
 
-<p>
-    Mejía-Guerra, K.M., Li, W., Galeano, N.F., Vidal, M., Gray, J., Doseff, A.I., and Grotewold, E. (2015) 
-    <br>
-    <strong>
-        Core promoter plasticity between maize tissues and genotypes contrasts with predominance of sharp transcription initiation sites. 
-    </strong>
-    <br>
-    Plant Cell, 27: 3309-3320.
-</p>
+    <p>
+        Gray, J., Burdo, B., Goetting-Minesky, M. P., Wittler, B., Hunt, M., Li, T., Velliquette, D., Thomas, J., Agarwal, T., Key, K., Gentzel, I., Brito, M. d., Mejía-Guerra, M. K., Connolly, L. N., Qaisi, D., Li, W., Casas, M. I., Doseff, A. I. and Grotewold, E. (2015). 
+        <br>
+        <i>
+            Protocol for the generation of a transcription factor open reading frame collection (TFome). 
+        </i>
+        <br>
+        <a href="https://bio-protocol.org/en">Bio-protocol</a>, 5: e1547.
+    </p>
 
-<p>
-    Gray, J., Burdo, B., Goetting-Minesky, M. P., Wittler, B., Hunt, M., Li, T., Velliquette, D., Thomas, J., Agarwal, T., Key, K., Gentzel, I., Brito, M. d., Mejía-Guerra, M. K., Connolly, L. N., Qaisi, D., Li, W., Casas, M. I., Doseff, A. I. and Grotewold, E. (2015). 
-    <br>
-    <strong>
-        Protocol for the generation of a transcription factor open reading frame collection (TFome). 
-    </strong>
-    <br>
-    Bio-protocol, 5: e1547. (<a target="_blank" href="http://www.bio-protocol.org/e1547">http://www.bio-protocol.org/e1547</a>)
-</p>
+    <p>
+        Burdo, B., Gray, J., Goetting-Minesky, M.P., Wittler, B., Hunt, M., Li, T., Velliquette, D., Thomas, J., Gentzel, I., Brito, M.D., Mejía-Guerra, M.K., Connolly, L.N., Qaisi, D., Li, W., Casas, M.I., Doseff, A.I., and Grotewold, E. (2014) 
+        <br>
+        <i>
+            The Maize TFome - Development of a transcription factor open reading frame collection for functional genomics. 
+        </i>
+        <br>
+        <a href="https://onlinelibrary.wiley.com/journal/1365313x">Plant J. 80: 356-366.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/25053252/">PMID: 25053252</a>
+    </p>
 
-<p>
-    Burdo, B., Gray, J., Goetting-Minesky, M.P., Wittler, B., Hunt, M., Li, T., Velliquette, D., Thomas, J., Gentzel, I., Brito, M.D., Mejía-Guerra, M.K., Connolly, L.N., Qaisi, D., Li, W., Casas, M.I., Doseff, A.I., and Grotewold, E. (2014) 
-    <br>
-    <strong>
-        The Maize TFome - Development of a transcription factor open reading frame collection for functional genomics. 
-    </strong>
-    <br>
-    Plant J. 80: 356-366.
-</p>
+    <p>
+        Gray, J., Bevan, M., Brutnell, T., Buell, R., Cone, K., Hake, S., Jackson, D., Kellogg, E.A., Lawrence, C., McCouch, S., Mockler, T., Moose, S.P., Paterson, A., Peterson, T., Rokshar, D., Souza, G.M., Springer, N., Stein, N., Timmermans, M.C., Wang, G.-L., and Grotewold, E. (2009) 
+        <br>
+        <i>
+            A recommendation for naming transcription factor proteins in the grasses. 
+        </i>
+        <br>
+        <a href="https://academic.oup.com/plphys">Plant Physiol</a>, 149: 4-6.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/19126689/">PMID: 19126689</a>
+    </p>
+    <p>
+        Yilmaz, A., Nishiyama, M.Y., Garcia-Fuentes, B., Souza, G.M., Janies, D., Gray, J. and Grotewold, E. (2009) 
+        <br>
+        <i>
+            GRASSIUS: A platform for comparative regulatory genomics across the grasses. 
+        </i>
+        <br>
+        <a href="https://academic.oup.com/plphys">Plant Physiol</a>, 149: 171-180.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/18987217/">PMID: 18987217</a>
+    </p>
 
-<p>
-    Gray, J., Bevan, M., Brutnell, T., Buell, R., Cone, K., Hake, S., Jackson, D., Kellogg, E.A., Lawrence, C., McCouch, S., Mockler, T., Moose, S.P., Paterson, A., Peterson, T., Rokshar, D., Souza, G.M., Springer, N., Stein, N., Timmermans, M.C., Wang, G.-L., and Grotewold, E. (2009) 
-    <br>
-    <strong>
-        A recommendation for naming transcription factor proteins in the grasses. 
-    </strong>
-    <br>
-    Plant Physiol, 149: 4-6.
-</p>
-<p>
-    Yilmaz, A., Nishiyama, M.Y., Garcia-Fuentes, B., Souza, G.M., Janies, D., Gray , J. and Grotewold, E. (2009) 
-    <br>
-    <strong>
-        GRASSIUS: A platform for comparative regulatory genomics across the grasses. 
-    </strong>
-    <br>
-    Plant Physiol, 149: 171-180.
-</p>
+    <p>
+    Morohashi K, Casas MI, Falcone Ferreyra ML, Falcone Ferreyra L, Mejía-Guerra MK, Pourcel L, Yilmaz A, Feller A, Carvalho B, Emiliani J, Rodriguez E, Pellegrinet S, McMullen M, Casati P, Grotewold E. <br>
+        <i>A genome-wide regulatory framework identifies maize pericarp color1 controlled genes. </i><br>
+        <a href="https://academic.oup.com/plcell">Plant Cell</a>. 2012 Jul;24(7):2745-64.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/22822204/">PMID: 22822204</a>
+    </p>
+
+    <p>
+    Bolduc N, Yilmaz A, Mejia-Guerra MK, Morohashi K, O'Connor D, Grotewold E, Hake S. <br>
+        <i>Unraveling the KNOTTED1 regulatory network in maize meristems. </i><br>
+        <a href="https://genesdev.cshlp.org/">Genes Dev</a>. 2012 Aug 1;26(15):1685-90.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/22855831/">PMID: 22855831</a>
+    </p>
+
+    <p>
+    Eveland AL, Goldshmidt A, Pautler M, Morohashi K, Liseron-Monfils C, Lewis MW, Kumari S, Hiraga S, Yang F, Unger-Wallace E, Olson A, Hake S, Vollbrecht E, Grotewold E, Ware D, Jackson D. <br>
+        <i>Regulatory modules controlling maize inflorescence architecture. </i><br>
+        <a href="https://genome.cshlp.org/">Genome Res</a>. 2014 Mar;24(3):431-43.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/24307553/">PMID: 24307553</a>
+    </p>
+
+    <p>
+    Pautler M, Eveland AL, LaRue T, Yang F, Weeks R, Lunde C, Je BI, Meeley R, Komatsu M, Vollbrecht E, Sakai H, Jackson D. <br>
+        <i>FASCIATED EAR4 encodes a bZIP transcription factor that regulates shoot meristem size in maize. </i><br>
+        <a href="https://academic.oup.com/plcell">Plant Cell</a>. 2015 Jan;27(1):104-20. <br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/25616871/">PMID: 25616871</a>
+    </p>
+
+    <p>
+    Li C, Qiao Z, Qi W, Wang Q, Yuan Y, Yang X, Tang Y, Mei B, Lv Y, Zhao H, Xiao H, Song R. <br>
+        <i>Genome-wide characterization of cis-acting DNA targets reveals the transcriptional regulatory framework of opaque2 in maize. </i><br>
+        <a href="https://academic.oup.com/plcell">Plant Cell</a>. 2015 Mar;27(3):532-45.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/25691733/">PMID: 25691733</a>
+    </p>
+</div>
+
+<style>#pubs i { font-weight: bold; }</style>
 
 
 <br>

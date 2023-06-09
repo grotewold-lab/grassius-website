@@ -43,7 +43,7 @@ Former Contributors (in alphabetical order)
 Oliver Tessmer is the webmaster. We are grateful for comments and insights provided by Plant
 Genome Project advisory committee, Drs. C. Robin Buell (Michigan State University), Doreen
 Ware (Cold Spring Harbor Laboratory), Tom Brutnell (Cornell University) and Patty Springer
-(University of California ,Riverside).
+(University of California, Riverside).
 </p>
 <p>
 We wish also to thank Alper Yilmaz, Ramana Davuluri and Saran Palaniswamy for the initial

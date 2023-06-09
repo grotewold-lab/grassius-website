@@ -66,7 +66,7 @@ function get_column_config()
        ["gi.target_name", "tar_protein", "Target Protein"],
        ["tar_dmn.name_sort_order", "tar_protein_order", "Target Protein"],
        ["gi.target_id", "tar_gene", "Target Gene"],
-       //["gi.pubmed_id", "pubmed", "Publication"],
+       ["gi.pubmed_id", "pubmed", "Publication"],
        //["gi.interaction_type", "type", "Type of Interaction"],
        ["gi.experiment", "exp", "Experiment"],
        ["gi.distance", "dist", "Distance <br>(+ or -) (kb)"],
@@ -175,7 +175,7 @@ function prepare_results( $row ) {
        "tar_protein" => "", # hidden placeholder for searching
        "tar_protein_order" => "<div class='edge_id_$edge_id'>".get_proteininfor_link($species, $protein_name_2)."</div>", # visible column
        "tar_gene" => "<div class='edge_id_$edge_id'>".get_external_db_link($species, $row['tar_gene'])."</div>",
-       //"pubmed" => get_pubmed_link($row['pubmed']),
+       "pubmed" => "<div class='edge_id_$edge_id'>".get_pubmed_link($row['pubmed'],true)."</div>",
        //"type" => $row['type'],
        "exp" => "<div class='edge_id_$edge_id'>".$row['exp']."</div>",
        "dist" => "<div class='edge_id_$edge_id'>".$row['dist']."</div>",
