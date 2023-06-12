@@ -174,7 +174,7 @@ if( ($species=='Maize') and ($domain_table !== NULL) and (count($domain_table)>1
     <h2 class="wiki-section-header" style="margin-top:80px; font-size:30px; clear:both;">
         Protein-DNA interactions
     </h2>
-    <p><small style="color:red">All interactions are based on Maize genome v3</small></p>
+    <!--<p><small style="color:red">All interactions are based on Maize genome v3</small></p>-->
 
     <?php 
     $specs = [
@@ -188,11 +188,15 @@ if( ($species=='Maize') and ($domain_table !== NULL) and (count($domain_table)>1
 
         <h2 class="wiki-section-header">
             Interactions where <?php echo $genename; ?> is the <b><?php echo $label; ?></b>
+            <?php 
+                if( $pdi_count > 0 ){ 
+                    echo '&nbsp;'.get_expand_button("pdi_table_$label"); 
+                }
+            ?>
         </h2>
 
         <?php 
             if( $pdi_count > 0 ){ 
-                echo get_expand_button("pdi_table_$label"); 
         ?>
                 <br>
                 <div>
