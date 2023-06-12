@@ -38,17 +38,32 @@ function autocomplete($context,$request){
     $term = $request->getVar('term');
     $term = strtolower($term);
 
-    $query = $context->db->table('pdi_distance_histograms')
-        ->select("value")
-        ->where("field", "protein_name")
-        ->like("lower(value)", $term )
-        ->limit(10)
+    $q1 = $context->db->table('gene_interaction')
+        ->select("DISTINCT(protein_name) AS name")
+        ->like("LOWER(protein_name)", $term )
+        ->limit(5)
         ->get();
 
+    $q2 = $context->db->table('gene_interaction')
+        ->select("DISTINCT(target_name) AS name")
+        ->like("LOWER(target_name)", $term )
+        ->limit(5)
+        ->get();
+
+    $all_names = [];
+    foreach( [$q1,$q2] as $query ){
+        foreach( $query->getResultArray() as $row ){
+            $name = $row["name"];
+            if( !in_array( $name, $all_names ) ){
+                $all_names[] = $name;
+            }
+        }
+    }
+    
+    sort($all_names);
     $result = [];
-    foreach( $query->getResult() as $row ){
-        $val = $row->value;
-        $result[] = ["id" => $val, "label" => $val, "value" => $val];
+    foreach( $all_names as $name ){
+        $result[] = ["id" => $name, "label" => $name, "value" => $name];
     }
 
     return json_encode($result);
