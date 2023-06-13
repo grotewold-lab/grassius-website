@@ -35,11 +35,19 @@ function get_real_color_for_domain_image( $color_name )
  */
 function get_domain_image( $protein_name, $sanno, $cf_req_doms=NULL )
 {
-    
-    $domains = json_decode( $sanno );
-    if( is_null($domains) ){
-        $domains = [];
+    if( is_null($sanno) ){
+        $domains = [];   
+    } else {
+        $domains = json_decode( $sanno );
+        if( is_null($domains) ){
+            $domains = [];
+        }
     }
+
+    if( count($domains) == 0 ){
+        return "Domain Annotations Pending";
+    }
+
     $dom_id = "canvas_$protein_name";
     $width = 300;
     $height = 20;
@@ -225,7 +233,7 @@ function get_copy_button($string_to_copy)
     
     return "
         <div class='tooltip'>
-            <image class='copy-button' src='/images/copy.png' onclick='myFunction$uid()' onmouseout='outFunc$uid()' >
+            <image class='copy-button' src='/images/clipboard.svg' onclick='myFunction$uid()' onmouseout='outFunc$uid()' >
                 <span class='tooltiptext' id='myTooltip$uid'>Copy to clipboard</span>
             </image>
         </div>
@@ -264,7 +272,7 @@ function get_expand_button( $target_class )
     
     return "
         <div class='tooltip'>
-            <image class='copy-button'  id='myTooltipImg$uid' src='/images/expand.png' onclick='myFunction$uid()'>
+            <image class='expand-button'  id='myTooltipImg$uid' src='/images/arrows-expand.svg' onclick='myFunction$uid()'>
                 <span class='tooltiptext' id='myTooltip$uid' data-state='collapsed'>Expand</span>
             </image>
         </div>
@@ -282,12 +290,12 @@ function get_expand_button( $target_class )
             $('.$target_class.long').show();
             tooltip.attr('data-state','expanded');
             tooltip.html('Collapse');
-            image.attr('src','/images/collapse.png')
+            image.attr('src','/images/arrows-collapse.svg')
           } else {
             $('.$target_class.short').show();
             tooltip.attr('data-state','collapsed');
             tooltip.html('Expand');
-            image.attr('src','/images/expand.png')
+            image.attr('src','/images/arrows-expand.svg')
           }
         }
         </script>

@@ -36,8 +36,70 @@
     text-decoration: none;
 }
 
+/**
+ * search form
+ * used on pdicollection page
+ */
+
+.search-form {
+    background-color: #DDD;   
+    padding: 30px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.search-form hr {
+    border:none;
+    border-top: 2px solid gray;
+}
 
 
+/**
+ * jquery ui slider
+ * used on pdicollection search form
+ * to select range of distances
+ */
+.ui-slider-outer-container {
+    white-space: nowrap;
+    width: 100%;
+}   
+.ui-slider-outer-container > p {
+    display: inline-block; 
+    width: 40%;
+    margin: 0px;
+    padding-bottom: 10px;
+}   
+
+.ui-slider-inner-container{
+    display: inline-block; 
+    width: 50%;
+    margin: 0px;
+}
+
+.ui-slider-range {
+    background-color: #AAF;   
+}
+
+.ui-slider-tick-mark{
+    display:inline-block;
+    width:2px;
+    background:black;
+    height:16px;
+    position:absolute;
+    top:-4px;
+}
+
+.ui-slider-tick-label{
+    display:inline-block;
+    width:20px;
+    height:16px;
+    position:absolute;
+    top:15px;
+}
+
+.ui-slider-text-box {
+    width: 50px;   
+}
 
 /**
  * radio buttons to select maize genome version
@@ -119,7 +181,8 @@ li.term a{
     color:#173830;
     border-color:#173830;
     background-color:#f3f6f5;
-    margin:1px
+    margin:1px !important;
+    padding: 3px 7px !important;
 }
 
 li.term a.ui-state-active {
@@ -128,6 +191,8 @@ li.term a.ui-state-active {
     font-weight: normal;
     color: #ffffff;
 }
+
+
 
 
 /**
@@ -198,13 +263,6 @@ div#req_container div p, div#forb_container div p {
 p#cf_table_placeholder {
     color:red   
 }
-
-.ui-menu .ui-menu-item-wrapper:hover,
-.ui-menu .ui-menu-item-wrapper.ui-state-active {
-  color: white;
-  background-color: black;
-}
-
 
 /**
  * Color-coded labels for required domains on family page
@@ -306,7 +364,15 @@ div.dom_legend_hovermenu a {
  */
 
 .copy-button {
-    cursor: pointer;   
+    cursor: pointer;  
+    margin-left: 4px;
+    margin-bottom: 2px;
+    height: 15px;
+    width: auto;
+}
+
+.expand-button {
+    cursor: pointer;  
 }
 
 .tooltip {

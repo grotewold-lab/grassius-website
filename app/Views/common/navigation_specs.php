@@ -50,18 +50,18 @@
             
             "Species" => array(
                 "Maize" => "/species/Maize",
-                "Rice" => $old_grassius_url,
-                "Sorghum" => $old_grassius_url,
-                "Sugarcane" => $old_grassius_url,
-                "Brachypodium" => $old_grassius_url
+                "Rice" => "/species/Rice",
+                "Sorghum" => "/species/Sorghum",
+                "Sugarcane" => "/species/Sugarcane",
+                "Brachypodium" => "/species/Brachypodium"
             ),
             
             "Databases" => array(
                 "CoregDB" => "/browsefamily/Maize/Coreg",
                 "TFDB" => "/browsefamily/Maize/TF",
-                "Protein-DNA Interactions" => "/pdicollection",
+                "Protein-DNA Interactions" => "/pdinetwork",
                 "Maize TFome Collection" => "/tfomecollection",
-                "Rice TFome Collection" => $old_grassius_url."/RiceTfome.php",
+                "Rice TFome Collection" => "/RiceTfome",
             )
         ),
         

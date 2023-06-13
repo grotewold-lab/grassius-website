@@ -3,9 +3,11 @@
 
 <?php require_once "common/species_banner.php"; ?>
 
-<a href='/customfamily/<?php echo $species ?>'>build custom family...</a>
+<?php if( $species == 'Maize' ){ ?>
+    <a href='/customfamily/<?php echo $species ?>'>build custom family...</a>
+    <br>
+<?php } ?>
 
-<br>
 <h2 class="wiki-top-header"><?php echo $species." ".$class." Families" ?></h2>
 <p>The number next to each family name indicates the number of proteins in that family</p>
      
@@ -31,7 +33,7 @@
 
 <br>
 <h2 class="wiki-section-header">
-    Maize <?php echo $class ?> Families Word Cloud
+    <?php echo $species?> <?php echo $class ?> Families Word Cloud
 </h2>
 <p>The size of each family name is proportional to the number of proteins in that family</p>
           

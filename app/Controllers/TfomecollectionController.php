@@ -8,16 +8,28 @@ class TfomecollectionController extends DatatableController
     // implement DatatableController
     protected function get_column_config()
     {
-        return [
+        if( $this->crop == "Maize" ){            
+            return [
+
+                // [ query-key, result-key, view-label ]
+               ["gc.clone_name", "clone", "Clone Name"],
+               ["dmn.name_sort_order", "name_sort_order", "Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
+               ["dmn.name", "grassius_name", "Protein Name"],
+               ["dmn.v3_id", "v3_id", "Maize v3 ID"],
+               ["dmn.v4_id", "v4_id", "Maize v4 ID"],
+               ["dmn.v5_id", "v5_id", "Maize v5 ID"],
+            ];
             
-            // [ query-key, result-key, view-label ]
-           ["gc.clone_name", "clone", "Clone Name"],
-           ["dmn.name_sort_order", "name_sort_order", "Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
-           ["dmn.name", "grassius_name", "Protein Name"],
-           ["dmn.v3_id", "v3_id", "Maize v3 ID"],
-           ["dmn.v4_id", "v4_id", "Maize v4 ID"],
-           ["dmn.v5_id", "v5_id", "Maize v5 ID"],
-        ];
+        } else { // not maize
+            return [
+
+                // [ query-key, result-key, view-label ]
+               ["base.name", "clone", "Clone Name"],
+               ["f.name","grassius_name","Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
+               ['fp.value','gene_id','Gene ID']
+            ];
+            
+        }
     }
     
     // implement DatatableController
@@ -34,55 +46,81 @@ class TfomecollectionController extends DatatableController
     // implement DatatableController
     protected function get_base_query_builder()
     {
-        return $this->db->table('feature base')
-            ->select("gc.clone_name as clone,
-                dmn.name AS grassius_name,
-                dmn.name_sort_order AS name_sort_order,
-                dmn.v3_id AS v3_id,
-                dmn.v4_id AS v4_id,
-                dmn.v5_id AS v5_id,
-                dmn.all_ids AS all_ids,
-                gene_name.accepted as accepted,
-                'Zea mays' AS speciesname")
-            ->join('public.gene_clone gc', 'gc.clone_name = base.uniquename')
-            ->join('public.default_maize_names dmn', 'gc.v3_id = dmn.v3_id')
-            ->join('public.gene_name', 'gene_name.grassius_name = dmn.name')
-            ->join('organism org', 'org.organism_id = base.organism_id' )
-            ->where( 'org.common_name', 'Maize' );
+                
+        if( $this->crop == "Maize" ){
+            return $this->db->table('feature base')
+                ->select("gc.clone_name as clone,
+                    dmn.name AS grassius_name,
+                    dmn.name_sort_order AS name_sort_order,
+                    dmn.v3_id AS v3_id,
+                    dmn.v4_id AS v4_id,
+                    dmn.v5_id AS v5_id,
+                    dmn.all_ids AS all_ids,
+                    gene_name.accepted as accepted")
+                ->join('public.gene_clone gc', 'gc.clone_name = base.uniquename')
+                ->join('public.default_maize_names dmn', 'gc.v3_id = dmn.v3_id')
+                ->join('public.gene_name', 'gene_name.grassius_name = dmn.name')
+                ->join('organism org', 'org.organism_id = base.organism_id' )
+                ->where( 'org.common_name', $this->crop );
+            
+            
+        } else { // not maize
+            return $this->db->table('feature base')
+                ->select("base.name as clone, f.name as grassius_name, fp.value as gene_id, 'no' as accepted")
+                ->join('feature_relationship fr', 'fr.subject_id = base.feature_id AND fr.type_id = 435')
+                ->join('feature f', 'f.feature_id = fr.object_id')
+                ->join('featureprop fp', 'fp.feature_id = f.feature_id AND fp.type_id=496')
+                ->join('organism org', 'org.organism_id = base.organism_id' )
+                ->where('org.common_name', $this->crop );
+        }
     }
     
     // implement DatatableController
     protected function prepare_results( $row ) {
         
         $crop = $this->crop;
-        $protein_link = get_proteininfor_link($crop, $row['grassius_name']);
         
+        $protein_link = get_proteininfor_link($crop, $row['grassius_name']);
+
         if ($row['accepted'] === "no"){
             $protein_class = "sugg";
         }else {
             $protein_class = "accpt";
         }
         
-        return [
-           "clone" => get_tfomeinfor_link($row['clone']),
-           "name_sort_order" => "<div class=$protein_class>$protein_link</div>", # visible column
-           "grassius_name" => "", # hidden placeholder for searching
-           "v3_id" => get_external_db_link($row['speciesname'], $row['v3_id']),
-           "v4_id" => get_external_db_link($row['speciesname'], $row['v4_id']),
-           "v5_id" => get_external_db_link($row['speciesname'], $row['v5_id']),
-        ];
+        if( $this->crop == "Maize" ){
+            return [
+               "clone" => get_tfomeinfor_link($row['clone']),
+               "name_sort_order" => "<div class=$protein_class>$protein_link</div>", # visible column
+               "grassius_name" => "", # hidden placeholder for searching
+               "v3_id" => get_external_db_link($this->species, $row['v3_id']),
+               "v4_id" => get_external_db_link($this->species, $row['v4_id']),
+               "v5_id" => get_external_db_link($this->species, $row['v5_id']),
+            ];
+            
+        }else{ //not maize
+            return [
+               "clone" => get_tfomeinfor_link($row['clone']),
+               "grassius_name" => "<div class=$protein_class>$protein_link</div>",
+               "gene_id" => get_external_db_link($this->species, $row['gene_id']),
+            ];
+        }
     }
     
     // OVERRIDE DatatableController
     // hide certain columns
     // set width of visible columns
     protected function get_extra_datatable_options(){
-        return '
-              "columnDefs": [ 
-                { "targets": [2],"visible": false },
-                { "targets": [0,1,3,4,5],"width": "33.3333%" },
-              ],
-            ';   
+        if( $this->crop == "Maize" ){
+            return '
+                  "columnDefs": [ 
+                    { "targets": [2],"visible": false },
+                    { "targets": [0,1,3,4,5],"width": "33.3333%" },
+                  ],
+                ';   
+        }else{ //not maize
+            return '';   
+        }
     }
 
     

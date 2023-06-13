@@ -33,6 +33,16 @@ class ProteininforController extends PdicollectionController
         return $this->download_pdi_table();
     }
     
+    // OVERRIDE Pdicollectioncontroller
+    protected function get_extra_datatable_options(){
+        return '
+              "columnDefs": [ 
+                { "targets": [0,3],"visible": false }
+              ],
+              "order": [[ 4, "asc" ]],
+            ';   
+    }
+    
     // use inherited query to get a list of distinct pubmed IDs
     // depends on member variables "regulator_name" and "target_name"
     private function get_pubmed_ids(){
@@ -132,6 +142,8 @@ class ProteininforController extends PdicollectionController
         // parse all relevant domain annotations.
         // find the longest transcript with domain annotations, 
         // extract annotations and mark it as the transcript of interest
+        $default_transcript_domains = [];
+        $default_transcript_aa_seq = "";
         $best_seq_len = 0;
         for($i =0; $i<count($results);$i++)
         {            
@@ -297,10 +309,10 @@ class ProteininforController extends PdicollectionController
         
         // insert headers corresponding with the order of query results
         // PdicollectionController->get_base_query_builder
-        $headers = array("Regulator Gene","Regulator Protein","Regulator sort order","Target Gene","Target Protein","Target sort order","PubMed ID","Type","Experiment");
+        $headers = array("Regulator Gene","Regulator Protein","Regulator sort order","Target Gene","Target Protein","Target sort order","PubMed ID","Type","Experiment","Distance");
         $sheet->fromArray($headers,NULL,'A1');
-        $spreadsheet->getActiveSheet()->getStyle('A1:I1')->applyFromArray($styleArray);
-        foreach (str_split("ABCDEFGH") as $char) {
+        $spreadsheet->getActiveSheet()->getStyle('A1:J1')->applyFromArray($styleArray);
+        foreach (str_split("ABCDEFGHI") as $char) {
             $spreadsheet->getActiveSheet()->getColumnDimension($char)->setWidth(20);
         }
         

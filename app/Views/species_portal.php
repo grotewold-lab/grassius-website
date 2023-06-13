@@ -77,15 +77,17 @@
 <p>These proteins are broadly defined as transcriptional regulators that either act by interacting with transcription factors or as chromatin modifiers restricting or releasing DNA accessibility. Thus, GrassCoRegDB includes proteins with functions such as covalent histone modification (acetylation, methylation, phosphorylation, ubiquitination and sumoylation), as members of the ATP dependent chromatin remodeling complexes, and as histone chaperones, among others. The specific role of many of these proteins in transcription is still unknown. In some cases the community has already set-up some rules for systematic naming of those proteins, in these a protein name is reported in Grassius. For proteins lacking a systematic name, loci identifiers or common names are used instead. As identification of proteins with roles in transcriptional regulation is a growing research field, GrassCoRegDB will be frequently updated to keep pace with the literature. For this set of proteins the same curation efforts as for other Grassius collections are applied and links to other Grassius resources such as the TFome collection are available.</p>
 
 
-<h2 class="wiki-section-header" style="position:relative; height:50px;">
-    <img
-      src="/images/tools.svg"
-      style="height:50px;"
-    /> 
-    <?php echo $species; ?> Tools
-</h2>
+<?php if( $species == 'Maize' ){ ?>
 
-<p></p>
+    <h2 class="wiki-section-header" style="position:relative; height:50px;">
+        <img
+          src="/images/tools.svg"
+          style="height:50px;"
+        /> 
+        <?php echo $species; ?> Tools
+    </h2>
+
+    <p></p>
 
   <div class="row" >
     <div class="tools-col col-sm-9" >
@@ -131,6 +133,8 @@
       </div>
     </div>
   </div>
+
+<?php } ?>
  
 <script>
     var $ =jQuery.noConflict();

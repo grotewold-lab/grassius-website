@@ -43,13 +43,29 @@ $routes->get('/species/(:segment)', 'SpeciesportalController::index/$1');
 $routes->get('/grasstfdb', 'GrassdbController::index/TF');
 $routes->get('/grasscoregdb', 'GrassdbController::index/Coreg');
 
+
 $routes->get('/tfomecollection', 'TfomecollectionController::index/Maize');
 $routes->get('/tfomecollection/datatable', 'TfomecollectionController::crop_datatable/Maize');
-//$routes->get('/RiceTfome', 'TfomecollectionController::index/Rice');
-//$routes->get('/rice_tfome/datatable', 'TfomecollectionController::crop_datatable/Rice');
+
+$routes->get('/RiceTfome', 'TfomecollectionController::index/Rice');
+$routes->get('/rice_tfome/datatable', 'TfomecollectionController::crop_datatable/Rice');
+
+$routes->get('/regcollection/filtered_datatable/(:segment)', 'Regnet\RegnetController::filtered_datatable/$1');
+$routes->get('/regnet/get_vis_json/(:segment)/(:segment)', 'Regnet\RegnetController::get_vis_json/$1/$2');
+$routes->get('/regnet/autocomplete', 'Regnet\RegnetController::autocomplete');
+$routes->get('/pdinetwork', 'Regnet\RegnetController::index');
 
 $routes->get('/pdicollection', 'PdicollectionController::pdicollection_page');
-$routes->get('/pdicollection/datatable', 'PdicollectionController::datatable');
+$routes->get('/pdicollection/datatable', 'PdicollectionController::default_datatable');
+$routes->get('/pdicollection/filtered_datatable/(:segment)', 'PdicollectionController::filtered_datatable/$1');
+
+$routes->get('/pdicollection/download_table/(:segment)', 'PdicollectionController::download_table/$1');
+$routes->get('/pdicollection/filtered_histogram/(:segment)', 'PdicollectionController::filtered_histogram/$1' );
+$routes->get('/pdicollection/autocomplete/(:segment)', 'PdicollectionController::autocomplete/$1' );
+
+$routes->get('/pdicollection/get_vis_json/(:segment)', 'PdicollectionController::get_vis_json/$1' );
+
+
 
 $routes->get('/browsefamily/(:segment)/(:segment)', 'BrowsefamilyController::index/$1/$2');
 
@@ -128,6 +144,8 @@ $routes->post('/post_edit_family/(:any)', 'Admin\AdminController::post_edit_fami
 
 // dev pages
 //$routes->get('/test', 'TestController::test');
+$routes->get('/get_json', 'TestController::get_json');
+$routes->get('/get_edges', 'TestController::get_edges');
 
 
 /*

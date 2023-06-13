@@ -97,7 +97,13 @@ abstract class DatatableController extends BaseController
             }
             $query = $query->groupEnd();
         }
-        $result = $query->orderBy($sort_col, $sort_dir)->get($length,$start)->getResultArray();
+
+        $query = $query->orderBy($sort_col, $sort_dir);
+        
+        //debug
+        //file_put_contents(WRITEPATH.'/debug.txt', "\n\ndatatable query:\n".$query->getCompiledSelect(false)."\n\n", FILE_APPEND);
+
+        $result = $query->get($length,$start)->getResultArray();
         $n_filtered = count($result);
         
         

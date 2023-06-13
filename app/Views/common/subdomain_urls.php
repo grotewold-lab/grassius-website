@@ -4,7 +4,7 @@
     # for links to grassius components that may be on different domains
     
     $old_grassius_url = "https://grassius.org";
-    $blast_tool_url = "https://blast.eglab-dev.com";
+    $blast_tool_url = "https://blast.grassius.org";
 
 ?>
 
