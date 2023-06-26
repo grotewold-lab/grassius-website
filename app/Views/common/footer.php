@@ -71,7 +71,7 @@
         </div>
         <div class="nci-tagline block odd last fusion-center-content grid12-12">
           <div class="inner clearfix">
-            <blockquote>Copyright © 2023 Grassius.org | Last updated: 2023-06-13</blockquote>
+            <blockquote>Copyright © 2023 Grassius.org | Last updated: 2023-06-26</blockquote>
           </div><!-- /nci-tagline inner --> 
         </div><!-- /nci-tagline --> 
       </div><!-- /page-bottom-inner --> 

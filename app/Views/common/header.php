@@ -23,12 +23,12 @@
             <div id="append_autocomplete"></div>
 				<span class="input-group-btn" >
 					<div class="dropdown btn-group" >
-						<button id="search-help-button" role="button" aria-haspopup="true" aria-expanded="false" type="button" class="dropdown-toggle btn btn-default" >
+						<button id="search-help-button" role="button" aria-haspopup="true" aria-expanded="false" type="button" class="dropdown-toggle btn btn-default"  onclick="location.href='/about';">
 							<span class="glyphicon glyphicon-question-sign" ></span>
 						</button>
 								</div>
 								<div class="dropdown btn-group" >
-									<button id="genomes-of-interest-dropdown" role="button" aria-haspopup="true" aria-expanded="false" type="button" class="dropdown-toggle btn btn-default" >
+									<button id="genomes-of-interest-dropdown" role="button" aria-haspopup="true" aria-expanded="false" type="button" class="dropdown-toggle btn btn-default" onclick="location.href='/';">
 										<div class="results-summary" >
 											<span class="gene-count" >
 												<strong class="">9046</strong>
