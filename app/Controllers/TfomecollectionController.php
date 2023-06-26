@@ -58,9 +58,10 @@ class TfomecollectionController extends DatatableController
                     dmn.all_ids AS all_ids,
                     gene_name.accepted as accepted")
                 ->join('public.gene_clone gc', 'gc.clone_name = base.uniquename')
-                ->join('public.default_maize_names dmn', 'gc.v3_id = dmn.v3_id')
+                ->join('public.default_maize_names dmn', "dmn.v3_id = gc.v3_id")
                 ->join('public.gene_name', 'gene_name.grassius_name = dmn.name')
                 ->join('organism org', 'org.organism_id = base.organism_id' )
+                ->where('dmn.v3_id !=', '')
                 ->where( 'org.common_name', $this->crop );
             
             

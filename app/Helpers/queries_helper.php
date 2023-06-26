@@ -94,6 +94,7 @@ function get_tfominfor_query()
             
             LEFT JOIN default_maize_names dmn
                 ON dmn.v3_id = gc.v3_id
+                and dmn.v3_id != ''
                 
             WHERE base.uniquename=:clone_name:";
 }
