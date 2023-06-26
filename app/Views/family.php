@@ -91,30 +91,34 @@ else {
     $(document).ready(function(){
         $("#nav_access").addClass("active");
         
-        // set which columns are visible based on the desired maize genome version
-        function update_table( new_version_id ) {
-            
-            // hide three columns
-            for (let i = 2; i <= 4; i++) {
-               gene_table.column( i ).visible( false );
+        <?php if( $species=='Maize' ){ ?>
+        
+            // set which columns are visible based on the desired maize genome version
+            function update_table( new_version_id ) {
+
+                // hide three columns
+                for (let i = 2; i <= 4; i++) {
+                   gene_table.column( i ).visible( false );
+                }
+
+                // show one column
+                var version_number = parseInt(new_version_id.substring(1));
+                var column = gene_table.column( version_number-1 ).visible( true );
+
+                // update url to download fasta
+                $("#download_fasta_aa").attr("href", "/download_family_fasta_aa/<?php echo $species; ?>/" + new_version_id + "/<?php echo $familyname; ?>")
+                $("#download_fasta_aa").html("Download " + new_version_id + " FASTA (protein)")
+                $("#download_fasta_nu").attr("href", "/download_family_fasta_nu/<?php echo $species; ?>/" + new_version_id + "/<?php echo $familyname; ?>")
+                $("#download_fasta_nu").html("Download " + new_version_id + " FASTA (cdna)")
             }
-            
-            // show one column
-            var version_number = parseInt(new_version_id.substring(1));
-            var column = gene_table.column( version_number-1 ).visible( true );
-            
-            // update url to download fasta
-            $("#download_fasta_aa").attr("href", "/download_family_fasta_aa/<?php echo $species; ?>/" + new_version_id + "/<?php echo $familyname; ?>")
-            $("#download_fasta_aa").html("Download " + new_version_id + " FASTA (protein)")
-            $("#download_fasta_nu").attr("href", "/download_family_fasta_nu/<?php echo $species; ?>/" + new_version_id + "/<?php echo $familyname; ?>")
-            $("#download_fasta_nu").html("Download " + new_version_id + " FASTA (cdna)")
-        }
-        
-        // apply the default species version
-        update_table("<?php echo $species_version ?>");
-        
-        // add listener to detect changed species version
-        version_change_listeners.push(update_table);
+
+            // apply the default species version
+            update_table("<?php echo $species_version ?>");
+
+            // add listener to detect changed species version
+            version_change_listeners.push(update_table);
+    
+        <?php } ?>
     })
 </script>
 

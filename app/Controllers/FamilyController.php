@@ -28,6 +28,7 @@ class FamilyController extends DatatableController
             return [
 
                // [ query-key, result-key, view-label ]
+               ["no.sortorder", "name_sort_order", "Protein Name"],
                ["base.name", "grassius_name", "Protein Name"],
                ["base.uniquename", "v3_id", "Gene ID"],
             ];
@@ -39,7 +40,7 @@ class FamilyController extends DatatableController
     protected function is_column_searchable( $query_key )
     {
         // disable searching of certain columns
-        if( in_array( $query_key, ["dmn.name_sort_order"]) ){
+        if( in_array( $query_key, ["dmn.name_sort_order","no.sortorder"]) ){
             return false;
         }
         
@@ -72,7 +73,7 @@ class FamilyController extends DatatableController
         } else { //not maize
             return $this->db->table('feature base')
                 ->select("base.name AS grassius_name,
-                    '' AS name_sort_order,
+                    no.sortorder AS name_sort_order,
                     '' AS othername,
                     base.uniquename AS v3_id,
                     ' AS v4_id,
@@ -85,6 +86,7 @@ class FamilyController extends DatatableController
                     CONCAT(org.genus,' ',org.species) AS speciesname")
                 ->join('featureprop fp', 'fp.feature_id = base.feature_id AND fp.type_id = 1362')
                 ->join('organism org', 'org.organism_id = base.organism_id')
+                ->join('name_orders no', 'no.name = base.name')
                 ->where('fp.value', $this->family)
                 ->where('base.type_id', 844)
                 ->where('org.common_name', $this->species);
@@ -130,6 +132,7 @@ class FamilyController extends DatatableController
         } else { //not maize
 
             return [
+               "name_sort_order" => "<div class=$protein_class>$protein_link</div>",
                "grassius_name" => "<div class=$protein_class>$protein_link</div>",
                "v3_id" => get_external_db_link($row['speciesname'], $row['v3_id']),
             ];
@@ -151,7 +154,11 @@ class FamilyController extends DatatableController
                   ],
                 ';   
         } else {
-            return "";   
+            return '
+                  "columnDefs": [ 
+                    { "targets": [1],"visible": false },
+                  ],
+                ';  
         }
     }
     
