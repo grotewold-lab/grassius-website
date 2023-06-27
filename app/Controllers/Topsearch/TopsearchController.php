@@ -20,9 +20,10 @@ class TopsearchController extends BaseController
         // search for species
         //$results = array_merge($results, search_chado_species( $db, $searchterm) );
         //$results = array_merge($results, search_basic_species( $db, $searchterm) );
-        $results = array_merge($results, search_families(      $db, $searchterm) );
-        $results = array_merge($results, search_genes(         $db, $searchterm) );
-        $results = array_merge($results, search_clones(        $db, $searchterm) );
+        $results = array_merge($results, search_families(       $db, $searchterm) );
+        $results = array_merge($results, search_maize_genes(    $db, $searchterm) );
+        $results = array_merge($results, search_nonmaize_genes( $db, $searchterm) );
+        $results = array_merge($results, search_clones(         $db, $searchterm) );
         
         return $callback."(".json_encode($results).");";
     }
