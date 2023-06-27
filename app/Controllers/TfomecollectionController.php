@@ -72,6 +72,7 @@ class TfomecollectionController extends DatatableController
                 ->join('feature f', 'f.feature_id = fr.object_id')
                 ->join('featureprop fp', 'fp.feature_id = f.feature_id AND fp.type_id=496')
                 ->join('organism org', 'org.organism_id = base.organism_id' )
+                ->where('f.name !=', 'NaN')
                 ->where('org.common_name', $this->crop );
         }
     }
