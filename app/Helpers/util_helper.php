@@ -411,20 +411,20 @@ function get_chado_species($species)
  */
 function get_external_db_link($species,$id_name)
 {
-    $url_prefix_map = array(
-        "Zea mays" => "http://maizegdb.org/gene_center/gene/",
-        "Oryza sativa" => "http://rice.plantbiology.msu.edu/cgi-bin/ORF_infopage.cgi?orf=",
-        "Sorghum bicolor" => "http://archive.gramene.org/db/searches/quick_search?search_for=",
-        "Brachypodium distachyon" => "http://brachypodium.org/gmod/searches?query=",
-        "Saccharum officinarum" => "http://archive.gramene.org/db/searches/quick_search?search_for="
+    $url_map = array(
+        "Zea mays" => "http://maizegdb.org/gene_center/gene/$id_name",
+        "Oryza sativa" => "http://rice.plantbiology.msu.edu/cgi-bin/ORF_infopage.cgi?orf=$id_name",
+        "Sorghum bicolor" => "http://archive.gramene.org/db/searches/quick_search?search_for=$id_name",
+        "Brachypodium distachyon" => "http://archive.gramene.org/db/searches/quick_search?search_for=$id_name",
+        "Saccharum officinarum" => "https://sugarcane-genome.cirad.fr"
     );   
 
-    $url_prefix = _lookup_by_species($url_prefix_map, $species, null);
+    $url = _lookup_by_species($url_map, $species, null);
 
-    if (is_null($url_prefix)) {
+    if (is_null($url)) {
         return "<a href=''>$id_name</a>";
     }else{
-        return "<a target = '_blank' href='$url_prefix$id_name'>$id_name</a>";
+        return "<a target = '_blank' href='$url'>$id_name</a>";
     }
 }
 
