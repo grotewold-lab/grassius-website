@@ -46,15 +46,22 @@
                 }
 
                 if( $species_version == "_" ){
-                    $label_prefix = "Download FASTA";
+                    $label_prefix = "Download ";
                 } else {
-                    $label_prefix = "Download $species_version FASTA";
+                    $label_prefix = "Download $species_version ";
                 }
-
-                echo '<a id="download_fasta_aa" style="vertical-align:top" href="/download_family_fasta_aa/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (protein)</a>';
-
-                echo '<br><a id="download_fasta_nu" style="vertical-align:top" href="/download_family_fasta_nu/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (cdna)</a><br><br>';
+                   
+                echo '
+            <a id="download_gene_list" style="vertical-align:top" href="/download_family_gene_list/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' gene list (csv)</a>
+            <br>
+            <a id="download_seqs" style="vertical-align:top" href="/download_family_seqs/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' sequences (csv)</a>
+            <br>
+            <a id="download_fasta_seqs" style="vertical-align:top" href="/download_family_fasta_aa/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' sequences (fasta)</a>';
             ?>
+
+            
+    <!--<a id="download_fasta_nu" style="vertical-align:top" href="/download_family_fasta_nu/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (cdna)</a><br><br>-->
+            
         </td>
         <td width="50%" style="padding:30px;">
             <div style="height:300px;overflow-y:auto;overflow-x:hidden">
@@ -105,11 +112,13 @@ else {
                 var version_number = parseInt(new_version_id.substring(1));
                 var column = gene_table.column( version_number-1 ).visible( true );
 
-                // update url to download fasta
-                $("#download_fasta_aa").attr("href", "/download_family_fasta_aa/<?php echo $species; ?>/" + new_version_id + "/<?php echo $familyname; ?>")
-                $("#download_fasta_aa").html("Download " + new_version_id + " FASTA (protein)")
-                $("#download_fasta_nu").attr("href", "/download_family_fasta_nu/<?php echo $species; ?>/" + new_version_id + "/<?php echo $familyname; ?>")
-                $("#download_fasta_nu").html("Download " + new_version_id + " FASTA (cdna)")
+                // update download links
+                $("#download_gene_list").html("Download " + new_version_id + " gene list (csv)")
+                $("#download_gene_list").attr("href", "/download_family_gene_list/<?php echo $species; ?>/" + new_version_id + "/<?php echo $familyname; ?>")
+                $("#download_seqs").html("Download " + new_version_id + " sequences (csv)")
+                $("#download_seqs").attr("href", "/download_family_seqs/<?php echo $species; ?>/" + new_version_id + "/<?php echo $familyname; ?>")
+                $("#download_fasta_seqs").html("Download " + new_version_id + " sequences (fasta)")
+                $("#download_fasta_seqs").attr("href", "/download_family_fasta_aa/<?php echo $species; ?>/" + new_version_id + "/<?php echo $familyname; ?>")
             }
 
             // apply the default species version
