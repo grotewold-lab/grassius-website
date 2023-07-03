@@ -229,20 +229,19 @@ class PdicollectionController extends DatatableController
         $term = $r->getVar('term');
         $term = strtolower($term);
         
-        
-        $query = $this->db->table('pdi_distance_histograms')
-            ->select("value")
-            ->where("field", $field_name)
-            ->like("lower(value)", $term )
-            ->limit(10)
-            ->get();
+        $query = $this->db->table('gene_interaction')
+                ->select("DISTINCT($field_name) AS name")
+                ->like("LOWER($field_name)", $term )
+                ->orderBy($field_name)
+                ->limit(10)
+                ->get();
         
         $result = [];
-        foreach( $query->getResult() as $row ){
-            $val = $row->value;
-            $result[] = ["id" => $val, "label" => $val, "value" => $val];
+        foreach( $query->getResultArray() as $row ){
+            $name = $row["name"];
+            $result[] = ["id" => $name, "label" => $name, "value" => $name];
         }
-        
+
         return json_encode($result);
     }
     
