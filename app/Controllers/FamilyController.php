@@ -298,25 +298,10 @@ class FamilyController extends CsvDatatableController
     }
     
     // implement CsvDatatableController
-    protected function prepare_results_for_csv( $row ){
-        if ($row['grassius_name'] === $row['v3_id']) {
-            $protein_link = "";
-        } else {
-            $basic_species = get_basic_species_name($row['speciesname']);
-            $protein_link = get_proteininfor_link($basic_species, $row['grassius_name']);
-        }
-        
-        if ($row['accepted'] === "no"){
-            $protein_class = "sugg";
-        }else {
-            $protein_class = "accpt";
-        }
-
-        
+    protected function prepare_results_for_csv( $row ){     
         if( $this->species == 'Maize' ){
             
-
-            $version = $this->get_session_var('Maize_version');
+            $version = $this->$species_version;
             $gid_col = $version."_id";
             
             return [

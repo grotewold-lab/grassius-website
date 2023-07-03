@@ -39,6 +39,7 @@ $routes->setAutoRoute(false);
 $routes->get('/', 'HomeController::index');
 $routes->get('/index', 'HomeController::index');
 $routes->get('/species/(:segment)', 'SpeciesportalController::index/$1');
+$routes->get('/download_species_gene_list/(:segment)/(:segment)', 'SpeciesportalController::download_species_csv/$1/$2');
 
 $routes->get('/grasstfdb', 'GrassdbController::index/TF');
 $routes->get('/grasscoregdb', 'GrassdbController::index/Coreg');
