@@ -82,20 +82,28 @@ $routes->get('/customfamily_datatable/Maize/(:segment)/(:segment)', 'Customfamil
 $routes->get('/family/(:segment)/(:any)', 'FamilyController::index/$1/$2');
 $routes->get('/family_datatable/(:segment)/(:any)', 'FamilyController::family_datatable/$1/$2');
 $routes->get('/family_datatable_debug/(:segment)/(:any)', 'FamilyController::family_datatable_debug/$1/$2');
-
-// download links on family page
 $routes->get('/download_family_gene_list/(:segment)/(:segment)/(:segment)', 
              'FamilyController::download_family_csv/$1/$2/$3');
 $routes->get('/download_family_gene_list/(:segment)/(:segment)/(:segment)/(:segment)', 
              'FamilyController::download_family_csv/$1/$2/$3/$4');
-$routes->get('/download_family_seqs/(:segment)/(:segment)/(:segment)', 
-             'FamilyController::download_seq_csv/$1/$2/$3');
-$routes->get('/download_family_seqs/(:segment)/(:segment)/(:segment)/(:segment)', 
-             'FamilyController::download_seq_csv/$1/$2/$3/$4');
-$routes->get('/download_family_fasta_aa/(:segment)/(:segment)/(:segment)', 
-             'FamilyController::download_seq_fasta/$1/$2/$3');
-$routes->get('/download_family_fasta_aa/(:segment)/(:segment)/(:segment)/(:segment)', 
-             'FamilyController::download_seq_fasta/$1/$2/$3/$4');
+
+// download links for fasta files given /species/version
+$routes->get('/download_sequences_csv/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/1/$1/$2');
+$routes->get('/download_sequences_fasta/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/0/$1/$2');
+
+
+
+// download links for fasta files given /species/version/class/family
+$routes->get('/download_sequences_csv/(:segment)/(:segment)/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/1/$1/$2/$3/$4');
+$routes->get('/download_sequences_csv/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/1/$1/$2/$3/$4/$5');
+$routes->get('/download_sequences_fasta/(:segment)/(:segment)/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/0/$1/$2/$3/$4');
+$routes->get('/download_sequences_fasta/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/0/$1/$2/$3/$4/$5');
 
 $routes->get('/tfomeinfor/(:segment)', 'TfomeinforController::index/$1');
 

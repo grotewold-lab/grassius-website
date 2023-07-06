@@ -201,6 +201,7 @@ class FamilyController extends CsvDatatableController
         $data['famresult'] = $famresult;
         $data['species'] = $species;
         $data['familyname'] = $family;
+        $data['clazz'] = $famresult['class'];
         $data['comments_url'] = $famresult['comments_url'];
         $data['title'] = "GrassTFDB :: Browse Family::$species";
         
@@ -301,7 +302,7 @@ class FamilyController extends CsvDatatableController
     protected function prepare_results_for_csv( $row ){     
         if( $this->species == 'Maize' ){
             
-            $version = $this->$species_version;
+            $version = $this->species_version;
             $gid_col = $version."_id";
             
             return [
@@ -343,115 +344,5 @@ class FamilyController extends CsvDatatableController
         
         $this->parse_params($species, $species_version, $family_part1, $family_part2);
         return $this->download_csv();
-    }
-    
-    
-    /**
-     * download a csv file with sequences
-     *
-     * parameters:
-     *    species (string) - the name of the species
-     *    species_version (string) - the version of the species genome (infraspecific name)
-     *    family_part1 (string) and family_part2 (string) - the family name, 
-     *          which may become split in routing
-     */
-    public function download_seq_csv( $species, $species_version, $family_part1, $family_part2=null )
-    {        
-        
-        //debug
-        //return json_encode([$species, $species_version, $family_part1, $family_part2]);
-        
-        $this->parse_params($species, $species_version, $family_part1, $family_part2);
-        return $this->_download_fasta(true);
-    }
-    
-    
-    /**
-     * download a fasta file with sequences
-     *
-     * parameters:
-     *    species (string) - the name of the species
-     *    species_version (string) - the version of the species genome (infraspecific name)
-     *    family_part1 (string) and family_part2 (string) - the family name, 
-     *          which may become split in routing
-     */
-    public function download_seq_fasta( $species, $species_version, $family_part1, $family_part2=null )
-    {        
-        
-        //debug
-        //return json_encode([$species, $species_version, $family_part1, $family_part2]);
-        
-        
-        $this->parse_params($species, $species_version, $family_part1, $family_part2);
-        return $this->_download_fasta(false);
-    }
-    
-    private function _download_fasta($csv_format)
-    {                
-        //debug
-        //return "PLACEHOLDER fasta file for {$species} {$species_version} {$family}";
-        
-        
-        define('ROOT_DIR', dirname(__FILE__));
-        ignore_user_abort(true);
-        set_time_limit(0); // disable the time limit for this script
-        
-        
-        // get all relevant transcripts 
-        $sql = build_fasta_query( true );
-        $query=$this->db->query($sql,[
-            'species' => $this->species,
-            'species_version' => $this->species_version,
-            'family' => $this->family
-        ]);            
-        $results=$query->getResultArray();
-        
-        
-        //debug
-        //return json_encode( $results );
-        
-
-        // write to local file
-        $fullPath = WRITEPATH.microtime().".fasta";
-        $myfile = fopen($fullPath, "w");
-        if( $csv_format ){
-            fwrite($myfile,"transcript ID,sequence\n");
-        }
-        foreach( $results as $row ){
-            $tid = $row['tid'];
-            $seq = $row['seq'];
-            
-            if( $csv_format ){
-                fwrite($myfile, "$tid,$seq\n");
-            } else {
-                fwrite($myfile, ">$tid\n");
-                while( strlen($seq) > 60 ) {
-                    fwrite($myfile, substr($seq,0,60)."\n");
-                    $seq = substr($seq,60);
-                }
-                fwrite($myfile, $seq."\n");
-            }
-        }
-        fclose($myfile);
-
-        // send to client
-        $client_filename = ($csv_format ? 'seq.csv' : 'seq.fa');
-        if ($fd = fopen($fullPath, "r")) {
-            $fsize = filesize($fullPath);
-            header("Content-type: application/octet-stream");
-            header("Content-Disposition: filename=\"$client_filename\"");
-            header("Content-length: $fsize");
-            header("Cache-control: private"); //use this to open files directly
-            while (!feof($fd)) {
-                $buffer = fread($fd, 2048);
-                echo $buffer;
-            }
-        }
-        fclose($fd);
-
-        // delete local file
-        unlink( $fullPath );
-
-        exit;
     }
 }
