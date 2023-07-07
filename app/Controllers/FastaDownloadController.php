@@ -5,7 +5,9 @@ namespace App\Controllers;
  * Provides endpoints for users to download fasta files
  * (or csv files with the same data as a fasta)
  *
- * provides endpoint for route /
+ * provides endpoint for routes 
+ *      /download_sequences_csv/...
+ *      /download_sequences_fasta/...
  * 
  * used for species portal page (download whole species)
  * used for family page         (download one family)
@@ -18,7 +20,9 @@ class FastaDownloadController extends BaseController
     /**
      * download a fasta or csv file with sequences
      *
-     * endpoint for route /
+     * provides endpoint for routes 
+     *      /download_sequences_csv/...
+     *      /download_sequences_fasta/...
      *
      * parameters:
      *    csv_format                - true if the results should be in csv format, otherwise fasta

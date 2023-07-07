@@ -140,6 +140,8 @@ $routes->get('/people', 'InfoController::people');
 $routes->get('/links', 'InfoController::links');
 $routes->get('/info', 'InfoController::info');
 $routes->get('/about', 'InfoController::about');
+$routes->get('/tutorial', 'InfoController::tutorial');
+$routes->get('/contact', 'InfoController::contact');
 
 
 // admin pages

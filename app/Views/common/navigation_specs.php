@@ -15,7 +15,8 @@
     $all_header_labels = array(
         "nav_about" => "About Grassius",
         "nav_access" => "Access Data",
-        "nav_tools" => "Tools"
+        "nav_tools" => "Tools",
+        "nav_help" => "Help",
     );
 
 
@@ -26,7 +27,8 @@
     $all_header_links = array(
         "nav_about" => "/about",
         "nav_access" => "/",
-        "nav_tools" => "/"
+        "nav_tools" => "/",
+        "nav_help" => "/tutorial"
     );
 
 
@@ -71,6 +73,14 @@
                 "Translation Tool" => "/translation_tool",
                 "BLAST" => $blast_tool_url,
                 "Custom Family" => "/customfamily/Maize"
+            )
+        ),
+        
+        "nav_help" => array(
+            "Help" => array(
+                "Website Tutorial" => "/tutorial",
+                "Contact Us" => "/contact",
+                "Info" => "/about",
             )
         )
     );
