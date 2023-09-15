@@ -105,7 +105,13 @@ $routes->get('/download_sequences_fasta/(:segment)/(:segment)/(:segment)/(:segme
 $routes->get('/download_sequences_fasta/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 
              'FastaDownloadController::download_seq_fasta/0/$1/$2/$3/$4/$5');
 
+// tfome information page
 $routes->get('/tfomeinfor/(:segment)', 'TfomeinforController::index/$1');
+
+// support old links to tfome information page e.g. http://grassius.org/tfomeinfor.php?clone=pUT1103
+$routes->get('/tfomeinfor.php', 'TfomeinforController::legacy_endpoint');
+
+
 
 // support front-end interaction tables on proteininfor page
 $routes->get('/proteininfor/datatable_filter_by_regulator/(:segment)','ProteininforController::datatable_filter_by_regulator/$1');

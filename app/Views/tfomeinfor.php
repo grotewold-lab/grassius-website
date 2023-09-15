@@ -67,7 +67,7 @@ switch ($template) {
             <td class="infobox-label">Request Information</td>
             <td class="infobox-data">
                 Deposited to 
-                <a href="http://www.arabidopsis.org/servlets/TairObject?id=<?php echo $results['request_info']?>&type=clone">ABRC</a>
+                <a href="<?php echo $abrc_url;?>">ABRC</a>
              </td>
         </tr>
     </tbody>
