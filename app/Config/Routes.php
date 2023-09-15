@@ -45,11 +45,18 @@ $routes->get('/grasstfdb', 'GrassdbController::index/TF');
 $routes->get('/grasscoregdb', 'GrassdbController::index/Coreg');
 
 
+$routes->get('/tfomecollection.php', 'TfomecollectionController::index/Maize'); //support old links on abrc.osu.edu
 $routes->get('/tfomecollection', 'TfomecollectionController::index/Maize');
 $routes->get('/tfomecollection/datatable', 'TfomecollectionController::crop_datatable/Maize');
 
 $routes->get('/RiceTfome', 'TfomecollectionController::index/Rice');
 $routes->get('/rice_tfome/datatable', 'TfomecollectionController::crop_datatable/Rice');
+
+// tfome information page
+$routes->get('/tfomeinfor/(:segment)', 'TfomeinforController::index/$1');
+
+// support old links to tfome information page e.g. http://grassius.org/tfomeinfor.php?clone=pUT1103
+$routes->get('/tfomeinfor.php', 'TfomeinforController::legacy_endpoint');
 
 $routes->get('/regcollection/filtered_datatable/(:segment)', 'Regnet\RegnetController::filtered_datatable/$1');
 $routes->get('/regnet/get_vis_json/(:segment)/(:segment)', 'Regnet\RegnetController::get_vis_json/$1/$2');
@@ -104,12 +111,6 @@ $routes->get('/download_sequences_fasta/(:segment)/(:segment)/(:segment)/(:segme
              'FastaDownloadController::download_seq_fasta/0/$1/$2/$3/$4');
 $routes->get('/download_sequences_fasta/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 
              'FastaDownloadController::download_seq_fasta/0/$1/$2/$3/$4/$5');
-
-// tfome information page
-$routes->get('/tfomeinfor/(:segment)', 'TfomeinforController::index/$1');
-
-// support old links to tfome information page e.g. http://grassius.org/tfomeinfor.php?clone=pUT1103
-$routes->get('/tfomeinfor.php', 'TfomeinforController::legacy_endpoint');
 
 
 
