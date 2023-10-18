@@ -39,16 +39,24 @@ $routes->setAutoRoute(false);
 $routes->get('/', 'HomeController::index');
 $routes->get('/index', 'HomeController::index');
 $routes->get('/species/(:segment)', 'SpeciesportalController::index/$1');
+$routes->get('/download_species_gene_list/(:segment)/(:segment)', 'SpeciesportalController::download_species_csv/$1/$2');
 
 $routes->get('/grasstfdb', 'GrassdbController::index/TF');
 $routes->get('/grasscoregdb', 'GrassdbController::index/Coreg');
 
 
+$routes->get('/tfomecollection.php', 'TfomecollectionController::index/Maize'); //support old links on abrc.osu.edu
 $routes->get('/tfomecollection', 'TfomecollectionController::index/Maize');
 $routes->get('/tfomecollection/datatable', 'TfomecollectionController::crop_datatable/Maize');
 
 $routes->get('/RiceTfome', 'TfomecollectionController::index/Rice');
 $routes->get('/rice_tfome/datatable', 'TfomecollectionController::crop_datatable/Rice');
+
+// tfome information page
+$routes->get('/tfomeinfor/(:segment)', 'TfomeinforController::index/$1');
+
+// support old links to tfome information page e.g. http://grassius.org/tfomeinfor.php?clone=pUT1103
+$routes->get('/tfomeinfor.php', 'TfomeinforController::legacy_endpoint');
 
 $routes->get('/regcollection/filtered_datatable/(:segment)', 'Regnet\RegnetController::filtered_datatable/$1');
 $routes->get('/regnet/get_vis_json/(:segment)/(:segment)', 'Regnet\RegnetController::get_vis_json/$1/$2');
@@ -81,22 +89,30 @@ $routes->get('/customfamily_datatable/Maize/(:segment)/(:segment)', 'Customfamil
 $routes->get('/family/(:segment)/(:any)', 'FamilyController::index/$1/$2');
 $routes->get('/family_datatable/(:segment)/(:any)', 'FamilyController::family_datatable/$1/$2');
 $routes->get('/family_datatable_debug/(:segment)/(:any)', 'FamilyController::family_datatable_debug/$1/$2');
-
-// download links on family page
 $routes->get('/download_family_gene_list/(:segment)/(:segment)/(:segment)', 
              'FamilyController::download_family_csv/$1/$2/$3');
 $routes->get('/download_family_gene_list/(:segment)/(:segment)/(:segment)/(:segment)', 
              'FamilyController::download_family_csv/$1/$2/$3/$4');
-$routes->get('/download_family_seqs/(:segment)/(:segment)/(:segment)', 
-             'FamilyController::download_seq_csv/$1/$2/$3');
-$routes->get('/download_family_seqs/(:segment)/(:segment)/(:segment)/(:segment)', 
-             'FamilyController::download_seq_csv/$1/$2/$3/$4');
-$routes->get('/download_family_fasta_aa/(:segment)/(:segment)/(:segment)', 
-             'FamilyController::download_seq_fasta/$1/$2/$3');
-$routes->get('/download_family_fasta_aa/(:segment)/(:segment)/(:segment)/(:segment)', 
-             'FamilyController::download_seq_fasta/$1/$2/$3/$4');
 
-$routes->get('/tfomeinfor/(:segment)', 'TfomeinforController::index/$1');
+// download links for fasta files given /species/version
+$routes->get('/download_sequences_csv/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/1/$1/$2');
+$routes->get('/download_sequences_fasta/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/0/$1/$2');
+
+
+
+// download links for fasta files given /species/version/class/family
+$routes->get('/download_sequences_csv/(:segment)/(:segment)/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/1/$1/$2/$3/$4');
+$routes->get('/download_sequences_csv/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/1/$1/$2/$3/$4/$5');
+$routes->get('/download_sequences_fasta/(:segment)/(:segment)/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/0/$1/$2/$3/$4');
+$routes->get('/download_sequences_fasta/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 
+             'FastaDownloadController::download_seq_fasta/0/$1/$2/$3/$4/$5');
+
+
 
 // support front-end interaction tables on proteininfor page
 $routes->get('/proteininfor/datatable_filter_by_regulator/(:segment)','ProteininforController::datatable_filter_by_regulator/$1');
@@ -131,6 +147,8 @@ $routes->get('/people', 'InfoController::people');
 $routes->get('/links', 'InfoController::links');
 $routes->get('/info', 'InfoController::info');
 $routes->get('/about', 'InfoController::about');
+$routes->get('/tutorial', 'InfoController::tutorial');
+$routes->get('/contact', 'InfoController::contact');
 
 
 // admin pages

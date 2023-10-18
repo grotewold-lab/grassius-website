@@ -1,8 +1,16 @@
 <?php
     
-// helper for downloading fasta
-// build a general query with placeholders
-function build_fasta_query( $protein )
+/**
+ * build a general query with placeholders, to retrieve sequences
+ *
+ * used in FastaDownloadController.php
+ *
+ * parameters:
+ *    protein - true if querying for amino acids sequences, otherwise DNA
+ *    class_filter - true if the query should support filtering by class
+ *    family_filter - true if the query should support filtering by family
+ */
+function build_fasta_query( $protein, $class_filter, $family_filter )
 {
     if( $protein ) {
         $sql =  "SELECT
@@ -17,10 +25,6 @@ function build_fasta_query( $protein )
     $sql .= "
         FROM feature base
 
-        JOIN featureprop taxrank__family
-            ON (base.feature_id = taxrank__family.feature_id)
-            AND (taxrank__family.type_id = 1362)
-
         LEFT JOIN feature_relationship aa_rel
             ON (aa_rel.object_id = base.feature_id)
             AND (aa_rel.type_id = 327)
@@ -31,10 +35,27 @@ function build_fasta_query( $protein )
 
         JOIN organism org 
             ON base.organism_id = org.organism_id
-
+    ";
+    
+    if( $class_filter ){
+        $sql .= "
+            JOIN featureprop taxrank__class
+                ON (base.feature_id = taxrank__class.feature_id)
+                AND (taxrank__class.type_id = 13)
+                AND taxrank__class.value = :class:
+        ";
+    }
+    if( $family_filter ){
+        $sql .= "
+            JOIN featureprop taxrank__family
+                ON (base.feature_id = taxrank__family.feature_id)
+                AND (taxrank__family.type_id = 1362)
+                AND taxrank__family.value = :family:
+        ";
+    }
+    $sql .= "
         WHERE org.common_name = :species:
         AND org.infraspecific_name = :species_version:
-        AND taxrank__family.value = :family:
         AND base.type_id = 844
     ";
 

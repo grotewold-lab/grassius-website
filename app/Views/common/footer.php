@@ -62,9 +62,9 @@
             <ul class="menu">
               <li class="leaf first"><a href="http://agris-knowledgebase.org/" target="_blank">AGRIS</a></li> 
               <li class="leaf"><a href="http://www.msu.edu" target="_blank">MSU</a> </li>
-              <li class="leaf"><a href="https://bmb.natsci.msu.edu/faculty/erich-grotewold/" target="_blank">GROTEWOLD LAB</a> </li> 
+              <li class="leaf"><a href="https://grotewold-lab.com" target="_blank">GROTEWOLD LAB</a> </li> 
               <li class="leaf"><a href="https://bmb.natsci.msu.edu/"  target="_blank">BIOCHEMISTRY DEPARTMENT</a> </li>
-              <li class="leaf"><a href="mailto:grotewold.grassius@gmail.com"  target="_blank">CONTACT</a> </li>
+              <li class="leaf"><a href="mailto:grotewoldlab@gmail.com"  target="_blank">CONTACT</a> </li>
               <li class="leaf last"><a href="/login" target="_blank" class="last link-usa">ADMIN LOGIN</a> </li>
             </ul>
           </div>

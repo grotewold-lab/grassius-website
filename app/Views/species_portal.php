@@ -48,6 +48,39 @@
 
 
 <h2 class="wiki-top-header"><?php echo $full_name; ?></h2>
+<br>
+
+<?php
+    if( $species == "Maize" ){
+        require_once "common/maize_version_controls.php";
+    }
+    if( $species_version == "_" ){
+        $label_prefix = "Download";
+    } else {
+        $label_prefix = "Download $species_version";
+    }
+    echo "
+    
+        <a id='download_gene_list' 
+            href='/download_species_gene_list/$species/$species_version'
+            >$label_prefix gene list (csv)</a>
+
+        <br>
+
+        <a id='download_seqs' 
+            href='/download_sequences_csv/$species/$species_version'
+            >$label_prefix sequences (csv)</a>
+
+        <br>
+
+        <a id='download_fasta_seqs' 
+            href='/download_sequences_fasta/$species/$species_version'
+            >$label_prefix sequences (fasta)</a>
+    ";
+?>
+
+
+
 <p><?php echo $org_details['comment']; ?></p>
 
 
@@ -141,6 +174,25 @@
 
     $(document).ready(function(){
         $("#nav_access").addClass("active");
+        
+        
+        <?php if( $species=='Maize' ){ ?>
+        
+            // update download links to reflect selected maize version
+            function update_download_links( new_version_id ) {
+
+                $("#download_gene_list").html("Download " + new_version_id + " gene list (csv)")
+                $("#download_gene_list").attr("href", "/download_species_gene_list/<?php echo $species; ?>/" + new_version_id )
+                $("#download_seqs").html("Download " + new_version_id + " sequences (csv)")
+                $("#download_seqs").attr("href", "/download_sequences_csv/<?php echo $species; ?>/" + new_version_id ) 
+                $("#download_fasta_seqs").html("Download " + new_version_id + " sequences (fasta)")
+                $("#download_fasta_seqs").attr("href", "/download_sequences_fasta/<?php echo $species; ?>/" + new_version_id)
+            }
+        
+            // add listener to detect changed species version
+            version_change_listeners.push(update_download_links);
+    
+        <?php } ?>
     });
 </script>
 

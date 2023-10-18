@@ -30,4 +30,14 @@ class InfoController extends BaseController
     {                
         return view('info/about', ["title"=>"Grassius About"]);
     }
+    
+    public function tutorial()
+    {
+        return view('info/tutorial', ["title"=>"Grassius Tutorial"]);   
+    }
+    
+    public function contact()
+    {
+        return view('info/contact', ["title"=>"Contact Us"]);   
+    }
 }
