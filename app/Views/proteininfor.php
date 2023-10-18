@@ -51,8 +51,14 @@
       </tr>
       <tr>
         <td class="infobox-label">Uniprot ID:</td>
-        <td class="infobox-data"><a class='external' target = '_blank' href="https://www.uniprot.org/uniprot/<?php echo $uniprot_id; ?>"> <?php echo $uniprot_id; ?></td>
+        <td class="infobox-data"><a class='external' target = '_blank' href="https://www.uniprot.org/uniprot/<?php echo $uniprot_id; ?>"> <?php echo $uniprot_id; ?></a></td>
       </tr>
+       <?php if( isset($subgenome) ){ ?>
+          <tr>
+            <td class="infobox-label">Subgenome:</td>
+            <td class="infobox-data"><?php echo $subgenome; ?></td>
+          </tr>
+       <?php } ?>
    </tbody>
 </table>
 

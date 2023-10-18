@@ -62,6 +62,7 @@ class SpeciesportalController extends CsvDatatableController
                ["gene_name.synonym", "othername", "Synonym/<br>Gene Name"],
                ["searchable_clones.clone_list", "clones", "Clone in TFome"],
                ["dmn.all_ids", "all_ids", "All Gene IDs"],
+               ["sg.subgenome", "subgenome", "Subgenome"],
             ];
             
         }else { // not maize
@@ -103,10 +104,12 @@ class SpeciesportalController extends CsvDatatableController
                     dmn.all_ids AS raw_ids,
                     searchable_clones.clone_list AS clones,
                     gene_name.accepted as accepted,
-                    'Zea mays' AS speciesname")
+                    'Zea mays' AS speciesname,
+                    sg.subgenome as subgenome")
                 ->join('public.searchable_clones', 'searchable_clones.name = dmn.name', 'left')
                 ->join('public.gene_name', 'gene_name.grassius_name = dmn.name', 'left')
-                ->join('default_domains', 'default_domains.protein_name = dmn.name', 'left');
+                ->join('default_domains', 'default_domains.protein_name = dmn.name', 'left')
+                ->join('subgenome sg', 'dmn.v3_id = sg.geneid', 'left');
             
         } else { //not maize
             return $this->db->table('feature base')
@@ -156,6 +159,7 @@ class SpeciesportalController extends CsvDatatableController
                 "synonym",
                 "clone",
                 "all gene IDs",
+                "subgenome",
             ];            
             
                 
@@ -185,6 +189,7 @@ class SpeciesportalController extends CsvDatatableController
                "othername" => $row['othername'],
                "clones" => $row['clones'],
                "all_ids" => $row['all_ids'],
+               "subgenome" => $row['subgenome'],
             ];
             
             

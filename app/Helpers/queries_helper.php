@@ -93,7 +93,8 @@ function get_tfominfor_query()
                 tm.template,
                 dmn.name as gene_name,
                 gc.v3_id as gene_id,
-                dmn.family as family
+                dmn.family as family,
+                sg.subgenome as subgenome
 
             FROM feature base
 
@@ -116,6 +117,9 @@ function get_tfominfor_query()
             LEFT JOIN default_maize_names dmn
                 ON dmn.v3_id = gc.v3_id
                 and dmn.v3_id != ''
+                
+            LEFT JOIN subgenome sg
+                ON sg.geneid = gc.v3_id
                 
             WHERE base.uniquename=:clone_name:";
 }
@@ -149,6 +153,33 @@ function get_pdi_distance_bin_indices( $db, $search_term)
 }
 
 
+// used in
+function get_subgenome($db,$base_fid){
+ 
+    $sql = "
+        SELECT sg.subgenome 
+            FROM featureprop fp
+
+        JOIN public.subgenome sg
+            ON sg.geneid = fp.value 
+            
+        WHERE fp.feature_id = :fid:
+            AND fp.type_id = 496
+            
+        LIMIT 1;
+    ";
+    $query=$db->query($sql,[
+        'fid' => $base_fid
+    ]);
+
+    $results=$query->getResultArray();
+
+    if( count($results) == 0 ){
+        return null;   
+    }
+    
+    return $results[0]['subgenome'];
+}
 
 /**
  * get the main query used for the following pages:
@@ -158,6 +189,7 @@ function get_pdi_distance_bin_indices( $db, $search_term)
 function get_proteininfor_query()
 {
     return  "SELECT
+                base.feature_id as base_fid,
                 base.residues as nucleotidesequence,
                 base.uniquename as id_name,
                 taxrank__family.value as family,
@@ -184,7 +216,7 @@ function get_proteininfor_query()
                 ON gene_name.grassius_name = base.name
                 
             LEFT JOIN public.uniprot_ids uniprot
-                ON uniprot.gene_name = base.name
+                ON uniprot.gene_name = base.uniquename
 
             LEFT JOIN feature_relationship aa_rel
                 ON (aa_rel.object_id = base.feature_id)

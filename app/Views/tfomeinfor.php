@@ -70,6 +70,12 @@ switch ($template) {
                 <a href="<?php echo $abrc_url;?>">ABRC</a>
              </td>
         </tr>
+       <?php if( isset($subgenome) ){ ?>
+          <tr>
+            <td class="infobox-label">Subgenome:</td>
+            <td class="infobox-data"><?php echo $subgenome; ?></td>
+          </tr>
+       <?php } ?>
     </tbody>
 </table>
 

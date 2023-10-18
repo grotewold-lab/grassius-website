@@ -21,7 +21,8 @@ class FamilyController extends CsvDatatableController
                ["gene_name.synonym", "othername", "Synonym/<br>Gene Name"],
                ["searchable_clones.clone_list", "clones", "Clone in TFome"],
                ["dmn.all_ids", "all_ids", "All Gene IDs"],
-               ["dmn.all_ids", "raw_ids", "All Gene IDs"]
+               ["dmn.all_ids", "raw_ids", "All Gene IDs"],
+               ["subgenome.subgenome", "subgenome", "Subgenome"],
             ];
             
         }else { // not maize
@@ -64,10 +65,12 @@ class FamilyController extends CsvDatatableController
                     dmn.all_ids AS raw_ids,
                     searchable_clones.clone_list AS clones,
                     gene_name.accepted as accepted,
-                    'Zea mays' AS speciesname")
+                    'Zea mays' AS speciesname,
+                    subgenome.subgenome as subgenome")
                 ->join('public.searchable_clones', 'searchable_clones.name = dmn.name', 'left')
                 ->join('public.gene_name', 'gene_name.grassius_name = dmn.name', 'left')
                 ->join('default_domains', 'default_domains.protein_name = dmn.name', 'left')
+                ->join('subgenome', '(dmn.v3_id = subgenome.geneid)', 'left')
                 ->where('dmn.family', $this->family);
             
         } else { //not maize
@@ -125,7 +128,8 @@ class FamilyController extends CsvDatatableController
                "othername" => $row['othername'],
                "clones" => get_tfomeinfor_link($row['clones']),
                "all_ids" => get_agids_hover_element($row['all_ids']), #visible column
-               "raw_ids" => $row['raw_ids'] # hidden placeholder for downloading fasta
+               "raw_ids" => $row['raw_ids'], # hidden placeholder for downloading fasta
+               "subgenome" => $row['subgenome'],
             ];
             
             
@@ -149,7 +153,7 @@ class FamilyController extends CsvDatatableController
                   "columnDefs": [ 
                     { "targets": [5,8],"orderable": false },
                     { "targets": [1,9],"visible": false },
-                    { "targets": [0,2,3,4,7],"width": "10%" },
+                    { "targets": [0,2,3,4,7],"width": "8%" },
                     { "targets": [6,8],"width": "15%" },
                   ],
                 ';   
@@ -285,6 +289,7 @@ class FamilyController extends CsvDatatableController
                 "synonym",
                 "clone",
                 "all gene IDs",
+                "subgenome"
             ];            
             
                 
@@ -312,6 +317,7 @@ class FamilyController extends CsvDatatableController
                "othername" => $row['othername'],
                "clones" => $row['clones'],
                "all_ids" => $row['all_ids'],
+               "subgenome" => $row['subgenome'],
             ];
             
             

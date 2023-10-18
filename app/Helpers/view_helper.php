@@ -135,9 +135,9 @@ function get_agids_hover_element( $s_gene_ids )
     $all_gene_ids = explode( ' ', $s_gene_ids );
     $count = count( $all_gene_ids );
     if( $count == 1 ){
-        $text = "$count Gene ID...";
+        $text = "$count ID...";
     } else {
-        $text = "$count Gene IDs...";
+        $text = "$count IDs...";
     }
     
     // group IDs by version

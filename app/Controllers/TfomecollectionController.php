@@ -18,6 +18,7 @@ class TfomecollectionController extends DatatableController
                ["dmn.v3_id", "v3_id", "Maize v3 ID"],
                ["dmn.v4_id", "v4_id", "Maize v4 ID"],
                ["dmn.v5_id", "v5_id", "Maize v5 ID"],
+               ["sg.subgenome", "subgenome", "Subgenome"],
             ];
             
         } else { // not maize
@@ -56,11 +57,13 @@ class TfomecollectionController extends DatatableController
                     dmn.v4_id AS v4_id,
                     dmn.v5_id AS v5_id,
                     dmn.all_ids AS all_ids,
-                    gene_name.accepted as accepted")
+                    gene_name.accepted as accepted,
+                    sg.subgenome as subgenome")
                 ->join('public.gene_clone gc', 'gc.clone_name = base.uniquename')
                 ->join('public.default_maize_names dmn', "dmn.v3_id = gc.v3_id")
                 ->join('public.gene_name', 'gene_name.grassius_name = dmn.name')
                 ->join('organism org', 'org.organism_id = base.organism_id' )
+                ->join('subgenome sg', 'sg.geneid = gc.v3_id')
                 ->where('dmn.v3_id !=', '')
                 ->where( 'org.common_name', $this->crop );
             
@@ -98,6 +101,7 @@ class TfomecollectionController extends DatatableController
                "v3_id" => get_external_db_link($this->species, $row['v3_id']),
                "v4_id" => get_external_db_link($this->species, $row['v4_id']),
                "v5_id" => get_external_db_link($this->species, $row['v5_id']),
+               "subgenome" => $row['subgenome'],
             ];
             
         }else{ //not maize

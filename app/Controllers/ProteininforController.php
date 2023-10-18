@@ -100,9 +100,12 @@ class ProteininforController extends PdicollectionController
         
         
         // assume all results have the same uniprot_id, class, family, and synonym
-        foreach( ["uniprot_id", "class", "family", "synonym"] as $key ) {
+        foreach( ["base_fid","uniprot_id", "class", "family", "synonym"] as $key ) {
             $data[$key] = $results[0][$key];
         }
+        
+        //lookup subgenome
+        $data['subgenome'] = get_subgenome($this->db,$data['base_fid']);
         
         
         // lookup default colors for domain annotations

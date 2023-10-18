@@ -40,6 +40,7 @@ class TfomeinforController extends BaseController
         $data['title'] ="Tfome Clone Information";
         $data['clone_name'] = $clone_name;
         $data['proteinsequence'] = $results['translation'];
+        $data['subgenome'] = $results['subgenome'];
         
         
         return view('tfomeinfor', $data);
