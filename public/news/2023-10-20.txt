@@ -1,0 +1,3 @@
+Methodology for Constructing a Knowledgebase for Plant Gene Regulation Information
+2023-10-20
+Hadi Nayebi Gavgani, Erich Grotewold, John Gray <a href="https://pubmed.ncbi.nlm.nih.gov/37682481">Methods Mol Biol. 2023:2698</a>
