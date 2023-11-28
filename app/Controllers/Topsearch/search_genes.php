@@ -1,5 +1,38 @@
 <?php
     
+function search_maizegdb_pages( $db, $searchterm )
+{
+    // base query (like FamilyController)
+    $query = $db->table('featureprop fp')
+            ->select("fp.value as geneid")
+            ->join('feature f','f.feature_id = fp.feature_id')
+            ->distinct()
+            ->where('fp.type_id', 496)
+            ->whereIn('f.organism_id', [2,3,4])
+            ->like('lower(fp.value)',$searchterm);
+    
+    // finish query
+    $query = $query->orderBy("fp.value");
+    
+    //debug
+    //file_put_contents(WRITEPATH.'/debug.txt', "\n\nsearch_genes query:\n".$query->getCompiledSelect(false)."\n\n", FILE_APPEND);
+    
+    $query = $query->limit(10)->get();
+    
+    
+    //collect results
+    $result = $query->getResultArray();
+    $searchresults = [];
+    foreach ($result as $row) {
+        $searchresults[] = [
+            "category" => "MaizeGDB Page",
+            "label" => $row['geneid'], 
+            "value" => 'https://www.maizegdb.org/gene_center/gene/'.$row['geneid'],
+        ];
+    }
+    return $searchresults;
+}
+    
 function search_maize_genes( $db, $searchterm )
 {
     // base query (like FamilyController)

@@ -22,6 +22,7 @@ class TopsearchController extends BaseController
         //$results = array_merge($results, search_basic_species( $db, $searchterm) );
         $results = array_merge($results, search_families(       $db, $searchterm) );
         $results = array_merge($results, search_maize_genes(    $db, $searchterm) );
+        $results = array_merge($results, search_maizegdb_pages( $db, $searchterm) );
         $results = array_merge($results, search_nonmaize_genes( $db, $searchterm) );
         $results = array_merge($results, search_clones(         $db, $searchterm) );
         
