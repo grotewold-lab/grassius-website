@@ -152,7 +152,7 @@ class FamilyController extends CsvDatatableController
             return '
                   "columnDefs": [ 
                     { "targets": [5,8],"orderable": false },
-                    { "targets": [1,9],"visible": false },
+                    { "targets": [1,9,10],"visible": false },
                     { "targets": [0,2,3,4,7],"width": "8%" },
                     { "targets": [6,8],"width": "15%" },
                   ],
