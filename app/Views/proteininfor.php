@@ -110,71 +110,6 @@ if( ($species=='Maize') and ($domain_table !== NULL) and (count($domain_table)>1
 ?>
 
 
-<?php for($i =0; $i<count($results);$i++){ ?>
-    
-    <div class="at at_<?php echo $results[$i]["species_version"]; ?>">
-        <h2 class="wiki-section-header" style="margin-top:80px; font-size:30px; clear:both;">
-            <a class='external' target = '_blank' href="http://maizegdb.org/gene_center/gene/<?php echo $results[$i]['id_name']; ?>"> <?php echo $results[$i]['id_name']; ?></a>
-            
-            <?php if( $species == 'Maize' ){ ?>
-                <span class="maize_version_label <?php echo $results[$i]["species_version"]; ?>">from maize genome <?php echo $results[$i]["species_version"]; ?></span>
-            <?php } ?>
-        </h2>
-
-        <?php if( !is_null($results[$i]["clone_names"]) ){ ?>
-            <br>
-            <span class="related_tfome_link">
-                Related TFome: <?php echo get_tfomeinfor_link($results[$i]["clone_names"]); ?>
-            </span>
-        <?php } ?>
-
-        <h2 class="wiki-section-header">
-            Amino Acid Sequence 
-
-            <?php echo get_copy_button($results[$i]["proteinsequence"]); ?>
-
-
-            <?php if($i == 0){require "common/aa_colorcode_controls.php";} ?>
-
-        </h2>
-
-        <?php if($i == 0) { ?>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <p class="sequence aa aa_none"><?php echo $results[$i]["proteinsequence_none"]; ?></p>
-            <p class="sequence aa aa_ss"><?php echo $results[$i]["proteinsequence_ss"]; ?></p>
-            <?php echo $results[$i]["proteinsequence_dom"]; ?>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <?php require "common/aa_colorcode_legend.php"; ?>
-            <?php 
-                if( isset($domains) and (count($domains)>0) ){
-                    require "common/dom_colorcode_legend.php";
-                }
-            ?>
-                    </div>
-                </div>
-            </div>
-        <?php } else { ?>
-            <p class="sequence"><?php echo $results[$i]["proteinsequence_none"]; ?></p>
-        <?php } ?>
-
-        <?php
-            $full_dna_seq = $results[$i]['nucleotidesequence'];
-            if( strlen($full_dna_seq) > 25 ) {
-                $short_dna_seq = substr($full_dna_seq, 0, 25)."...";
-            } else {
-                $short_dna_seq = $full_dna_seq;
-            }
-        ?>
-        <h2 class="wiki-section-header">Nucleotide Sequence <?php echo get_copy_button($results[$i]['nucleotidesequence']); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo get_expand_button("dna_".$i); ?></h2>
-        <p class="wrap sequence short dna_<?php echo $i;?>"><?php echo $short_dna_seq; ?></p>
-        <p hidden class="wrap sequence long dna_<?php echo $i;?>"><?php echo $full_dna_seq; ?></p>
-    </div>
-
-<?php } ?>
-
 <?php if( $species == 'Maize' ) { ?>
 
     <h2 class="wiki-section-header" style="margin-top:80px; font-size:30px; clear:both;">
@@ -242,6 +177,71 @@ if( ($species=='Maize') and ($domain_table !== NULL) and (count($domain_table)>1
 <?php } ?>
 
 
+
+<?php for($i =0; $i<count($results);$i++){ ?>
+    
+    <div class="at at_<?php echo $results[$i]["species_version"]; ?>">
+        <h2 class="wiki-section-header" style="margin-top:80px; font-size:30px; clear:both;">
+            <a class='external' target = '_blank' href="http://maizegdb.org/gene_center/gene/<?php echo $results[$i]['id_name']; ?>"> <?php echo $results[$i]['id_name']; ?></a>
+            
+            <?php if( $species == 'Maize' ){ ?>
+                <span class="maize_version_label <?php echo $results[$i]["species_version"]; ?>">from maize genome <?php echo $results[$i]["species_version"]; ?></span>
+            <?php } ?>
+        </h2>
+
+        <?php if( !is_null($results[$i]["clone_names"]) ){ ?>
+            <br>
+            <span class="related_tfome_link">
+                Related TFome: <?php echo get_tfomeinfor_link($results[$i]["clone_names"]); ?>
+            </span>
+        <?php } ?>
+
+        <h2 class="wiki-section-header">
+            Amino Acid Sequence 
+
+            <?php echo get_copy_button($results[$i]["proteinsequence"]); ?>
+
+
+            <?php if($i == 0){require "common/aa_colorcode_controls.php";} ?>
+
+        </h2>
+
+        <?php if($i == 0) { ?>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            <p class="sequence aa aa_none"><?php echo $results[$i]["proteinsequence_none"]; ?></p>
+            <p class="sequence aa aa_ss"><?php echo $results[$i]["proteinsequence_ss"]; ?></p>
+            <?php echo $results[$i]["proteinsequence_dom"]; ?>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <?php require "common/aa_colorcode_legend.php"; ?>
+            <?php 
+                if( isset($domains) and (count($domains)>0) ){
+                    require "common/dom_colorcode_legend.php";
+                }
+            ?>
+                    </div>
+                </div>
+            </div>
+        <?php } else { ?>
+            <p class="sequence"><?php echo $results[$i]["proteinsequence_none"]; ?></p>
+        <?php } ?>
+
+        <?php
+            $full_dna_seq = $results[$i]['nucleotidesequence'];
+            if( strlen($full_dna_seq) > 25 ) {
+                $short_dna_seq = substr($full_dna_seq, 0, 25)."...";
+            } else {
+                $short_dna_seq = $full_dna_seq;
+            }
+        ?>
+        <h2 class="wiki-section-header">Nucleotide Sequence <?php echo get_copy_button($results[$i]['nucleotidesequence']); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo get_expand_button("dna_".$i); ?></h2>
+        <p class="wrap sequence short dna_<?php echo $i;?>"><?php echo $short_dna_seq; ?></p>
+        <p hidden class="wrap sequence long dna_<?php echo $i;?>"><?php echo $full_dna_seq; ?></p>
+    </div>
+
+<?php } ?>
 
 <?php
 
