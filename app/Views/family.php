@@ -75,6 +75,10 @@
             
     <!--<a id="download_fasta_nu" style="vertical-align:top" href="/download_family_fasta_nu/'.$species.'/'.$species_version.'/'.$familyname.'">'.$label_prefix.' (cdna)</a><br><br>-->
             
+
+            <?php if( $species == "Maize" ){ ?>
+                <p>Click a protein name below to see more information including TF targets</p>
+            <?php } ?>
         </td>
         <td width="50%" style="padding:30px;">
             <div style="height:300px;overflow-y:auto;overflow-x:hidden">
