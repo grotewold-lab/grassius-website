@@ -9,6 +9,11 @@
 <?php } ?>
 
 <h2 class="wiki-top-header"><?php echo $species." ".$class." Families" ?></h2>
+<?php
+if( $species != "Maize" ){
+    echo "<br><span style='color:red;'>$species families updated 2023 based on Maize family rules</span>";
+}
+?>
 <p>The number next to each family name indicates the number of proteins in that family</p>
      
   

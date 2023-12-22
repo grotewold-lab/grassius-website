@@ -10,7 +10,13 @@
     <tr>
         <td width="50%" style="vertical-align:top; padding-right:30px;">
             <h2 class="wiki-top-header"><?php echo $familyname ?> Family from <?php echo $species ?></h2>
-            <br><br>
+            <br>
+            <?php
+            if( $species != "Maize" ){
+                echo "<span style='color:red;'>$species families updated 2023 based on Maize family rules</span><br>";
+            }
+            ?>
+            <br>
             <?php
                 if( count($domain_colors) > 0 ){
                     echo "Required domains for $familyname family:";

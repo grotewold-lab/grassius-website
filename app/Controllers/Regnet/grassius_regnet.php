@@ -76,10 +76,10 @@ function get_column_config()
 
         // [ query-key, result-key, view-label ]
        ["gi.protein_name", "reg_protein", "Regulator Protein"],
-       ["reg_dmn.name_sort_order", "reg_protein_order", "Regulator Protein"],
+           ["reg_no.sortorder", "reg_protein_order", "Regulator Protein"],
        ["gi.gene_id", "reg_gene", "Regulator Gene"],
        ["gi.target_name", "tar_protein", "Target Protein"],
-       ["tar_dmn.name_sort_order", "tar_protein_order", "Target Protein"],
+           ["tar_no.sortorder", "tar_protein_order", "Target Protein"],
        ["gi.target_id", "tar_gene", "Target Gene"],
        ["gi.pubmed_id", "pubmed", "Publication"],
        //["gi.interaction_type", "type", "Type of Interaction"],
@@ -123,10 +123,10 @@ function get_base_query_builder($context)
         ->select("
                 gi.gene_id AS reg_gene, 
                 gi.protein_name AS reg_protein,
-                reg_dmn.name_sort_order AS reg_protein_order,
+                tar_no.sortorder AS reg_protein_order,
                 gi.target_id AS tar_gene, 
                 gi.target_name AS tar_protein,
-                tar_dmn.name_sort_order AS tar_protein_order,
+                reg_no.sortorder AS tar_protein_order,
                 gi.pubmed_id as pubmed, 
                 gi.interaction_type as type, 
                 gi.experiment as exp,
@@ -137,7 +137,9 @@ function get_base_query_builder($context)
                 gi.gi_id as edge_id,
                 gi.note as note")
         ->join("public.default_maize_names reg_dmn", "reg_dmn.name = gi.protein_name", 'left')
-        ->join("public.default_maize_names tar_dmn", "tar_dmn.name = gi.target_name", 'left');
+        ->join("public.default_maize_names tar_dmn", "tar_dmn.name = gi.target_name", 'left')
+            ->join('name_orders reg_no', 'reg_no.name = reg_dmn.name')
+            ->join('name_orders tar_no', 'tar_no.name = tar_dmn.name');
 
 
     if( isset($context->protein_name) && ($context->protein_name!='') ){

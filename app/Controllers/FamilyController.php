@@ -12,7 +12,7 @@ class FamilyController extends CsvDatatableController
             return [
 
                // [ query-key, result-key, view-label ]
-               ["dmn.name_sort_order", "name_sort_order", "Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
+               ["no.sortorder", "name_sort_order", "Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
                ["dmn.name", "grassius_name", "Protein Name"],
                ["dmn.v3_id", "v3_id", "Maize v3 ID"],
                ["dmn.v4_id", "v4_id", "Maize v4 ID"],
@@ -55,7 +55,7 @@ class FamilyController extends CsvDatatableController
         if( $this->species == 'Maize' ){
             return $this->db->table('public.default_maize_names dmn')
                 ->select("dmn.name AS grassius_name,
-                    dmn.name_sort_order AS name_sort_order,
+                    no.sortorder AS name_sort_order,
                     gene_name.synonym AS othername,
                     dmn.v3_id AS v3_id,
                     dmn.v4_id AS v4_id,
@@ -71,6 +71,7 @@ class FamilyController extends CsvDatatableController
                 ->join('public.gene_name', 'gene_name.grassius_name = dmn.name', 'left')
                 ->join('default_domains', 'default_domains.protein_name = dmn.name', 'left')
                 ->join('subgenome', '(dmn.v3_id = subgenome.geneid)', 'left')
+                ->join('name_orders no', 'no.name = dmn.name')
                 ->where('dmn.family', $this->family);
             
         } else { //not maize

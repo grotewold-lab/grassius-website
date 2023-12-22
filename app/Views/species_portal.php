@@ -53,6 +53,8 @@
 <?php
     if( $species == "Maize" ){
         require_once "common/maize_version_controls.php";
+    } else {
+        echo "<span style='color:red'>$species families updated 2023 based on Maize family rules</span><br>";
     }
     if( $species_version == "_" ){
         $label_prefix = "Download";

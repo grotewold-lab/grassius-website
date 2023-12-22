@@ -13,7 +13,7 @@ class TfomecollectionController extends DatatableController
 
                 // [ query-key, result-key, view-label ]
                ["gc.clone_name", "clone", "Clone Name"],
-               ["dmn.name_sort_order", "name_sort_order", "Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
+               ["no.sortorder", "name_sort_order", "Protein Name <br><font color=#ce6301>accepted</font>&#x2F;<font color=#808B96>suggested</font>"],
                ["dmn.name", "grassius_name", "Protein Name"],
                ["dmn.v3_id", "v3_id", "Maize v3 ID"],
                ["dmn.v4_id", "v4_id", "Maize v4 ID"],
@@ -52,7 +52,7 @@ class TfomecollectionController extends DatatableController
             return $this->db->table('feature base')
                 ->select("gc.clone_name as clone,
                     dmn.name AS grassius_name,
-                    dmn.name_sort_order AS name_sort_order,
+                    no.sortorder AS name_sort_order,
                     dmn.v3_id AS v3_id,
                     dmn.v4_id AS v4_id,
                     dmn.v5_id AS v5_id,
@@ -64,6 +64,7 @@ class TfomecollectionController extends DatatableController
                 ->join('public.gene_name', 'gene_name.grassius_name = dmn.name')
                 ->join('organism org', 'org.organism_id = base.organism_id' )
                 ->join('subgenome sg', 'sg.geneid = gc.v3_id')
+                ->join('name_orders no', 'no.name = dmn.name')
                 ->where('dmn.v3_id !=', '')
                 ->where( 'org.common_name', $this->crop );
             
