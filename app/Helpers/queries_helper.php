@@ -216,7 +216,7 @@ function get_proteininfor_query()
                 ON gene_name.grassius_name = base.name
                 
             LEFT JOIN public.uniprot_ids uniprot
-                ON uniprot.gene_name = base.uniquename
+                ON uniprot.gene_name = base.name
 
             LEFT JOIN feature_relationship aa_rel
                 ON (aa_rel.object_id = base.feature_id)
